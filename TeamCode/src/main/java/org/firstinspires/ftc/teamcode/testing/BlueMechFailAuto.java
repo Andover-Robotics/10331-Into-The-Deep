@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.testing;
 
 // RR-specific imports
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.opMode;
+
 import com.acmerobotics.dashboard.config.Config;
         import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -15,6 +17,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.subsystems.Fourbar;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.Slides;
 
@@ -30,7 +33,9 @@ someone pls tell me how to import from arcrobotics as it has completely slipped 
 @Autonomous(name = "BLUE_MECHANICAL_FAILURE", group = "Autonomous")
 public class BlueMechFailAuto extends LinearOpMode{
     //linear op mode more like linear OPP MODE
-    Slides slides = new Slides(hardwareMap);
+    Slides slides = new Slides(opMode);
+    Fourbar fourbar = new Fourbar(opMode);
+    //kinda sussy code
     @Override
     public void runOpMode() {
         // instantiate your MecanumDrive at a particular pose.
@@ -75,14 +80,14 @@ public class BlueMechFailAuto extends LinearOpMode{
         int posY = blueClose ? 48 : 36;
 
         spikeMarkAndBackdrop = drive.actionBuilder(drive.pose)
-                .lineToYSplineHeading(33, Math.toRadians(0))
+                .lineToY(33)
                 .waitSeconds(2)
                 .setTangent(Math.toRadians(90))
-                .lineToY(posY)
+                .lineToY(48)
                 .setTangent(Math.toRadians(0))
                 .lineToX(32)
                 .strafeTo(new Vector2d(44.5, 30))
-                .turn(Math.toRadians(180))
+                .turn(Math.toRadians(-90))
                 .lineToX(47.5)
                 .waitSeconds(3)
                 .build();
@@ -110,9 +115,10 @@ public class BlueMechFailAuto extends LinearOpMode{
         Actions.runBlocking(
                 new SequentialAction(
                         trajectoryActionChosen,
-                        slides.liftUp(),
-                        //claw.open()
-                        slides.liftDown()
+                        slides.slideUp(),
+                        //claw.open() *casually forgets the robot design
+                        fourbar.outtake(),
+                        slides.slideDown()
                 )
         );
     }
