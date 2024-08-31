@@ -42,22 +42,21 @@ public class BlueMechFailAuto extends LinearOpMode{
         // dont worry about the errors, i forgot how to import from arcrobotics lib
         boolean dropPurplePixel = true;
         boolean blueClose = true;
-        while (!isStarted()) {
-            GamepadEx gp1 = new GamepadEx(gamepad1);
-            gp1.readButtons();
-            if (gp1.wasJustPressed(GamepadKeys.Button.B)) {
-                telemetry.addLine("not dropping the purple pixel on spike mark");
-                dropPurplePixel = false;
-            } else if (gp1.wasJustPressed(GamepadKeys.Button.A)){
-                telemetry.addLine("dropping the purple pixel on spike mark");
-            }
 
-            if (gp1.wasJustPressed(GamepadKeys.Button.X)) {
-                telemetry.addLine("blue far");
-                blueClose = false;
-            } else if(gp1.wasJustPressed(GamepadKeys.Button.Y)) {
-                telemetry.addLine("blue close");
-            }
+        GamepadEx gp1 = new GamepadEx(gamepad1);
+        gp1.readButtons();
+        if (gp1.wasJustPressed(GamepadKeys.Button.B)) {
+            telemetry.addLine("not dropping the purple pixel on spike mark");
+            dropPurplePixel = false;
+        } else if (gp1.wasJustPressed(GamepadKeys.Button.A)){
+            telemetry.addLine("dropping the purple pixel on spike mark");
+        }
+
+        if (gp1.wasJustPressed(GamepadKeys.Button.X)) {
+            telemetry.addLine("blue far");
+            blueClose = false;
+        } else if(gp1.wasJustPressed(GamepadKeys.Button.Y)) {
+            telemetry.addLine("blue close");
         }
 
         // different start positions depending on alliance and distance from backdrop
