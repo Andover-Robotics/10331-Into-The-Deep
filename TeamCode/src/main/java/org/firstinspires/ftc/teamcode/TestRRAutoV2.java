@@ -10,7 +10,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public class TestRRAutoV2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        // instantiate your MecanumDrive at a particular pose.
+
+        // instantiate your MecanumDrive
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, Math.toRadians(90)));
 
         // make a Lift instance
