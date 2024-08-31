@@ -1,9 +1,10 @@
-package org.firstinspires.ftc.teamcode.Subsystems;
+package org.firstinspires.ftc.teamcode.subsystems;
 
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -13,8 +14,8 @@ public class Slides {
 
     private DcMotorEx slides;
 
-    public Slides(HardwareMap hardwareMap) {
-        slides = hardwareMap.get(DcMotorEx.class, "liftMotor");
+    public Slides(OpMode opmode) {
+        slides = opmode.hardwareMap.get(DcMotorEx.class, "liftMotor");
         slides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slides.setDirection(DcMotorSimple.Direction.FORWARD);
     }
