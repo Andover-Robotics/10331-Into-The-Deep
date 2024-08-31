@@ -4,6 +4,10 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -124,25 +128,37 @@ public class Bot {
         BL.setMode(STOP_AND_RESET_ENCODER);
     }
 
-    public void outtake(){
-        Actions.runBlocking(new SequentialAction(
-                new ParallelAction(
-                        fourbar.outtake(),
-                        slides.slideUp()
-                ), box.depositSecondPixel()
-        ));
-    }
 
-    public void intake(){
-        Actions.runBlocking(new SequentialAction(
-                new ParallelAction(
-                    fourbar.storage(), slides.slideDown()
-                ),
-                new ParallelAction(
-                    noodles.intake(),
-                    box.loadPixels()
-                )
-        ));
+    public Action outtake(){
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                Actions.runBlocking(new SequentialAction(
+                        new ParallelAction(
+                                fourbar.outtake(),
+                                slides.slideUp()
+                        ), box.depositSecondPixel()
+                ));
+                return false;
+            }
+        };
+    }
+    public Action intake(){
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                Actions.runBlocking(new SequentialAction(
+                        new ParallelAction(
+                                fourbar.storage(), slides.slideDown()
+                        ),
+                        new ParallelAction(
+                                noodles.intake(),
+                                box.loadPixels()
+                        )
+                ));
+                return false;
+            }
+        };
     }
 
 

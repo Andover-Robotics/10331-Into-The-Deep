@@ -22,12 +22,17 @@ public class TestRRAutoV2 extends LinearOpMode {
         Bot bot= Bot.getInstance(this);
         GamepadEx gp1 = new GamepadEx(gamepad1);
         gp1.readButtons();
+
+        //this is nonsense -> just adding disp and temp markers to see if they work
         Action RedtrajectoryAction= drive.actionBuilder(drive.pose)
                 .setTangent(Math.toRadians(90))
                 .lineToY(48)
+                .afterDisp(3, bot.intake())
                 .setTangent(Math.toRadians(0))
+                .afterTime(3, bot.box.depositSecondPixel())
                 .lineToX(32)
                 .strafeTo(new Vector2d(44.5, 30))
+                .afterTime(3, bot.outtake())
                 .turn(Math.toRadians(180))
                 .lineToX(47.5)
                 .waitSeconds(3)
@@ -42,6 +47,7 @@ public class TestRRAutoV2 extends LinearOpMode {
         waitForStart();
         if (isStopRequested()) return;
 
+        //right after trajectory, slides move sequentially
         Actions.runBlocking(
                 new SequentialAction(
                         RedtrajectoryAction,
