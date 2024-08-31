@@ -1,4 +1,6 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.testing;
+
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.opMode;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -7,7 +9,8 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Subsystems.Slides;
+import org.firstinspires.ftc.teamcode.subsystems.MecanumDrive;
+import org.firstinspires.ftc.teamcode.subsystems.Slides;
 
 public class TestRRAutoV2 extends LinearOpMode {
     @Override
@@ -16,8 +19,7 @@ public class TestRRAutoV2 extends LinearOpMode {
         // instantiate MecanumDrive
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, Math.toRadians(90)));
 
-        // make a Lift instance
-        Slides slide = new Slides(hardwareMap);
+        Slides slide = new Slides(opMode);
 
         Action RedtrajectoryAction= drive.actionBuilder(drive.pose)
                 .setTangent(Math.toRadians(90))
