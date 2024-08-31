@@ -7,17 +7,19 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.Subsystems.Slides;
+
 public class TestRRAutoV2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        // instantiate your MecanumDrive
+        // instantiate MecanumDrive
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, Math.toRadians(90)));
 
         // make a Lift instance
-        SubsystemLift lift = new SubsystemLift(hardwareMap);
+        Slides slide = new Slides(hardwareMap);
 
-        Action trajectoryAction1 = drive.actionBuilder(drive.pose)
+        Action RedtrajectoryAction= drive.actionBuilder(drive.pose)
                 .setTangent(Math.toRadians(90))
                 .lineToY(48)
                 .setTangent(Math.toRadians(0))
@@ -26,10 +28,6 @@ public class TestRRAutoV2 extends LinearOpMode {
                 .turn(Math.toRadians(180))
                 .lineToX(47.5)
                 .waitSeconds(3)
-                .build();
-
-        Action trajectoryActionCloseOut = drive.actionBuilder(drive.pose)
-                .strafeTo(new Vector2d(48, 12))
                 .build();
 
         while (!isStopRequested() && !opModeIsActive()) {
@@ -43,10 +41,9 @@ public class TestRRAutoV2 extends LinearOpMode {
 
         Actions.runBlocking(
                 new SequentialAction(
-                        trajectoryAction1,
-                        lift.liftUp(),
-                        lift.liftDown(),
-                        trajectoryActionCloseOut
+                        RedtrajectoryAction,
+                        slide.slideUp(),
+                        slide.slideDown()
                 )
         );
     }
