@@ -7,10 +7,11 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.subsystems.Bot;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDrive;
-import org.firstinspires.ftc.teamcode.subsystems.Slides;
 
 public class TestRRAutoV2 extends LinearOpMode {
     @Override
@@ -18,9 +19,9 @@ public class TestRRAutoV2 extends LinearOpMode {
 
         // instantiate MecanumDrive
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, Math.toRadians(90)));
-
-        Slides slide = new Slides(opMode);
-
+        Bot bot= Bot.getInstance(this);
+        GamepadEx gp1 = new GamepadEx(gamepad1);
+        gp1.readButtons();
         Action RedtrajectoryAction= drive.actionBuilder(drive.pose)
                 .setTangent(Math.toRadians(90))
                 .lineToY(48)
@@ -44,8 +45,8 @@ public class TestRRAutoV2 extends LinearOpMode {
         Actions.runBlocking(
                 new SequentialAction(
                         RedtrajectoryAction,
-                        slide.slideUp(),
-                        slide.slideDown()
+                        bot.slides.slideUp(),
+                        bot.slides.slideDown()
                 )
         );
     }

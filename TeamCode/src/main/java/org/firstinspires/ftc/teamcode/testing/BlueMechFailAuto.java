@@ -30,7 +30,7 @@ someone pls tell me how to import from arcrobotics as it has completely slipped 
 @Autonomous(name = "BLUE_MECHANICAL_FAILURE", group = "Autonomous")
 public class BlueMechFailAuto extends LinearOpMode{
     //linear op mode more like linear OPP MODE
-    Slides slides = new Slides(hardwareMap);
+    Slides slides = new Slides(this);
     @Override
     public void runOpMode() {
         // instantiate your MecanumDrive at a particular pose.
@@ -110,9 +110,9 @@ public class BlueMechFailAuto extends LinearOpMode{
         Actions.runBlocking(
                 new SequentialAction(
                         trajectoryActionChosen,
-                        slides.liftUp(),
+                        slides.slideUp(),
                         //claw.open()
-                        slides.liftDown()
+                        slides.slideDown()
                 )
         );
     }
