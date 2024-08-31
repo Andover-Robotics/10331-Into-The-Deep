@@ -57,6 +57,8 @@ public class BlueMechFailAuto extends LinearOpMode{
         // different start positions depending on alliance and distance from backdrop
         Pose2d startPoseBlueFar = new Pose2d(-36, 52, Math.toRadians(-90));
         Pose2d startPoseBlueClose = new Pose2d(11.8, 61.7, Math.toRadians(90));
+       // Pose2d startPoseBlueClose = new Pose2d(10, 56, Math.toRadians(-90));
+
 
         MecanumDrive drive;
 
@@ -74,14 +76,14 @@ public class BlueMechFailAuto extends LinearOpMode{
         int posY = blueClose ? 48 : 36;
 
         spikeMarkAndBackdrop = drive.actionBuilder(drive.pose)
-                .lineToYSplineHeading(33, Math.toRadians(0))
+                .lineToY(33)
                 .waitSeconds(2)
                 .setTangent(Math.toRadians(90))
                 .lineToY(posY)
                 .setTangent(Math.toRadians(0))
                 .lineToX(32)
                 .strafeTo(new Vector2d(44.5, 30))
-                .turn(Math.toRadians(180))
+                .turn(Math.toRadians(-90))
                 .lineToX(47.5)
                 .waitSeconds(3)
                 .build();
@@ -109,9 +111,9 @@ public class BlueMechFailAuto extends LinearOpMode{
         Actions.runBlocking(
                 new SequentialAction(
                         trajectoryActionChosen,
-                        slides.liftUp(),
+                        slides.slideUp(),
                         //claw.open()
-                        slides.liftDown()
+                        slides.slideDown()
                 )
         );
     }
