@@ -18,8 +18,6 @@ public class TestRRAutoV2 extends LinearOpMode {
         SubsystemLift lift = new SubsystemLift(hardwareMap);
 
         Action trajectoryAction1 = drive.actionBuilder(drive.pose)
-                .lineToYSplineHeading(33, Math.toRadians(0))
-                .waitSeconds(2)
                 .setTangent(Math.toRadians(90))
                 .lineToY(48)
                 .setTangent(Math.toRadians(0))
