@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode.testing;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.opMode;
 
 import com.acmerobotics.dashboard.config.Config;
-        import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -33,7 +33,9 @@ someone pls tell me how to import from arcrobotics as it has completely slipped 
 @Autonomous(name = "BLUE_MECHANICAL_FAILURE", group = "Autonomous")
 public class BlueMechFailAuto extends LinearOpMode{
     //linear op mode more like linear OPP MODE
-    Slides slides = new Slides(this);
+    Slides slides = new Slides(opMode);
+    Fourbar fourbar = new Fourbar(opMode);
+    //kinda sussy code
     @Override
     public void runOpMode() {
         // instantiate your MecanumDrive at a particular pose.
@@ -114,7 +116,8 @@ public class BlueMechFailAuto extends LinearOpMode{
                 new SequentialAction(
                         trajectoryActionChosen,
                         slides.slideUp(),
-                        //claw.open()
+                        //claw.open() *casually forgets the robot design
+                        fourbar.outtake(),
                         slides.slideDown()
                 )
         );
