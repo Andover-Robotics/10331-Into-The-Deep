@@ -1,26 +1,18 @@
 package org.firstinspires.ftc.teamcode;
+
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
-
 import java.util.ArrayList;
 
 public class AprilTagDetectionSample extends LinearOpMode {
@@ -73,34 +65,28 @@ public class AprilTagDetectionSample extends LinearOpMode {
         {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-            if(currentDetections.size() != 0) {
+            if(!currentDetections.isEmpty()) {
                 boolean tagFound = false;
 
-                for(AprilTagDetection tag : currentDetections)
-                {
-                    if(tag.id == ID_TAG_OF_INTEREST)
-                    {
+                for(AprilTagDetection tag : currentDetections) {
+                    if(tag.id == ID_TAG_OF_INTEREST) {
                         tagOfInterest = tag;
                         tagFound = true;
                         break;
                     }
                 }
 
-                if(tagFound)
-                {
+                if(tagFound) {
                     telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
                     tagToTelemetry(tagOfInterest);
                 }
-                else
-                {
+                else {
                     telemetry.addLine("Don't see tag of interest :(");
 
-                    if(tagOfInterest == null)
-                    {
+                    if(tagOfInterest == null) {
                         telemetry.addLine("(The tag has never been seen)");
                     }
-                    else
-                    {
+                    else {
                         telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                         tagToTelemetry(tagOfInterest);
                     }
@@ -111,12 +97,10 @@ public class AprilTagDetectionSample extends LinearOpMode {
             {
                 telemetry.addLine("Don't see tag of interest :(");
 
-                if(tagOfInterest == null)
-                {
+                if(tagOfInterest == null) {
                     telemetry.addLine("(The tag has never been seen)");
                 }
-                else
-                {
+                else {
                     telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                     tagToTelemetry(tagOfInterest);
                 }
@@ -127,57 +111,52 @@ public class AprilTagDetectionSample extends LinearOpMode {
             sleep(20);
         }
 
-        /*
-         * The START command just came in: now work off the latest snapshot acquired
-         * during the init loop.
-         */
 
-        /* Update the telemetry */
-        if(tagOfInterest != null)
-        {
-            telemetry.addLine("Tag snapshot:\n");
-            tagToTelemetry(tagOfInterest);
-            telemetry.update();
-        }
-        else
-        {
-            telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
-            telemetry.update();
-        }
-
-        /* Actually do something useful */
-        if(tagOfInterest == null)
-        {
-            /*
-             * Insert your autonomous code here, presumably running some default configuration
-             * since the tag was never sighted during INIT
-             */
-        }
-        else
-        {
-            /*
-             * Insert your autonomous code here, probably using the tag pose to decide your configuration.
-             */
-
-            // e.g.
-            if(tagOfInterest.pose.x <= 20)
-            {
-                // do something
-            }
-            else if(tagOfInterest.pose.x >= 20 && tagOfInterest.pose.x <= 50)
-            {
-                // do something else
-            }
-            else if(tagOfInterest.pose.x >= 50)
-            {
-                // do something else
-            }
-        }
 
         while (opModeIsActive()) {
             sleep(20);
             if(gp1.wasJustPressed(GamepadKeys.Button.START)) {
                 webcam.stopStreaming();
+            }
+
+            /*
+             * The START command just came in: now work off the latest snapshot acquired
+             * during the init loop.
+             */
+
+            /* Update the telemetry */
+            if(tagOfInterest != null) {
+                telemetry.addLine("Tag snapshot:\n");
+                tagToTelemetry(tagOfInterest);
+                telemetry.update();
+            }
+            else {
+                telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
+                telemetry.update();
+            }
+
+            /* Actually do something useful */
+            if(tagOfInterest == null) {
+                /*
+                 * Insert your autonomous code here, presumably running some default configuration
+                 * since the tag was never sighted during INIT
+                 */
+            }
+            else {
+                //use this logic during teleop for localization
+                // + create a method to calculate the robot distance from the april tag (need to do math :sob: )
+
+                //units here are inches ->
+                if(tagOfInterest.pose.x <= 20) {
+                    // do something
+
+                }
+                else if(tagOfInterest.pose.x >= 20 && tagOfInterest.pose.x <= 50) {
+                    // do something else
+                }
+                else if(tagOfInterest.pose.x >= 50) {
+                    // do something else
+                }
             }
         }
     }
