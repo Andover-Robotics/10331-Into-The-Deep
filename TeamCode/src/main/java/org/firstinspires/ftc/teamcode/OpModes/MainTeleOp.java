@@ -3,12 +3,15 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
 
 import java.lang.Math;
 
+@TeleOp
 public class MainTeleOp extends LinearOpMode {
 
     private GamepadEx gp1;
@@ -16,10 +19,22 @@ public class MainTeleOp extends LinearOpMode {
     Bot bot;
 
     @Override
+
     public void runOpMode() throws InterruptedException {
         bot = Bot.getInstance(this);
         gp1 = new GamepadEx(gamepad1);
-        drive();
+
+        waitForStart();
+
+        while (opModeIsActive() && !isStopRequested()) {
+            telemetry.addLine("TeleOp has started");
+            //drivetrain movement works
+            drive();
+        }
+
+
+
+
     }
 
     private void drive() {
