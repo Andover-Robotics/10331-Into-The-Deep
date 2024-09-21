@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_WITHOUT_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 
 import com.qualcomm.hardware.lynx.LynxModule;
@@ -61,14 +62,20 @@ public class Bot {
         BL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         BR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-        FL.setMode(RUN_USING_ENCODER);
-        FR.setMode(RUN_USING_ENCODER);
-        BL.setMode(RUN_USING_ENCODER);
-        BR.setMode(RUN_USING_ENCODER);
+        FL.setMode(RUN_WITHOUT_ENCODER);
+        FR.setMode(RUN_WITHOUT_ENCODER);
+        BL.setMode(RUN_WITHOUT_ENCODER);
+        BR.setMode(RUN_WITHOUT_ENCODER);
 
         //subsystems code goes here
 
     }
+
+    public void reverseMotors(){
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
+        BR.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
+    //BYE NOT ME FORGETTING TO REVERSE THE MOTORS IM ACTUALLY SO DONE
 
     public void driveRobotCentric(double strafeSpeed, double forwardBackSpeed, double turnSpeed) {
         double[] speeds = {
