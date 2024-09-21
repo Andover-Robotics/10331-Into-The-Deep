@@ -21,7 +21,7 @@ public class MainTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         bot = Bot.getInstance(this);
-       // bot.resetEncoders();
+        // bot.resetEncoders();
         bot.reverseMotors();
         gp1 = new GamepadEx(gamepad1);
 
