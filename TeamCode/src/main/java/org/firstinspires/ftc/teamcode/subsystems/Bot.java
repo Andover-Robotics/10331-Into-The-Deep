@@ -3,21 +3,10 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
-
-import androidx.annotation.NonNull;
-
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.ParallelAction;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 
 public class Bot {
@@ -26,9 +15,9 @@ public class Bot {
     public static Bot instance;
 
     public Slides slides;
-    public Fourbar fourbar;
-    public Noodles noodles;
-    public Box box;
+    public DiffyClaw diffyClaw;
+    public Intake noodles;
+    public Bucket box;
 
     private final DcMotorEx FL, FR, BL, BR;
 
@@ -69,9 +58,9 @@ public class Bot {
         BR.setMode(RUN_USING_ENCODER);
 
         this.slides = new Slides(opMode);
-        this.fourbar = new Fourbar(opMode);
-        this.noodles = new Noodles(opMode);
-        this.box = new Box(opMode);
+        this.diffyClaw = new DiffyClaw(opMode);
+        this.noodles = new Intake(opMode);
+        this.box = new Bucket(opMode);
 
     }
 
@@ -103,15 +92,12 @@ public class Bot {
     }
 
     public void resetEverything(){
-        noodles.stop();
         reverseMotors();
         resetEncoder();
         FL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         FR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         BL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         BR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        fourbar.storage();
-        box.resetBox();
     }
 
     private void enableAutoBulkRead() {
@@ -128,38 +114,6 @@ public class Bot {
         BL.setMode(STOP_AND_RESET_ENCODER);
     }
 
-
-    public Action outtake(){
-        return new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-                Actions.runBlocking(new SequentialAction(
-                        new ParallelAction(
-                                fourbar.outtake(),
-                                slides.slideUp()
-                        ), box.depositSecondPixel()
-                ));
-                return false;
-            }
-        };
-    }
-    public Action intake(){
-        return new Action() {
-            @Override
-            public boolean run(@NonNull TelemetryPacket packet) {
-                Actions.runBlocking(new SequentialAction(
-                        new ParallelAction(
-                                fourbar.storage(), slides.slideDown()
-                        ),
-                        new ParallelAction(
-                                noodles.intake(),
-                                box.loadPixels()
-                        )
-                ));
-                return false;
-            }
-        };
-    }
 
 
 }
