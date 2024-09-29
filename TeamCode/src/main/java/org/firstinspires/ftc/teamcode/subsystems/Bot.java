@@ -16,8 +16,7 @@ public class Bot {
 
     public Slides slides;
     public DiffyClaw diffyClaw;
-    public Intake noodles;
-    public Bucket box;
+    public IntakeSystem intake;
 
     private final DcMotorEx FL, FR, BL, BR;
 
@@ -59,8 +58,7 @@ public class Bot {
 
         this.slides = new Slides(opMode);
         this.diffyClaw = new DiffyClaw(opMode);
-        this.noodles = new Intake(opMode);
-        this.box = new Bucket(opMode);
+        this.intake = new IntakeSystem(opMode);
 
     }
 

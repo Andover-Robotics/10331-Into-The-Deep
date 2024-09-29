@@ -8,16 +8,16 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class Slides {
 
-    private DcMotorEx slides1;
-    private DcMotorEx slides2;
+    private DcMotorEx rightMotor;
+    private DcMotorEx leftMotor;
 
     public Slides(OpMode opmode) {
-        slides1 = opmode.hardwareMap.get(DcMotorEx.class, "slides1");
-        slides2= opmode.hardwareMap.get(DcMotorEx.class, "slides2");
-        slides1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slides1.setDirection(DcMotorSimple.Direction.FORWARD);
-        slides2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slides2.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightMotor = opmode.hardwareMap.get(DcMotorEx.class, "slides1");
+        leftMotor= opmode.hardwareMap.get(DcMotorEx.class, "slides2");
+        rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
 }
