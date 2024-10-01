@@ -14,9 +14,10 @@ public class Bot {
     public OpMode opMode;
     public static Bot instance;
 
-    public Slides slides;
-    public DiffyClaw diffyClaw;
-    public IntakeSystem intake;
+    private Slides slides;
+    private DiffyClaw diffyClaw;
+    private Bucket bucket;
+    private Linkage linkage;
 
     private final DcMotorEx FL, FR, BL, BR;
 
@@ -30,7 +31,7 @@ public class Bot {
         return instance;
     }
 
-    private Bot(OpMode opMode) {
+    public Bot(OpMode opMode) {
         this.opMode = opMode;
         enableAutoBulkRead();
         try {
@@ -45,26 +46,26 @@ public class Bot {
         BL = opMode.hardwareMap.get(DcMotorEx.class, "bl");
         BR = opMode.hardwareMap.get(DcMotorEx.class, "br");
 
+        prepMotors();
+
+        this.slides = new Slides(opMode);
+        this.diffyClaw = new DiffyClaw(opMode);
+        this.bucket = new Bucket(opMode);
+        this.linkage = new Linkage(opMode);
+    }
+
+    public void prepMotors(){
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
+        BR.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         FR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         BL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         BR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-
         FL.setMode(RUN_USING_ENCODER);
         FR.setMode(RUN_USING_ENCODER);
         BL.setMode(RUN_USING_ENCODER);
         BR.setMode(RUN_USING_ENCODER);
-
-        this.slides = new Slides(opMode);
-        this.diffyClaw = new DiffyClaw(opMode);
-        this.intake = new IntakeSystem(opMode);
-
-    }
-
-    public void reverseMotors(){
-        FR.setDirection(DcMotorSimple.Direction.REVERSE);
-        BR.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void driveRobotCentric(double strafeSpeed, double forwardBackSpeed, double turnSpeed) {
@@ -90,12 +91,14 @@ public class Bot {
     }
 
     public void resetEverything(){
-        reverseMotors();
         resetEncoder();
-        FL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        FR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        BL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        BR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        prepMotors();
+        slides.runToStorage();
+        slides.resetEncoder();
+        slides.resetProfiler();
+        bucket.stopIntake();
+        bucket.flipIn();
+        linkage.retract();
     }
 
     private void enableAutoBulkRead() {
@@ -105,12 +108,24 @@ public class Bot {
     }
 
 
-    public void resetEncoder() {
+    private void resetEncoder() {
         FL.setMode(STOP_AND_RESET_ENCODER);
         FR.setMode(STOP_AND_RESET_ENCODER);
         BR.setMode(STOP_AND_RESET_ENCODER);
         BL.setMode(STOP_AND_RESET_ENCODER);
     }
+
+    public void intakeAutomatic (boolean isAllianceBlue){
+        linkage.extend();
+        bucket.flipOut();
+        bucket.intakeSense(isAllianceBlue);
+        bucket.stopIntake();
+        bucket.flipIn();
+        linkage.retract();
+       // diffyClaw.transferPos();
+    }
+
+
 
 
 

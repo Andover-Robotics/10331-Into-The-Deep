@@ -47,47 +47,48 @@ public class Bucket {
         colorSensor = opMode.hardwareMap.get(ColorSensor.class, "sensor_color_distance");
     }
 
-    public void intake(boolean isAllianceBlue){
-        goToIntakePos();
-        intakeSample(isAllianceBlue);
-        stopIntakeSample();
-        goToStoragePos();
-    }
 
-    private void intakeSample(boolean allianceBlue){
+    public void intakeSense(boolean allianceBlue){
         wheelServo1.setDirection(DcMotorSimple.Direction.FORWARD);
         wheelServo2.setDirection(DcMotorSimple.Direction.FORWARD);
         prepColorSensor();
 
         //when its black (no sample in bucket) -> values needs to be tuned
         while(hsvValues[0]<5 && hsvValues[1] <5 && hsvValues[2]<5){
-            prepColorSensor();
             wheelServo1.setPower(1);
             wheelServo2.setPower(1);
+            prepColorSensor();
         }
         if((allianceBlue && colorSensor.red()>100) || (!allianceBlue && colorSensor.blue()>100)){
-            reverseIntakeSample();
-            intakeSample(allianceBlue);
+            reverseIntake();
+            intakeSense(allianceBlue);
         }
     }
 
-    private void reverseIntakeSample(){
+    public void intakeNoSense(boolean allianceBlue){
+        wheelServo1.setDirection(DcMotorSimple.Direction.FORWARD);
+        wheelServo2.setDirection(DcMotorSimple.Direction.FORWARD);
+        wheelServo1.setPower(1);
+        wheelServo2.setPower(1);
+    }
+
+    public void reverseIntake(){
         wheelServo1.setDirection(DcMotorSimple.Direction.REVERSE);
         wheelServo2.setDirection(DcMotorSimple.Direction.REVERSE);
         wheelServo1.setPower(1);
         wheelServo2.setPower(1);
     }
 
-    private void stopIntakeSample(){
+    public void stopIntake(){
         wheelServo1.setPower(0);
         wheelServo2.setPower(0);
     }
 
-    private void goToStoragePos(){
+    public void flipIn(){
         flip.setPosition(storagePos);
     }
 
-    private void goToIntakePos() {
+    public void flipOut() {
         flip.setPosition(intakePos);
     }
 

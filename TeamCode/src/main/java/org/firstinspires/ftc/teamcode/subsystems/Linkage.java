@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-public class IntakeSystem {
+public class Linkage {
 
     public final Bucket bucket;
     public final Servo linkage1;
@@ -15,16 +15,10 @@ public class IntakeSystem {
     private final double retractPos=0;
 
 
-    public IntakeSystem(OpMode opMode) {
+    public Linkage(OpMode opMode) {
         linkage1 = opMode.hardwareMap.get(Servo.class, "extensionLeft");
         linkage2 = opMode.hardwareMap.get(Servo.class, "extensionRight");
         bucket = new Bucket(opMode);
-    }
-
-    public void intake(boolean isAllianceBlue){
-        extend();
-        bucket.intake(isAllianceBlue);
-        retract();
     }
 
     public void extend(){
