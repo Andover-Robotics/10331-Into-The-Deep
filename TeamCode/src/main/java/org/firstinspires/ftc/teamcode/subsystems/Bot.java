@@ -13,7 +13,6 @@ public class Bot {
 
     public OpMode opMode;
     public static Bot instance;
-
     private Slides slides;
     private DiffyClaw diffyClaw;
     private Bucket bucket;
@@ -66,6 +65,8 @@ public class Bot {
         FR.setMode(RUN_USING_ENCODER);
         BL.setMode(RUN_USING_ENCODER);
         BR.setMode(RUN_USING_ENCODER);
+        //note: need to plug in encoders for this to work
+
     }
 
     public void driveRobotCentric(double strafeSpeed, double forwardBackSpeed, double turnSpeed) {
@@ -124,9 +125,4 @@ public class Bot {
         linkage.retract();
        // diffyClaw.transferPos();
     }
-
-
-
-
-
 }

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+//note: go through this later and check all the math :(
+
 public class  MotionProfiler {
 
     public MotionProfiler(double max_velocity, double max_acceleration){

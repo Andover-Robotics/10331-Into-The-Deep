@@ -11,8 +11,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 public class Slides {
 
-    private MotorEx rightMotor;
-    private MotorEx leftMotor;
+    private final MotorEx rightMotor;
+    private final MotorEx leftMotor;
     private PIDFController controller;
     private MotionProfiler profiler = new MotionProfiler(30000, 20000);
 

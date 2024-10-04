@@ -33,8 +33,8 @@ public class Bucket {
     private final ColorSensor colorSensor;
 
     //needs to be tuned
-    private final double storagePos=0;
-    private final double intakePos=1;
+    public static final double storagePos=0;
+    public static final double intakePos=1;
 
     private final float[] hsvValues = {0, 0, 0};
     private final double SCALE_FACTOR = 255;

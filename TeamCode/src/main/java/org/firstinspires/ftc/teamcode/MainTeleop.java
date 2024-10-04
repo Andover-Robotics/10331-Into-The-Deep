@@ -12,9 +12,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Bot;
 
 @TeleOp
 public class MainTeleop extends LinearOpMode {
-
     Bot bot;
-
     private GamepadEx gp1;
     private GamepadEx gp2;
     private double driveSpeed = 1;

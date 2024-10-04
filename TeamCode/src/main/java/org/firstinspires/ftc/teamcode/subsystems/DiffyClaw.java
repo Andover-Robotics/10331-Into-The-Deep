@@ -12,7 +12,7 @@ public class DiffyClaw {
     private final Servo diffy2;
     //decide through testing whether these servos need to be converted to CRservos.
 
-    private static final double intakeClawPos = 0.2, transferClawPos = 0.7, outtakeClawPos = 0.7;
+    public static final double intakeClawPos = 0.2, transferClawPos = 0.7, outtakeClawPos = 0.7;
     //will need to tune these values
 
     public static boolean isOuttakePosition;
