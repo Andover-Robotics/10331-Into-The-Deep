@@ -123,6 +123,7 @@ public class Bot {
         bucket.stopIntake();
         bucket.flipIn();
         linkage.retract();
-       // diffyClaw.transferPos();
+        diffyClaw.transferPos();
     }
+
 }

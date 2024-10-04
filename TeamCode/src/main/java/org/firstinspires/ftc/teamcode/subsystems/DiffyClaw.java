@@ -12,7 +12,10 @@ public class DiffyClaw {
     private final Servo diffy2;
     //decide through testing whether these servos need to be converted to CRservos.
 
-    public static final double intakeClawPos = 0.2, transferClawPos = 0.7, outtakeClawPos = 0.7;
+    private final Servo openCloseServo;
+    //need a third servo to control open and close of the claw.
+
+    public static final double transferClawPos = 0.7, outtakeClawPos = 0.7, diffyOpen = 0, diffyClose = 1;
     //will need to tune these values
 
     public static boolean isOuttakePosition;
@@ -20,6 +23,7 @@ public class DiffyClaw {
     public DiffyClaw(OpMode opMode) {
         diffy1 = opMode.hardwareMap.servo.get("leftServo");
         diffy2 = opMode.hardwareMap.servo.get("rightServo");
+        openCloseServo = opMode.hardwareMap.servo.get("openCloseDiffy");
     }
 
 
@@ -50,6 +54,21 @@ public class DiffyClaw {
 
         diffy1.setPosition(pos);
         diffy2.setPosition(pos);
+    }
+
+    public void transferPos() {
+        openCloseDiffy(true);
+        move(false, transferClawPos);
+        openCloseDiffy(false);
+        //check over this - I'm not entirely sure that just opening claw, bringing it to transfer claw pos, and then closing it is going to work.
+    }
+
+    public void openCloseDiffy(boolean open) {
+        if(open) {
+            openCloseServo.setPosition(diffyOpen);
+        } else {
+            openCloseServo.setPosition(diffyClose);
+        }
     }
 
 }
