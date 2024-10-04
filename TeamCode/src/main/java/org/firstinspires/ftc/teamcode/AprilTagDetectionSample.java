@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.openftc.apriltag.AprilTagDetection;
+import org.openftc.apriltag.AprilTagPose;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -16,7 +17,9 @@ import org.openftc.easyopencv.OpenCvWebcam;
 import java.util.ArrayList;
 
 public class AprilTagDetectionSample extends LinearOpMode {
-    //just reuse this code in an actual auto or teleop class, don't use a separate opMode for this
+    // just reuse this code in an actual auto or teleop class, don't use a separate opMode for this
+
+    //
     OpenCvWebcam webcam;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
     GamepadEx gp1;
@@ -26,8 +29,25 @@ public class AprilTagDetectionSample extends LinearOpMode {
     double cy = 245.959325;
     //need to edit these values?
 
-    int ID_TAG_OF_INTEREST = 18; // Tag ID 18 from the 36h11 family
-    AprilTagDetection tagOfInterest = null;
+/*
+    int OBSERVATION_BLUE = 11;
+    int CENTER_BLUE = 12;
+    int BUCKET_BLUE = 13;
+    int OBSERVATION_RED = 14;
+    int CENTER_RED = 15;
+    int BUCKET_RED = 16;
+
+ */
+
+
+
+    AprilTagDetection bucket_b = null;
+    AprilTagDetection obs_b = null;
+    AprilTagDetection cntr_b = null;
+    AprilTagDetection bucket_r = null;
+    AprilTagDetection obs_r = null;
+    AprilTagDetection cntr_r = null;
+
     static final double FEET_PER_METER = 3.28084;
     @Override
     public void runOpMode() throws InterruptedException {
@@ -37,10 +57,18 @@ public class AprilTagDetectionSample extends LinearOpMode {
          * Instantiate an OpenCvCamera object for the webcam
          * CameraMonitorViewId is so that the livestream of camera output is displayed on the DS screen
          */
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        webcam.setPipeline(new AprilTagDetectionPipeline(0.1016, fx, fy, cx, cy)); //set to detect april tags
-        webcam.setMillisecondsPermissionTimeout(5000); // Timeout for obtaining permission is configurable. Set before opening.
+        int cameraMonitorViewId = hardwareMap.appContext
+                .getResources()
+                .getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+
+        webcam = OpenCvCameraFactory.getInstance()
+                .createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
+        //set to detect april tags
+        webcam.setPipeline(new AprilTagDetectionPipeline(0.1016, fx, fy, cx, cy));
+
+        // Timeout for obtaining permission is configurable. Set before opening
+        webcam.setMillisecondsPermissionTimeout(5000);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
@@ -61,63 +89,73 @@ public class AprilTagDetectionSample extends LinearOpMode {
          */
         waitForStart();
 
-        while (!isStarted() && !isStopRequested())
-        {
+        while (!isStarted() && !isStopRequested()) {
+
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-            if(!currentDetections.isEmpty()) {
-                boolean tagFound = false;
-
-                for(AprilTagDetection tag : currentDetections) {
-                    if(tag.id == ID_TAG_OF_INTEREST) {
-                        tagOfInterest = tag;
-                        tagFound = true;
-                        break;
+            if(!currentDetections.isEmpty()) { //currently just continuously sensing for the apriltags at the 6 locations and printing out data
+                for (AprilTagDetection tag : currentDetections) {
+                    switch (tag.id) {
+                        case 11: // next to blue observation zone
+                            obs_b = tag;
+                            telemetry.addLine("Observation zone (blue side) is in sight :D \n\nLocation data:");
+                            telemetry.update();
+                            tagToTelemetry(obs_b);
+                            //detected = true;
+                            break;
+                        case 12: // in the center in front of the drivers of the blue side
+                            cntr_b = tag;
+                            telemetry.addLine("Center (blue side) is in sight :D \n\nLocation data:");
+                            telemetry.update();
+                            tagToTelemetry(cntr_b);
+                            break;
+                        case 13: // next to buckets on the blue side
+                            bucket_b = tag;
+                            telemetry.addLine("Bucket (blue side) is in sight :D\n\nLocation data:");
+                            telemetry.update();
+                            tagToTelemetry(bucket_b);
+                            break;
+                        case 14: // next to red observation zone
+                            obs_r = tag;
+                            telemetry.addLine("Observation zone (red side) is in sight :D \n\nLocation data:");
+                            telemetry.update();
+                            tagToTelemetry(obs_r);
+                            break;
+                        case 15: // in the center of the wall in front of the drivers on the red side
+                            cntr_r = tag;
+                            telemetry.addLine("Center (red side) is in sight :D \n\nLocation data:");
+                            telemetry.update();
+                            tagToTelemetry(cntr_r);
+                            break;
+                        case 16: // next to the buckets on the red side
+                            bucket_r = tag;
+                            telemetry.addLine("Bucket (red side) is in sight :D \n\nLocation data:");
+                            telemetry.update();
+                            tagToTelemetry(bucket_r);
+                            break;
+                        default:
+                            telemetry.addLine("Nothing useful detected D:");
+                            telemetry.update();
+                            break;
                     }
                 }
-
-                if(tagFound) {
-                    telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
-                    tagToTelemetry(tagOfInterest);
-                }
-                else {
-                    telemetry.addLine("Don't see tag of interest :(");
-
-                    if(tagOfInterest == null) {
-                        telemetry.addLine("(The tag has never been seen)");
-                    }
-                    else {
-                        telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
-                        tagToTelemetry(tagOfInterest);
-                    }
-                }
-
+            } else {
+                telemetry.addLine("Nothing detected D:");
+                telemetry.update();
             }
-            else
-            {
-                telemetry.addLine("Don't see tag of interest :(");
-
-                if(tagOfInterest == null) {
-                    telemetry.addLine("(The tag has never been seen)");
-                }
-                else {
-                    telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
-                    tagToTelemetry(tagOfInterest);
-                }
-
-            }
-
-            telemetry.update();
             sleep(20);
         }
 
 
-
+/*
         while (opModeIsActive()) {
             sleep(20);
             if(gp1.wasJustPressed(GamepadKeys.Button.START)) {
                 webcam.stopStreaming();
-            }
+            }*/
+
+
+
 
             /*
              * The START command just came in: now work off the latest snapshot acquired
@@ -125,6 +163,7 @@ public class AprilTagDetectionSample extends LinearOpMode {
              */
 
             /* Update the telemetry */
+            /*
             if(tagOfInterest != null) {
                 telemetry.addLine("Tag snapshot:\n");
                 tagToTelemetry(tagOfInterest);
@@ -134,13 +173,16 @@ public class AprilTagDetectionSample extends LinearOpMode {
                 telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
                 telemetry.update();
             }
+            */
+
 
             /* Actually do something useful */
+            /*
             if(tagOfInterest == null) {
                 /*
                  * Insert your autonomous code here, presumably running some default configuration
                  * since the tag was never sighted during INIT
-                 */
+
             }
             else {
                 //use this logic during teleop for localization
@@ -157,8 +199,9 @@ public class AprilTagDetectionSample extends LinearOpMode {
                 else if(tagOfInterest.pose.x >= 50) {
                     // do something else
                 }
-            }
-        }
+                */
+            //}
+        //}
     }
 
     void tagToTelemetry(AprilTagDetection detection) {
