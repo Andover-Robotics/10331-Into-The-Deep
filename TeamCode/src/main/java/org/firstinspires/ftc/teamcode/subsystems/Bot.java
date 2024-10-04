@@ -13,10 +13,10 @@ public class Bot {
 
     public OpMode opMode;
     public static Bot instance;
-    private Slides slides;
-    private DiffyClaw diffyClaw;
-    private Bucket bucket;
-    private Linkage linkage;
+    public Slides slides;
+    public DiffyClaw diffyClaw;
+    public Bucket bucket;
+    public Linkage linkage;
 
     private final DcMotorEx FL, FR, BL, BR;
 
@@ -116,14 +116,5 @@ public class Bot {
         BL.setMode(STOP_AND_RESET_ENCODER);
     }
 
-    public void intakeAutomatic (boolean isAllianceBlue){
-        linkage.extend();
-        bucket.flipOut();
-        bucket.intakeSense(isAllianceBlue);
-        bucket.stopIntake();
-        bucket.flipIn();
-        linkage.retract();
-        diffyClaw.transferPos();
-    }
 
 }

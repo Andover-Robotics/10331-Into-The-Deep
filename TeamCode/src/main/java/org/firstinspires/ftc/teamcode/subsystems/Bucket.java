@@ -29,6 +29,8 @@ public class Bucket {
 
     private final Servo flip;
     private final Servo flip2;
+    private final Servo flip3;
+    private final Servo flip4;
     private final ColorSensor colorSensor;
     public static final double storagePos=0;
     public static final double intakePos=1;
@@ -43,11 +45,13 @@ public class Bucket {
         tubingServo2 = opMode.hardwareMap.crservo.get("tubing servo 2");
         flip = opMode.hardwareMap.servo.get("flip servo");
         flip2 = opMode.hardwareMap.servo.get("flip servo 2");
+        flip3 = opMode.hardwareMap.servo.get("flip servo 3");
+        flip4 = opMode.hardwareMap.servo.get("flip servo 4");
         colorSensor = opMode.hardwareMap.get(ColorSensor.class, "sensor_color_distance");
     }
 
 
-    public void intakeSense(boolean allianceBlue){
+    public boolean intakeSense(boolean allianceBlue){
         tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
         tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
         prepColorSensor();
@@ -64,9 +68,12 @@ public class Bucket {
             intakeSense(allianceBlue);
             //need to be careful, it is possible to enter infinite recursion
         }
+
+        //atp: correct colored block is in intake -> return true
+        return true;
     }
 
-    public void intakeNoSense(boolean allianceBlue){
+    public void intakeNoSense(){
         tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
         tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
         tubingServo1.setPower(1);
@@ -88,11 +95,15 @@ public class Bucket {
     public void flipIn(){
         flip.setPosition(storagePos);
         flip2.setPosition(storagePos);
+        flip3.setPosition(storagePos);
+        flip4.setPosition(storagePos);
     }
 
     public void flipOut() {
         flip.setPosition(intakePos);
         flip2.setPosition(intakePos);
+        flip3.setPosition(intakePos);
+        flip4.setPosition(intakePos);
     }
 
     private void prepColorSensor() {
