@@ -36,6 +36,21 @@ public class DiffyClaw {
         diffy2.setPosition(pos);
     }
 
+    //both servos are moving in different directions to move the claw up or down. which direction each servo should be needs to be discovered
+    //by tuning
+    public void move(boolean isUp, double pos) {
+        if(isUp) {
+            diffy1.setDirection(Servo.Direction.REVERSE);
+            diffy2.setDirection(Servo.Direction.FORWARD);
+        } else {
+            diffy1.setDirection(Servo.Direction.FORWARD);
+            diffy2.setDirection(Servo.Direction.REVERSE);
+        }
+
+        diffy1.setPosition(pos);
+        diffy2.setPosition(pos);
+    }
+
 
 
 
