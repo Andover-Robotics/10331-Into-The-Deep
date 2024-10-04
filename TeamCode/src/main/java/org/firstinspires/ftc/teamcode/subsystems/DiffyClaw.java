@@ -10,9 +10,10 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 public class DiffyClaw {
     public final Servo diffy1;
     private final Servo diffy2;
+    //decide through testing whether these servos need to be converted to CRservos.
 
-
-    private static double outtakeBox=0.2, storageBox = 0.7, outtake = 0.7, storage = 0.1;
+    private static final double intakeClawPos = 0.2, transferClawPos = 0.7, outtakeClawPos = 0.7;
+    //will need to tune these values
 
     public static boolean isOuttakePosition;
 
@@ -50,8 +51,5 @@ public class DiffyClaw {
         diffy1.setPosition(pos);
         diffy2.setPosition(pos);
     }
-
-
-
 
 }
