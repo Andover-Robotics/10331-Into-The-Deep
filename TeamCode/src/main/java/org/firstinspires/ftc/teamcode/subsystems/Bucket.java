@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-
-
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import android.graphics.Color;
@@ -11,7 +9,6 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-
 
 /**
  * Note that the REV Robotics Color-Distance incorporates two sensors into one device.
@@ -27,73 +24,78 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Bucket {
 
-    private final CRServo wheelServo1;
-    private final CRServo wheelServo2;
-    private final Servo flip;
-    private final ColorSensor colorSensor;
+    private final CRServo tubingServo1;
+    private final CRServo tubingServo2;
 
-    //needs to be tuned
+    private final Servo flip;
+    private final Servo flip2;
+    private final ColorSensor colorSensor;
     public static final double storagePos=0;
     public static final double intakePos=1;
 
     private final float[] hsvValues = {0, 0, 0};
+    //values need to be tuned
     private final double SCALE_FACTOR = 255;
 
     public Bucket(OpMode opMode) {
 
-        wheelServo1 = opMode.hardwareMap.crservo.get("wheel servo");
-        wheelServo2 = opMode.hardwareMap.crservo.get("wheel servo");
-        flip = opMode.hardwareMap.servo.get("flap servo");
+        tubingServo1 = opMode.hardwareMap.crservo.get("tubing servo 1");
+        tubingServo2 = opMode.hardwareMap.crservo.get("tubing servo 2");
+        flip = opMode.hardwareMap.servo.get("flip servo");
+        flip2 = opMode.hardwareMap.servo.get("flip servo 2");
         colorSensor = opMode.hardwareMap.get(ColorSensor.class, "sensor_color_distance");
     }
 
 
     public void intakeSense(boolean allianceBlue){
-        wheelServo1.setDirection(DcMotorSimple.Direction.FORWARD);
-        wheelServo2.setDirection(DcMotorSimple.Direction.FORWARD);
+        tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
+        tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
         prepColorSensor();
 
-        //when its black (no sample in bucket) -> values needs to be tuned
+        //when its black (no sample in bucket)
         while(hsvValues[0]<5 && hsvValues[1] <5 && hsvValues[2]<5){
-            wheelServo1.setPower(1);
-            wheelServo2.setPower(1);
+            tubingServo1.setPower(1);
+            tubingServo2.setPower(1);
             prepColorSensor();
         }
+        //after sample in bucket:
         if((allianceBlue && colorSensor.red()>100) || (!allianceBlue && colorSensor.blue()>100)){
             reverseIntake();
             intakeSense(allianceBlue);
+            //need to be careful, it is possible to enter infinite recursion
         }
     }
 
     public void intakeNoSense(boolean allianceBlue){
-        wheelServo1.setDirection(DcMotorSimple.Direction.FORWARD);
-        wheelServo2.setDirection(DcMotorSimple.Direction.FORWARD);
-        wheelServo1.setPower(1);
-        wheelServo2.setPower(1);
+        tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
+        tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
+        tubingServo1.setPower(1);
+        tubingServo2.setPower(1);
     }
 
     public void reverseIntake(){
-        wheelServo1.setDirection(DcMotorSimple.Direction.REVERSE);
-        wheelServo2.setDirection(DcMotorSimple.Direction.REVERSE);
-        wheelServo1.setPower(1);
-        wheelServo2.setPower(1);
+        tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
+        tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
+        tubingServo1.setPower(1);
+        tubingServo2.setPower(1);
     }
 
     public void stopIntake(){
-        wheelServo1.setPower(0);
-        wheelServo2.setPower(0);
+        tubingServo1.setPower(0);
+        tubingServo2.setPower(0);
     }
 
     public void flipIn(){
         flip.setPosition(storagePos);
+        flip2.setPosition(storagePos);
     }
 
     public void flipOut() {
         flip.setPosition(intakePos);
+        flip2.setPosition(intakePos);
     }
 
-    private void prepColorSensor(){
-
+    private void prepColorSensor() {
         Color.RGBToHSV((int) (colorSensor.red() * SCALE_FACTOR),
                 (int) (colorSensor.green() * SCALE_FACTOR),
                 (int) (colorSensor.blue() * SCALE_FACTOR),
