@@ -31,15 +31,17 @@ public class Slides {
 
     public enum slidesPosition{
         GROUND,
-        LOW,
-        MID,
-        HIGH
+        RUNG1,
+        BUCKET1,
+        RUNG2,
+        BUCKET2,
+        BUCKET3
     }
     private slidesPosition position = slidesPosition.GROUND;
 
     //tune
-    public static int storage =0, top = -2350, mid = -1000, low = -500;
-
+   // public static int storage =0, top = -2350, mid = -1000, low = -500;
+    public static int storage = 0, topBucket = -2350, midBucket = -1000, lowBucket = -500, lowRung = 999, highRung= 777;
     public Slides(OpMode opmode) {
         rightMotor = new MotorEx(opmode.hardwareMap, "slidesRight", Motor.GoBILDA.RPM_312);
         leftMotor = new MotorEx(opmode.hardwareMap, "slidesCenter", Motor.GoBILDA.RPM_312);
@@ -78,21 +80,31 @@ public class Slides {
     }
 
 
-    public void runToTop() {
-        runTo(top);
-        position = slidesPosition.HIGH;
+    public void runToTopBucket() {
+        runTo(topBucket);
+        position = slidesPosition.BUCKET3;
     }
 
 
-    public void runToMid() {
-        runTo(mid);
-        position = slidesPosition.MID;
+    public void runToMidBucket() {
+        runTo(midBucket);
+        position = slidesPosition.BUCKET2;
     }
 
 
-    public void runToLow() {
-        runTo(low);
-        position = slidesPosition.LOW;
+    public void runToLowBucket() {
+        runTo(lowBucket);
+        position = slidesPosition.BUCKET1;
+    }
+
+    public void runToTopRung() {
+        runTo(highRung);
+        position = slidesPosition.RUNG2;
+    }
+
+    public void runToLowRung() {
+        runTo(lowRung);
+        position = slidesPosition.RUNG1;
     }
 
     public void runToStorage() {
@@ -160,6 +172,10 @@ public class Slides {
 
     public double getCurrent() {
         return leftMotor.motorEx.getCurrent(CurrentUnit.MILLIAMPS) + rightMotor.motorEx.getCurrent(CurrentUnit.MILLIAMPS);
+    }
+
+    public slidesPosition getState(){
+        return position;
     }
 
     public void resetProfiler(){

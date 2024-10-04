@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
+import org.firstinspires.ftc.teamcode.subsystems.Slides;
 
 /*
 
@@ -125,18 +126,50 @@ public class MainTeleop extends LinearOpMode {
             }
 
             //Slides Preset Positions (GP2):
-            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {;
-                bot.slides.runToTop();
+            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
+                switch(bot.slides.getState()){
+                    case GROUND:
+                        bot.slides.runToLowBucket();
+                        break;
+                    case BUCKET1:
+                        bot.slides.runToMidBucket();
+                        break;
+                    case BUCKET2:
+                        bot.slides.runToTopBucket();
+                }
             }
             else if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
-                bot.slides.runToStorage();
+                switch(bot.slides.getState()){
+                    case BUCKET3:
+                        bot.slides.runToMidBucket();
+                        break;
+                    case BUCKET2:
+                        bot.slides.runToLowBucket();
+                        break;
+                    case BUCKET1:
+                        bot.slides.runToStorage();
+                }
             }
             else if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
-                bot.slides.runToLow();
+                switch(bot.slides.getState()){
+                    case RUNG2:
+                        bot.slides.runToLowRung();
+                        break;
+                    case RUNG1:
+                        bot.slides.runToStorage();
+                        break;
+                }
             }
             else if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
-                bot.slides.runToMid();}
-
+                switch(bot.slides.getState()){
+                    case GROUND:
+                        bot.slides.runToLowRung();
+                        break;
+                    case RUNG1:
+                        bot.slides.runToTopRung();
+                        break;
+                }
+            }
         }
     }
 
