@@ -99,39 +99,38 @@ public class AprilTagDetectionSample extends LinearOpMode {
                         case 11: // next to blue observation zone
                             obs_b = tag;
                             telemetry.addLine("Observation zone (blue side) is in sight :D \n\nLocation data:");
-                            telemetry.update();
                             tagToTelemetry(obs_b);
-                            //detected = true;
+                            telemetry.update();
                             break;
                         case 12: // in the center in front of the drivers of the blue side
                             cntr_b = tag;
                             telemetry.addLine("Center (blue side) is in sight :D \n\nLocation data:");
-                            telemetry.update();
                             tagToTelemetry(cntr_b);
+                            telemetry.update();
                             break;
                         case 13: // next to buckets on the blue side
                             bucket_b = tag;
                             telemetry.addLine("Bucket (blue side) is in sight :D\n\nLocation data:");
-                            telemetry.update();
                             tagToTelemetry(bucket_b);
+                            telemetry.update();
                             break;
                         case 14: // next to red observation zone
                             obs_r = tag;
                             telemetry.addLine("Observation zone (red side) is in sight :D \n\nLocation data:");
-                            telemetry.update();
                             tagToTelemetry(obs_r);
+                            telemetry.update();
                             break;
                         case 15: // in the center of the wall in front of the drivers on the red side
                             cntr_r = tag;
                             telemetry.addLine("Center (red side) is in sight :D \n\nLocation data:");
-                            telemetry.update();
                             tagToTelemetry(cntr_r);
+                            telemetry.update();
                             break;
                         case 16: // next to the buckets on the red side
                             bucket_r = tag;
                             telemetry.addLine("Bucket (red side) is in sight :D \n\nLocation data:");
-                            telemetry.update();
                             tagToTelemetry(bucket_r);
+                            telemetry.update();
                             break;
                         default:
                             telemetry.addLine("Nothing useful detected D:");
