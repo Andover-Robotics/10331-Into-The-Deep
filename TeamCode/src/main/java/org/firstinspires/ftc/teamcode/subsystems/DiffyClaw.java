@@ -17,9 +17,26 @@ public class DiffyClaw {
     public static boolean isOuttakePosition;
 
     public DiffyClaw(OpMode opMode) {
-        diffy1 = opMode.hardwareMap.servo.get("fourBarServo");
-        diffy2= opMode.hardwareMap.servo.get("boxAngleServo");
+        diffy1 = opMode.hardwareMap.servo.get("leftServo");
+        diffy2 = opMode.hardwareMap.servo.get("rightServo");
     }
+
+
+    //for rotatating, both servos would rotate in the same direction. we need to figure out the directions by testing
+    public void rotate(boolean isLeft, double pos) {
+        if(isLeft) {
+            diffy1.setDirection(Servo.Direction.FORWARD);
+            diffy2.setDirection(Servo.Direction.FORWARD);
+        } else {
+            diffy1.setDirection(Servo.Direction.REVERSE);
+            diffy2.setDirection(Servo.Direction.REVERSE);
+        }
+
+        diffy1.setPosition(pos);
+        diffy2.setPosition(pos);
+    }
+
+
 
 
 }
