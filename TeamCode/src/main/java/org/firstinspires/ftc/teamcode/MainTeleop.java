@@ -20,9 +20,6 @@ To Do (in order of priority):
 
  */
 
-
-
-
 @TeleOp
 public class MainTeleop extends LinearOpMode {
     Bot bot;
@@ -35,8 +32,6 @@ public class MainTeleop extends LinearOpMode {
     private boolean isDiffyOuttake=true;
     private boolean isIntaking=true;
     private boolean isBucketFlipped=true;
-
-
     private boolean isAllianceBlue=false;
 
     public void runOpMode() throws InterruptedException {
@@ -55,12 +50,15 @@ public class MainTeleop extends LinearOpMode {
 
         while (opModeIsActive() && !isStopRequested()) {
             telemetry.addLine("TeleOp has started");
-            gp1.readButtons();
-            gp2.readButtons();
+//            gp1.readButtons();
+//            gp2.readButtons();
+            //potential source for error: having reading buttons within the while loop and within the individual methods
+
             drive();
-            rotateClaw();
+            rotateClaw(gp1.getLeftX());
             runSlides(gp2.getRightY());
 
+            //automatic control:
             if(!isManual) {
                 if (gp2.wasJustPressed(GamepadKeys.Button.A)) {
                     automaticIntake();
@@ -70,7 +68,9 @@ public class MainTeleop extends LinearOpMode {
                 }
             }
 
+            //manual control (all controls are on GP2):
             else {
+                //linkage control (X)
                 if (gp2.wasJustPressed(GamepadKeys.Button.X)) {
                     if(isLinkageRetracted){
                         bot.linkage.extend();
@@ -81,6 +81,8 @@ public class MainTeleop extends LinearOpMode {
                         isLinkageRetracted=true;
                     }
                 }
+
+                //bucket flip control (A)
                 if (gp2.wasJustPressed(GamepadKeys.Button.A)) {
                     if(isBucketFlipped){
                         bot.bucket.flipOut();
@@ -91,6 +93,8 @@ public class MainTeleop extends LinearOpMode {
                         isBucketFlipped=true;
                     }
                 }
+
+                //diffy control (Y)
                 if (gp2.wasJustPressed(GamepadKeys.Button.Y)) {
                     if(isDiffyOuttake){
                         bot.diffyClaw.transferPos();
@@ -101,6 +105,8 @@ public class MainTeleop extends LinearOpMode {
                         isDiffyOuttake=true;
                     }
                 }
+
+                //bucket noodles control (B)
                 if (gp2.wasJustPressed(GamepadKeys.Button.B)) {
                     if(isIntaking){
                         bot.bucket.stopIntake();
@@ -112,15 +118,13 @@ public class MainTeleop extends LinearOpMode {
                     }
                 }
 
+                //Right Bumper to reverse intake
                 if(gp2.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER)){
                     bot.bucket.reverseIntake();
                 }
-
-
-
-
             }
 
+            //Slides Preset Positions (GP2):
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {;
                 bot.slides.runToTop();
             }
@@ -132,7 +136,6 @@ public class MainTeleop extends LinearOpMode {
             }
             else if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
                 bot.slides.runToMid();}
-
 
         }
     }
@@ -154,9 +157,9 @@ public class MainTeleop extends LinearOpMode {
         );
     }
 
-    private void rotateClaw() {
-        gp2.readButtons();
-        bot.diffyClaw.rotate(gp2.getLeftX());
+    private void rotateClaw(double pos) {
+      //  gp2.readButtons();
+        bot.diffyClaw.rotate(pos);
     }
     private void automaticIntake(){
         bot.linkage.extend();
@@ -175,8 +178,8 @@ public class MainTeleop extends LinearOpMode {
         bot.diffyClaw.transferPos();
     }
 
-
+    private void runSlides(double power) {
+        bot.slides.runToManual(power);
+        bot.slides.periodic();
+    }
 }
-
-
-
