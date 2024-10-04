@@ -26,7 +26,6 @@ public class DiffyClaw {
         openCloseServo = opMode.hardwareMap.servo.get("openCloseDiffy");
     }
 
-
     //for rotatating, both servos would rotate in the same direction. we need to figure out the directions by testing
     public void rotate(boolean isLeft, double pos) {
         if(isLeft) {
