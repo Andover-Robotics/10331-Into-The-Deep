@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+
+
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import android.graphics.Color;
@@ -34,6 +36,7 @@ public class Bucket {
     private final ColorSensor colorSensor;
     public static final double storagePos=0;
     public static final double intakePos=1;
+    public static  double currentPos=0;
 
     private final float[] hsvValues = {0, 0, 0};
     //values need to be tuned
@@ -116,5 +119,22 @@ public class Bucket {
         telemetry.addData("Green", colorSensor.green()*SCALE_FACTOR);
         telemetry.addData("Blue ", colorSensor.blue()*SCALE_FACTOR);
     }
+
+
+    public void flipIncrement() {
+        currentPos+=0.1;
+        flip.setPosition(currentPos);
+        flip2.setPosition(currentPos);
+        flip3.setPosition(currentPos);
+        flip4.setPosition(currentPos);
+    }
+    public void flipDecrement() {
+        currentPos-=0.1;
+        flip.setPosition(currentPos);
+        flip2.setPosition(currentPos);
+        flip3.setPosition(currentPos);
+        flip4.setPosition(currentPos);
+    }
+
 
 }
