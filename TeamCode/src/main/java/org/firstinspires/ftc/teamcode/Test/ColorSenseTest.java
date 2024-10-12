@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
 
-@TeleOp
+@TeleOp(name = "Color Sense Test", group = "Test")
 public class ColorSenseTest extends LinearOpMode {
 
     OpMode opmode;
@@ -40,7 +40,6 @@ public class ColorSenseTest extends LinearOpMode {
                 /*hsv[0] => hue
                 hsv[1] => saturation
                 hasv[2] => value
-
                  */
 
                 if(hsvValues[0]<30 && hsvValues[1]>100 && hsvValues[2]>100){

@@ -31,6 +31,18 @@ public class Linkage {
         linkage1.setPosition(retractPos);
     }
 
+    public double retractIncrementally(double pos){
+        linkage1.setPosition(pos);
+        linkage2.setPosition(pos);
+        return pos;
+    }
+
+    public double extendIncrementally(double pos){
+        linkage1.setPosition(pos);
+        linkage2.setPosition(pos);
+        return pos;
+    }
+
 }
 
 

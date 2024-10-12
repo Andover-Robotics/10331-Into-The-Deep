@@ -121,19 +121,26 @@ public class Bucket {
     }
 
 
-    public void flipIncrement() {
-        currentPos+=0.1;
-        flip.setPosition(currentPos);
-        flip2.setPosition(currentPos);
-        flip3.setPosition(currentPos);
-        flip4.setPosition(currentPos);
+    public double flipIncrement(double pos) {
+        flip.setPosition(pos);
+        flip2.setPosition(pos);
+        flip3.setPosition(pos);
+        flip4.setPosition(pos);
+        return pos;
     }
-    public void flipDecrement() {
-        currentPos-=0.1;
-        flip.setPosition(currentPos);
-        flip2.setPosition(currentPos);
-        flip3.setPosition(currentPos);
-        flip4.setPosition(currentPos);
+    public double flipDecrement(double pos) {
+        flip.setPosition(pos);
+        flip2.setPosition(pos);
+        flip3.setPosition(pos);
+        flip4.setPosition(pos);
+        return pos;
+    }
+
+    public void runBackwards() {
+        reverseIntake();
+    }
+    public void runForwards() {
+        intakeNoSense();
     }
 
 

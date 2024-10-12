@@ -8,8 +8,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
 
-//tester class to tune methods of differential claw
-@TeleOp(name= "tuneDiffy")
+//tester class to tune methods of differential claw -> figure out inverse kinematics first
+
+@TeleOp(name = "Tune Diffy Claw", group = "Test")
 public class TuneDiffy extends LinearOpMode {
     Bot bot;
     private GamepadEx gp2;

@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
 
-@TeleOp
+@TeleOp(name = "Tune Bucket", group = "Test")
 public class TuneBucket extends LinearOpMode {
     Bot bot;
     private GamepadEx gp2;
@@ -23,18 +23,26 @@ public class TuneBucket extends LinearOpMode {
 
         waitForStart();
 
+        double pos=0;
         while (opModeIsActive() && !isStopRequested()) {
-            telemetry.addLine("Current Position");
 
             gp2.readButtons();
 
-            if(gp2.wasJustPressed(GamepadKeys.Button.A)){
-                bot.bucket.flipIncrement();
+            telemetry.addData("Current Position", pos);
+
+            if(gp2.getRightY()>0){
+                pos=bot.bucket.flipIncrement(gp2.getRightY());
             }
-            if(gp2.wasJustPressed(GamepadKeys.Button.B)){
-                bot.bucket.flipDecrement();
+            if(gp2.getRightY()<0){
+                pos=bot.bucket.flipDecrement(-gp2.getRightY());
             }
 
+            if(gp2.wasJustPressed(GamepadKeys.Button.X)){
+                bot.bucket.runBackwards();
+            }
+            if(gp2.wasJustPressed(GamepadKeys.Button.Y)){
+                bot.bucket.runForwards();
+            }
 
         }
     }
