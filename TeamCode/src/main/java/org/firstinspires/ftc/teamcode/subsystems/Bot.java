@@ -1,34 +1,31 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 
-import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
-import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
-
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.ParallelAction;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvWebcam;
 
 
 public class Bot {
 
     public OpMode opMode;
     public static Bot instance;
-
     public Slides slides;
-    public Fourbar fourbar;
-    public Noodles noodles;
-    public Box box;
+    public DiffyClaw diffyClaw;
+    public Bucket bucket;
+    public Linkage linkage;
+    public OpenCvWebcam camera;
+    private ElapsedTime time= new ElapsedTime();;
 
     private final DcMotorEx FL, FR, BL, BR;
 
@@ -42,7 +39,7 @@ public class Bot {
         return instance;
     }
 
-    private Bot(OpMode opMode) {
+    public Bot(OpMode opMode) {
         this.opMode = opMode;
         enableAutoBulkRead();
         try {
@@ -52,66 +49,29 @@ public class Bot {
 
         }
 
+        WebcamName camName = opMode.hardwareMap.get(WebcamName.class, "webcam");
+        camera = OpenCvCameraFactory.getInstance().createWebcam(camName);
         FL = opMode.hardwareMap.get(DcMotorEx.class, "fl");
         FR = opMode.hardwareMap.get(DcMotorEx.class, "fr");
         BL = opMode.hardwareMap.get(DcMotorEx.class, "bl");
         BR = opMode.hardwareMap.get(DcMotorEx.class, "br");
 
-        FL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        FR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        BL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        BR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
-
-        FL.setMode(RUN_USING_ENCODER);
-        FR.setMode(RUN_USING_ENCODER);
-        BL.setMode(RUN_USING_ENCODER);
-        BR.setMode(RUN_USING_ENCODER);
+        prepMotors();
 
         this.slides = new Slides(opMode);
-        this.fourbar = new Fourbar(opMode);
-        this.noodles = new Noodles(opMode);
-        this.box = new Box(opMode);
-
+        this.diffyClaw = new DiffyClaw(opMode);
+        this.bucket = new Bucket(opMode);
+        this.linkage = new Linkage(opMode);
     }
 
-    public void reverseMotors(){
+    public void prepMotors(){
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
-    }
-
-    public void driveRobotCentric(double strafeSpeed, double forwardBackSpeed, double turnSpeed) {
-        double[] speeds = {
-                forwardBackSpeed - strafeSpeed - turnSpeed,
-                forwardBackSpeed + strafeSpeed + turnSpeed,
-                forwardBackSpeed + strafeSpeed - turnSpeed,
-                forwardBackSpeed - strafeSpeed + turnSpeed
-        };
-        double maxSpeed = 0;
-        for (int i = 0; i < 4; i++) {
-            maxSpeed = Math.max(maxSpeed, speeds[i]);
-        }
-        if (maxSpeed > 1) {
-            for (int i = 0; i < 4; i++) {
-                speeds[i] /= maxSpeed;
-            }
-        }
-        FL.setPower(speeds[0]);
-        FR.setPower(speeds[1]);
-        BL.setPower(speeds[2]);
-        BR.setPower(speeds[3]);
-    }
-
-    public void resetEverything(){
-        noodles.stop();
-        reverseMotors();
-        resetEncoder();
         FL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         FR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         BL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         BR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        fourbar.storage();
-        box.resetBox();
+
     }
 
     private void enableAutoBulkRead() {
@@ -121,45 +81,65 @@ public class Bot {
     }
 
 
-    public void resetEncoder() {
-        FL.setMode(STOP_AND_RESET_ENCODER);
-        FR.setMode(STOP_AND_RESET_ENCODER);
-        BR.setMode(STOP_AND_RESET_ENCODER);
-        BL.setMode(STOP_AND_RESET_ENCODER);
-    }
+    //Any motion that needs to be incorporated into trajectory -> should be method returning Action
+    //incorporate any action with camera here (in Action method)
 
-
-    public Action outtake(){
+    public Action intakeSense(boolean allianceBlue) {
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                Actions.runBlocking(new SequentialAction(
-                        new ParallelAction(
-                                fourbar.outtake(),
-                                slides.slideUp()
-                        ), box.depositSecondPixel()
-                ));
+                linkage.extend();
+                bucket.flipOut();
+                bucket.intakeSense(allianceBlue);
+                bucket.stopIntake();
+                bucket.flipIn();
+                linkage.retract();
+                diffyClaw.transferPos();
                 return false;
             }
         };
     }
-    public Action intake(){
+
+    public Action intakeNoSense() {
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                Actions.runBlocking(new SequentialAction(
-                        new ParallelAction(
-                                fourbar.storage(), slides.slideDown()
-                        ),
-                        new ParallelAction(
-                                noodles.intake(),
-                                box.loadPixels()
-                        )
-                ));
+                time.reset();
+                time.startTime();
+                linkage.extend();
+                bucket.flipOut();
+                while(time.seconds()<3){
+                    bucket.intakeNoSense();
+                }
+                bucket.stopIntake();
+                bucket.flipIn();
+                linkage.retract();
+                diffyClaw.transferPos();
                 return false;
             }
         };
     }
+
+    public Action slidesTopBucket() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                slides.runToTopBucket();
+                return false;
+            }
+        };
+    }
+
+    public Action slidesTopRung() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                slides.runToTopRung();
+                return false;
+            }
+        };
+    }
+
 
 
 }

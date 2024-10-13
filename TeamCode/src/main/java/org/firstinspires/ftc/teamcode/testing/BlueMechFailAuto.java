@@ -17,7 +17,6 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.subsystems.Fourbar;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.Slides;
 
@@ -28,7 +27,7 @@ Didn't use any fancy splines... yet >:)
 Score 11 points (if !dropped purple pixel) or 18 points (if dropped purple pixel)
 someone pls tell me how to import from arcrobotics as it has completely slipped my mind
  */
-
+/*
 @Config
 @Autonomous(name = "BLUE_MECHANICAL_FAILURE", group = "Autonomous")
 public class BlueMechFailAuto extends LinearOpMode{
@@ -123,3 +122,5 @@ public class BlueMechFailAuto extends LinearOpMode{
         );
     }
 }
+
+ */
