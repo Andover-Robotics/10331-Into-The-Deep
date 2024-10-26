@@ -32,8 +32,7 @@ public class Bucket {
     private final Servo flip;
     private final Servo flip2;
     private final Servo flip3;
-    private final Servo flip4;
-    private final ColorSensor colorSensor;
+    //private final ColorSensor colorSensor;
     public static final double storagePos=0;
     public static final double intakePos=1;
     public static  double currentPos=0;
@@ -44,16 +43,16 @@ public class Bucket {
 
     public Bucket(OpMode opMode) {
 
-        tubingServo1 = opMode.hardwareMap.crservo.get("tubing servo 1");
-        tubingServo2 = opMode.hardwareMap.crservo.get("tubing servo 2");
-        flip = opMode.hardwareMap.servo.get("flip servo");
-        flip2 = opMode.hardwareMap.servo.get("flip servo 2");
-        flip3 = opMode.hardwareMap.servo.get("flip servo 3");
-        flip4 = opMode.hardwareMap.servo.get("flip servo 4");
-        colorSensor = opMode.hardwareMap.get(ColorSensor.class, "sensor_color_distance");
+        tubingServo1 = opMode.hardwareMap.crservo.get("intake right");
+        tubingServo2 = opMode.hardwareMap.crservo.get("intake left");
+        flip = opMode.hardwareMap.servo.get("flip mid");
+        flip2 = opMode.hardwareMap.servo.get("flip left");
+        flip3 = opMode.hardwareMap.servo.get("flip right");
+
+        //colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
     }
 
-
+/*
     public boolean intakeSense(boolean allianceBlue){
         tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
         tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -66,6 +65,7 @@ public class Bucket {
             prepColorSensor();
         }
         //after sample in bucket:
+        /*
         if((allianceBlue && colorSensor.red()>100) || (!allianceBlue && colorSensor.blue()>100)){
             reverseIntake();
             intakeSense(allianceBlue);
@@ -75,6 +75,7 @@ public class Bucket {
         //atp: correct colored block is in intake -> return true
         return true;
     }
+    */
 
     public void intakeNoSense(){
         tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -99,16 +100,16 @@ public class Bucket {
         flip.setPosition(storagePos);
         flip2.setPosition(storagePos);
         flip3.setPosition(storagePos);
-        flip4.setPosition(storagePos);
+
     }
 
     public void flipOut() {
         flip.setPosition(intakePos);
         flip2.setPosition(intakePos);
         flip3.setPosition(intakePos);
-        flip4.setPosition(intakePos);
-    }
 
+    }
+/*
     private void prepColorSensor() {
         Color.RGBToHSV((int) (colorSensor.red() * SCALE_FACTOR),
                 (int) (colorSensor.green() * SCALE_FACTOR),
@@ -120,19 +121,19 @@ public class Bucket {
         telemetry.addData("Blue ", colorSensor.blue()*SCALE_FACTOR);
     }
 
+ */
+
 
     public double flipIncrement(double pos) {
         flip.setPosition(pos);
         flip2.setPosition(pos);
         flip3.setPosition(pos);
-        flip4.setPosition(pos);
         return pos;
     }
     public double flipDecrement(double pos) {
         flip.setPosition(pos);
         flip2.setPosition(pos);
         flip3.setPosition(pos);
-        flip4.setPosition(pos);
         return pos;
     }
 

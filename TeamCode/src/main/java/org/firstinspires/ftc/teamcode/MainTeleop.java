@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+/*package org.firstinspires.ftc.teamcode;
 
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
 import org.firstinspires.ftc.teamcode.subsystems.Slides;
 
-/*
+
 
 To Do (in order of priority):
 - kinematics!!! For diffy claw
@@ -19,7 +19,6 @@ To Do (in order of priority):
 -
 
 
- */
 
 @TeleOp
 public class MainTeleop extends LinearOpMode {
@@ -27,6 +26,8 @@ public class MainTeleop extends LinearOpMode {
     private GamepadEx gp1;
     private GamepadEx gp2;
     private double driveSpeed = 1;
+
+
 
     private boolean isManual = false;
     private boolean isLinkageRetracted=true;
@@ -216,3 +217,4 @@ public class MainTeleop extends LinearOpMode {
         bot.slides.periodic();
     }
 }
+*/

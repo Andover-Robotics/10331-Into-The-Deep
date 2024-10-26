@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.subsystems;
+//package org.firstinspires.ftc.teamcode.subsystems;
 
 
 import com.arcrobotics.ftclib.controller.PIDFController;
@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
-
+/*
 public class Slides {
 
     private final MotorEx rightMotor;
@@ -183,3 +183,5 @@ public class Slides {
     }
 
 }
+
+ */

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Test;
+/*package org.firstinspires.ftc.teamcode.Test;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
@@ -37,10 +37,10 @@ public class ColorSenseTest extends LinearOpMode {
             testColorSensor();
             if(gp1.wasJustPressed(GamepadKeys.Button.A)){
 
-                /*hsv[0] => hue
+                hsv[0] => hue
                 hsv[1] => saturation
                 hasv[2] => value
-                 */
+
 
                 if(hsvValues[0]<30 && hsvValues[1]>100 && hsvValues[2]>100){
                     telemetry.addLine("red");
@@ -68,3 +68,4 @@ public class ColorSenseTest extends LinearOpMode {
         telemetry.addData("Value ", hsvValues[2]);
     }
 }
+*/

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Test;
+/*package org.firstinspires.ftc.teamcode.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -52,3 +52,5 @@ public class TuneSlidesPower extends OpMode {
         motor.setPower(-gamepad1.left_stick_y);
     }
 }
+
+ */

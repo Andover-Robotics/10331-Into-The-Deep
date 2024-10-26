@@ -13,8 +13,8 @@ public class Bot {
 
     public OpMode opMode;
     public static Bot instance;
-    public Slides slides;
-    public DiffyClaw diffyClaw;
+    //public Slides slides;
+    //public DiffyClaw diffyClaw;
     public Bucket bucket;
     public Linkage linkage;
 
@@ -47,8 +47,8 @@ public class Bot {
 
         prepMotors();
 
-        this.slides = new Slides(opMode);
-        this.diffyClaw = new DiffyClaw(opMode);
+        //this.slides = new Slides(opMode);
+        //this.diffyClaw = new DiffyClaw(opMode);
         this.bucket = new Bucket(opMode);
         this.linkage = new Linkage(opMode);
     }
@@ -94,9 +94,9 @@ public class Bot {
     public void resetEverything(){
         resetEncoder();
         prepMotors();
-        slides.runToStorage();
-        slides.resetEncoder();
-        slides.resetProfiler();
+        //slides.runToStorage();
+        //slides.resetEncoder();
+        //slides.resetProfiler();
         bucket.stopIntake();
         bucket.flipIn();
         linkage.retract();
