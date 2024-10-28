@@ -7,42 +7,41 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
 
-
-@TeleOp(name = "Tune Linkage", group = "Test")
-public class TuneLinkage extends LinearOpMode {
-
+@TeleOp(name = "Tune Claw", group = "Test")
+public class TuneClaw extends LinearOpMode {
     Bot bot;
     private GamepadEx gp2;
+
+    private double axlePos=0;
+    private boolean isForward;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
         bot = Bot.getInstance(this);
         gp2 = new GamepadEx(gamepad2);
-        double pos=0;
 
         waitForStart();
 
+        double pos=0;
         while (opModeIsActive() && !isStopRequested()) {
-            gp2.readButtons();
-            telemetry.addData("Current Position Linkage Right", bot.linkage.linkage1.getPosition());
-            telemetry.addData("Current Position Linkage Left", bot.linkage.linkage2.getPosition());
-            telemetry.update();
 
-            if(gp2.wasJustPressed(GamepadKeys.Button.A)){
-                bot.linkage.reset();
-            }
+            gp2.readButtons();
+
+            telemetry.addData("Current Position", bot.claw.claw.getPosition());
+            telemetry.update();
 
             if(gp2.wasJustPressed(GamepadKeys.Button.X)){
                 if(pos>0){
                     pos=pos-0.1;
                 }
-                bot.linkage.move(pos);
+                bot.claw.move(pos);
             }
             if(gp2.wasJustPressed(GamepadKeys.Button.Y)){
                 if(pos<1){
                     pos=pos+0.1;
                 }
-                bot.linkage.move(pos);
+                bot.claw.move(pos);
             }
 
         }

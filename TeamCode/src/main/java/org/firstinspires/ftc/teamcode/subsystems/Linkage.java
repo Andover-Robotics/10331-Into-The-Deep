@@ -23,29 +23,22 @@ public class Linkage {
 
     public void extend(){
         linkage1.setPosition(extendPos);
-        linkage2.setPosition(extendPos);
+        linkage2.setPosition(1-extendPos);
     }
 
     public void retract(){
         linkage1.setPosition(retractPos);
-        linkage1.setPosition(retractPos);
+        linkage2.setPosition(1-retractPos);
     }
 
-    public double retractIncrementally(double pos){
+    public void move(double pos){
         linkage1.setPosition(pos);
-        linkage2.setPosition(pos);
-        return pos;
-    }
-
-    public double extendIncrementally(double pos){
-        linkage1.setPosition(pos);
-        linkage2.setPosition(pos);
-        return pos;
+        linkage2.setPosition(1-pos);
     }
 
     public void reset() {
         linkage1.setPosition(0.0);
-        linkage1.setPosition(0.0);
+        linkage2.setPosition(0.0);
     }
 
 }
