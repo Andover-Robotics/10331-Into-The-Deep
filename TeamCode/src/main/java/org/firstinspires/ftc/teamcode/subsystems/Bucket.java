@@ -29,9 +29,8 @@ public class Bucket {
     private final CRServo tubingServo1;
     private final CRServo tubingServo2;
 
-    private final Servo flip;
-    private final Servo flip2;
-    private final Servo flip3;
+    public final Servo flip;
+    public final Servo flip2;
     //private final ColorSensor colorSensor;
     public static final double storagePos=0;
     public static final double intakePos=1;
@@ -44,10 +43,10 @@ public class Bucket {
     public Bucket(OpMode opMode) {
 
         tubingServo1 = opMode.hardwareMap.crservo.get("intake right");
+        tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
         tubingServo2 = opMode.hardwareMap.crservo.get("intake left");
-        flip = opMode.hardwareMap.servo.get("flip mid");
+        flip = opMode.hardwareMap.servo.get("flip right");
         flip2 = opMode.hardwareMap.servo.get("flip left");
-        flip3 = opMode.hardwareMap.servo.get("flip right");
 
         //colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
     }
@@ -78,14 +77,14 @@ public class Bucket {
     */
 
     public void intakeNoSense(){
-        tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
+        tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
         tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
         tubingServo1.setPower(1);
         tubingServo2.setPower(1);
     }
 
     public void reverseIntake(){
-        tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
+        tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
         tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
         tubingServo1.setPower(1);
         tubingServo2.setPower(1);
@@ -99,14 +98,12 @@ public class Bucket {
     public void flipIn(){
         flip.setPosition(storagePos);
         flip2.setPosition(storagePos);
-        flip3.setPosition(storagePos);
 
     }
 
     public void flipOut() {
         flip.setPosition(intakePos);
         flip2.setPosition(intakePos);
-        flip3.setPosition(intakePos);
 
     }
 /*
@@ -123,18 +120,9 @@ public class Bucket {
 
  */
 
-
-    public double flipIncrement(double pos) {
+    public void move(double pos){
         flip.setPosition(pos);
         flip2.setPosition(pos);
-        flip3.setPosition(pos);
-        return pos;
-    }
-    public double flipDecrement(double pos) {
-        flip.setPosition(pos);
-        flip2.setPosition(pos);
-        flip3.setPosition(pos);
-        return pos;
     }
 
     public void runBackwards() {

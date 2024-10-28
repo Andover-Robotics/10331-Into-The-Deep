@@ -28,13 +28,22 @@ public class TuneBucket extends LinearOpMode {
 
             gp2.readButtons();
 
-            telemetry.addData("Current Position", pos);
+            telemetry.addData("Current Position Bucket Flip Right", bot.bucket.flip.getPosition());
+            telemetry.addData("Current Position Bucket Flip Left", bot.bucket.flip2.getPosition());
+            telemetry.update();
 
-            if(gp2.getRightY()>0){
-                pos=bot.bucket.flipIncrement(gp2.getRightY());
+            if(gp2.wasJustPressed(GamepadKeys.Button.A)){
+                if(pos>0){
+                    pos=pos-0.1;
+                }
+                bot.bucket.move(pos);
             }
-            if(gp2.getRightY()<0){
-                pos=bot.bucket.flipDecrement(-gp2.getRightY());
+
+            if(gp2.wasJustPressed(GamepadKeys.Button.B)){
+                if(pos<1){
+                    pos=pos+0.1;
+                }
+                bot.bucket.move(pos);
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.X)){

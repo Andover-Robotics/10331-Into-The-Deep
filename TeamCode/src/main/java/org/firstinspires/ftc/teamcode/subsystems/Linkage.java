@@ -16,8 +16,8 @@ public class Linkage {
 
 
     public Linkage(OpMode opMode) {
-        linkage1 = opMode.hardwareMap.get(Servo.class, "left linkage");
-        linkage2 = opMode.hardwareMap.get(Servo.class, "right linkage");
+        linkage1 = opMode.hardwareMap.get(Servo.class, "right linkage");
+        linkage2 = opMode.hardwareMap.get(Servo.class, "left linkage");
         bucket = new Bucket(opMode);
     }
 
@@ -37,7 +37,7 @@ public class Linkage {
     }
 
     public void reset() {
-        linkage1.setPosition(0.0);
+        linkage1.setPosition(1.0);
         linkage2.setPosition(0.0);
     }
 
