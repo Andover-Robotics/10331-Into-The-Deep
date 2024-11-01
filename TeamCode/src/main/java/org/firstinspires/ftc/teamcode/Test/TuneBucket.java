@@ -36,14 +36,14 @@ public class TuneBucket extends LinearOpMode {
                 if(pos>0){
                     pos=pos-0.1;
                 }
-                bot.bucket.move(pos);
+                bot.bucket.move(pos, 0);
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.B)){
                 if(pos<1){
                     pos=pos+0.1;
                 }
-                bot.bucket.move(pos);
+                bot.bucket.move(pos,0);
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.X)){
@@ -51,6 +51,10 @@ public class TuneBucket extends LinearOpMode {
             }
             if(gp2.wasJustPressed(GamepadKeys.Button.Y)){
                 bot.bucket.runForwards();
+            }
+
+            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+                bot.bucket.resetFlip();
             }
 
         }
