@@ -29,18 +29,21 @@ public class TuneLinkage extends LinearOpMode {
             telemetry.update();
 
             if(gp2.wasJustPressed(GamepadKeys.Button.A)){
-                bot.linkage.reset();
+                bot.linkage.retract();
+            }
+            if(gp2.wasJustPressed(GamepadKeys.Button.B)){
+                bot.linkage.extend();
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.X)){
                 if(pos>0){
-                    pos=pos-0.1;
+                    pos=pos-0.01;
                 }
                 bot.linkage.move(pos);
             }
             if(gp2.wasJustPressed(GamepadKeys.Button.Y)){
                 if(pos<1){
-                    pos=pos+0.1;
+                    pos=pos+0.01;
                 }
                 bot.linkage.move(pos);
             }

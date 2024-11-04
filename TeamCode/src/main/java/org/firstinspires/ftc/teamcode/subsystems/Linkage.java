@@ -11,7 +11,7 @@ public class Linkage {
     public final Servo linkage1;
     public final Servo linkage2;
 
-    public static final double extendPos=1;
+    public static final double extendPos=0.21;
     public static final double retractPos=0;
 
 
@@ -32,6 +32,9 @@ public class Linkage {
     }
 
     public void move(double pos){
+        if (pos >= extendPos) {
+            pos=extendPos;
+        }
         linkage1.setPosition(pos);
         linkage2.setPosition(1-pos);
     }

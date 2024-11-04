@@ -32,13 +32,10 @@ public class Bucket {
     public final Servo flip;
     public final Servo flip2;
     //private final ColorSensor colorSensor;
-    public static final double storagePos=0;
+    public static final double transferPos=0;
 
-    public static final double storagePosTwo = 0;
     //tune
-    public static final double intakePos=1;
-    public static final double intakePosTwo=2;
-    public static  double currentPos=0;
+    public static final double intakePos= 0.25;
 
     private final float[] hsvValues = {0, 0, 0};
     //values need to be tuned
@@ -51,7 +48,7 @@ public class Bucket {
         tubingServo2 = opMode.hardwareMap.crservo.get("intake left");
         flip = opMode.hardwareMap.servo.get("flip right");
         flip2 = opMode.hardwareMap.servo.get("flip left");
-        flip2.setDirection(Servo.Direction.REVERSE);
+        flip.setDirection(Servo.Direction.REVERSE);
 
         //colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
     }
@@ -101,15 +98,15 @@ public class Bucket {
     }
 
     public void flipIn(){
-        flip.setPosition(storagePos);
-        flip2.setPosition(storagePosTwo);
+        flip.setPosition(transferPos);
+        flip2.setPosition(transferPos);
 
     }
 
     public void flipOut() {
         flip.setPosition(intakePos);
-        flip2.setPosition(intakePosTwo);
-
+        flip2.setPosition(intakePos);
+       // flip2.setPosition(intakePosTwo);
     }
 /*
     private void prepColorSensor() {
@@ -126,10 +123,9 @@ public class Bucket {
  */
 
 
-
-    public void move(double pos, double offset){
+    public void move(double pos){
         flip.setPosition(pos);
-        //flip2.setPosition(pos + offset);
+        flip2.setPosition(pos);
     }
 
     public void runBackwards() {

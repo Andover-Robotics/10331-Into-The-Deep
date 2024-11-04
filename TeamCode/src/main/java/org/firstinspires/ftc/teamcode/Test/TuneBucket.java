@@ -34,16 +34,16 @@ public class TuneBucket extends LinearOpMode {
 
             if(gp2.wasJustPressed(GamepadKeys.Button.A)){
                 if(pos>0){
-                    pos=pos-0.1;
+                    pos=pos-0.05;
                 }
-                bot.bucket.move(pos, 0);
+                bot.bucket.move(pos);
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.B)){
                 if(pos<1){
-                    pos=pos+0.1;
+                    pos=pos+0.05;
                 }
-                bot.bucket.move(pos,0);
+                bot.bucket.move(pos);
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.X)){
