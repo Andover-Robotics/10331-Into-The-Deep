@@ -49,6 +49,7 @@ public class Bucket {
         flip = opMode.hardwareMap.servo.get("flip right");
         flip2 = opMode.hardwareMap.servo.get("flip left");
         flip.setDirection(Servo.Direction.REVERSE);
+        flip2.setDirection(Servo.Direction.REVERSE);
 
         //colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
     }
@@ -124,8 +125,8 @@ public class Bucket {
 
 
     public void move(double pos){
-        flip.setPosition(pos);
-        flip2.setPosition(pos);
+        //flip.setPosition(pos);
+       flip2.setPosition(pos);
     }
 
     public void runBackwards() {
@@ -136,7 +137,7 @@ public class Bucket {
     }
 
     public void resetFlip() {
-        flip.setPosition(0);
+       // flip.setPosition(0);
         flip2.setPosition(0);
     }
 
