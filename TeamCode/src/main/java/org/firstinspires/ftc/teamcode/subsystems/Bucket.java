@@ -35,7 +35,7 @@ public class Bucket {
     public static final double transferPos=0;
 
     //tune
-    public static final double intakePos= 0.25;
+    public static final double intakePos= 0.87;
 
     private final float[] hsvValues = {0, 0, 0};
     //values need to be tuned
@@ -49,7 +49,7 @@ public class Bucket {
         flip = opMode.hardwareMap.servo.get("flip right");
         flip2 = opMode.hardwareMap.servo.get("flip left");
         flip.setDirection(Servo.Direction.REVERSE);
-        flip2.setDirection(Servo.Direction.REVERSE);
+      //  flip2.setDirection(Servo.Direction.REVERSE);
 
         //colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
     }
@@ -124,9 +124,11 @@ public class Bucket {
  */
 
 
-    public void move(double pos){
-        //flip.setPosition(pos);
-       flip2.setPosition(pos);
+    public void moveFlipRight(double pos){
+       flip.setPosition(pos);
+    }
+    public void moveFlipLeft(double pos){
+        flip2.setPosition(pos);
     }
 
     public void runBackwards() {
@@ -136,8 +138,10 @@ public class Bucket {
         intakeNoSense();
     }
 
-    public void resetFlip() {
-       // flip.setPosition(0);
+    public void resetFlipRight() {
+        flip.setPosition(0);
+    }
+    public void resetFlipLeft() {
         flip2.setPosition(0);
     }
 
