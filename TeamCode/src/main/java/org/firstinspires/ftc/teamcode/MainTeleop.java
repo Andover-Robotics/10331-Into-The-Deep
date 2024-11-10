@@ -1,7 +1,7 @@
 /*package org.firstinspires.ftc.teamcode;
 
 
-# MUST UDDATE ROBOT CONTROLLER SDK FOR RR
+# MUST UDDATE ROBOT CONTROLLER SDK FOR RR -> And Get Ladybug
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
