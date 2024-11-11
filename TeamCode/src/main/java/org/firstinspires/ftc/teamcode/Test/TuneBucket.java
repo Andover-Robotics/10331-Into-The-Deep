@@ -32,35 +32,52 @@ public class TuneBucket extends LinearOpMode {
             telemetry.addData("Current Position Bucket Flip Left", bot.bucket.flip2.getPosition());
             telemetry.update();
 
+
+            //decrement:
             if(gp2.wasJustPressed(GamepadKeys.Button.A)){
                 if(pos>0){
                     pos=pos-0.01;
                 }
 
-                //flip 1: decrement
-                //flip 2:
-                bot.bucket.move(pos);
+                bot.bucket.moveRight(pos);
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.B)){
                 if(pos<1){
+                    pos=pos-0.01;
+                }
+
+                bot.bucket.moveLeft(pos);
+            }
+
+            //increment:
+            if(gp2.wasJustPressed(GamepadKeys.Button.X)){
+                //bot.bucket.runBackwards();
+                //left
+                if(pos<1){
                     pos=pos+0.01;
                 }
 
-                //flip 1: increment
-                //flip 2:
-                bot.bucket.move(pos);
-            }
-
-            if(gp2.wasJustPressed(GamepadKeys.Button.X)){
-                bot.bucket.runBackwards();
+                bot.bucket.moveLeft(pos);
             }
             if(gp2.wasJustPressed(GamepadKeys.Button.Y)){
-                bot.bucket.runForwards();
+                //bot.bucket.runForwards();
+                //right
+                //bot.bucket.runBackwards();
+                //left
+                if(pos<1){
+                    pos=pos+0.01;
+                }
+
+                bot.bucket.moveRight(pos);
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
-                bot.bucket.resetFlip();
+                bot.bucket.resetFlipRight();
+            }
+
+            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
+                bot.bucket.resetFlipLeft();
             }
 
         }
