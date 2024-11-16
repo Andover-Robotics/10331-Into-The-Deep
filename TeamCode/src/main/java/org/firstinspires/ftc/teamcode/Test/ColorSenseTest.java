@@ -19,13 +19,8 @@ public class ColorSenseTest extends LinearOpMode {
     Bot bot;
     private GamepadEx gp1;
     private final float[] hsvValues = {0, 0, 0};
-    private double SCALE_FACTOR = 255;
-
     String color="nothing";
     double hue=0, saturation=0, value=0;
-
-
-
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -39,20 +34,26 @@ public class ColorSenseTest extends LinearOpMode {
             telemetry.addLine("Current Color:");
             testColorSensor();
 
-
-             /*   hsvValues[0] => hue
+             /* hsvValues[0] => hue
                 hsvValues[1] => saturation
                 hsvValues[2] => value
-
+                rgb values from image:
+                blue: middle: 32,56,190; highlights:86, 142,238, shadows: 3,5,79
+                red: middle: 218,47,43; highlights:  219, 88, 87, shadows: 112,1,4
+                yellow: middle: 243,175,16; highlights: 241, 193, 76; shadows: 221,107,0
+                hsv:
+                blue: highlights: 218, 65.9%, 93.3%; middle: 231, 83.2, 74.5; shadows: 238, 96.2, 31
+                red: highlights: 0, 60.3, 85.9; middle: 1, 80.3, 85.5; shadows: 358, 99.1, 43.9
+                yellow: highlights: 43, 68.5, 94.5; middle: 42, 93.4, 95.3; shadows: 29, 100, 86.7
               */
 
-            if(hue<180 && hue>89 && saturation<188 && saturation>64 && value>73 && value<255){
+            if((hue<359 && hue>345) && (saturation<1.0 && saturation>0.55) && (value>0.25 && value<1.0)){
                 color="red";
             }
-            else if(hue>18 && hue<85 && saturation<224 && saturation>77 && value<255 && value>76){
+            else if((hue>41 && hue<63) && (saturation<0.4 && saturation>1.0) && (value<1.0 && value>0.5)){
                 color = "yellow";
             }
-            else if(hue>45 && hue<180 && saturation>0 && saturation<164 && value<200 && value>57){
+            else if((hue>190 && hue<265) && (saturation>0.75 && saturation<1.0) && (value<1.0 && value>0.2)){
                 color= "blue";
             }
             else{
@@ -72,8 +73,8 @@ public class ColorSenseTest extends LinearOpMode {
                 hsvValues);
 
         hue= hsvValues[0];
-        saturation= hsvValues[1] * SCALE_FACTOR;
-        value= hsvValues[2] * SCALE_FACTOR;
+        saturation= hsvValues[1];
+        value= hsvValues[2];
 
         telemetry.addData("Hue  ", hue);
         telemetry.addData("Saturation", saturation);
