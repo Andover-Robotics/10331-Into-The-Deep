@@ -20,7 +20,7 @@ public class Bot {
     public DiffyClaw diffyClaw;
     public Bucket bucket;
     public Linkage linkage;
-  //  public Claw claw;
+    public Claw claw;
 
     private final DcMotorEx FL, FR, BL, BR;
 
@@ -58,7 +58,7 @@ public class Bot {
 
         //this.slides = new Slides(opMode);
         //this.diffyClaw = new DiffyClaw(opMode);
-     //   this.claw= new Claw(opMode);
+        this.claw= new Claw(opMode);
         this.bucket = new Bucket(opMode);
      //   this.linkage = new Linkage(opMode);
     }
