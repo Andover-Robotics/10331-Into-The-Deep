@@ -31,6 +31,7 @@ public class Slides {
     private double profile_init_time = 0;
     private final OpMode opMode;
 
+
     public enum slidesPosition{
         GROUND,
         RUNG1,
