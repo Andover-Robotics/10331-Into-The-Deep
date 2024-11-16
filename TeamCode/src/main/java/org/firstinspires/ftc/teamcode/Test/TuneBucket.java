@@ -23,7 +23,6 @@ public class TuneBucket extends LinearOpMode {
         waitForStart();
 
         double pos=0;
-        double posLeft=0;
         while (opModeIsActive() && !isStopRequested()) {
 
             gp2.readButtons();
@@ -32,78 +31,54 @@ public class TuneBucket extends LinearOpMode {
            // telemetry.addData("Current Position Bucket Flip Left", bot.bucket.flip2.getPosition());
             telemetry.update();
 
-         /*   if(gp2.wasJustPressed(GamepadKeys.Button.A)){
-                //decrement right - WORKING
+
+            //decrement:
+            if(gp2.wasJustPressed(GamepadKeys.Button.A)){
                 if(pos>0){
                     pos=pos-0.01;
                 }
 
-                //flip 1: decrement
-                //flip 2:
-                bot.bucket.moveFlipRight(pos);
+                bot.bucket.moveRight(pos);
             }
 
-
             if(gp2.wasJustPressed(GamepadKeys.Button.B)){
-                //increment right: towards robot
+                if(pos<1){
+                    pos=pos-0.01;
+                }
+
+                bot.bucket.moveLeft(pos);
+            }
+
+            //increment:
+            if(gp2.wasJustPressed(GamepadKeys.Button.X)){
+                //bot.bucket.runBackwards();
+                //left
                 if(pos<1){
                     pos=pos+0.01;
                 }
 
-                //flip 1: increment
-                //flip 2:
-                bot.bucket.moveFlipRight(pos);
+                bot.bucket.moveLeft(pos);
             }
-
-          */
-
-            if(gp2.wasJustPressed(GamepadKeys.Button.A)){
-                if(pos>0){
-                    pos=pos-0.1;
-                }
-                bot.bucket.move(pos);
-            }
-
-
-            if(gp2.wasJustPressed(GamepadKeys.Button.B)){
-                if(pos<1){
-                    pos=pos+0.1;
-                }
-
-                bot.bucket.move(pos);
-            }
-
-         /*   if(gp2.wasJustPressed(GamepadKeys.Button.X)){
-                //decrement left : direction towards robot
-
-                if(posLeft>0){
-                    posLeft=posLeft-0.1;
-                }
-
-                bot.bucket.moveFlipLeft(posLeft);
-            }
-
             if(gp2.wasJustPressed(GamepadKeys.Button.Y)){
-                //increment left : towards field
-                if(posLeft<1){
-                    posLeft=posLeft+0.1;
+                //bot.bucket.runForwards();
+                //right
+                //bot.bucket.runBackwards();
+                //left
+                if(pos<1){
+                    pos=pos+0.01;
                 }
-                bot.bucket.moveFlipLeft(posLeft);
-            }
 
-          */
+                bot.bucket.moveRight(pos);
+            }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
-                bot.bucket.reset();
-            }
-         /*   if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
                 bot.bucket.resetFlipRight();
             }
 
-          */
+            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
+                bot.bucket.resetFlipLeft();
+            }
+
         }
     }
 }
-
-
-
