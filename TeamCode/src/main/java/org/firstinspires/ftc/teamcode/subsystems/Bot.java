@@ -117,6 +117,4 @@ public class Bot {
         BR.setMode(STOP_AND_RESET_ENCODER);
         BL.setMode(STOP_AND_RESET_ENCODER);
     }
-
-
 }

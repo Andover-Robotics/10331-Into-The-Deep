@@ -4,7 +4,6 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
 
 @TeleOp(name = "Tune Bucket", group = "Test")
@@ -30,7 +29,7 @@ public class TuneBucket extends LinearOpMode {
             gp2.readButtons();
 
             telemetry.addData("Current Position Bucket Flip Right", bot.bucket.flip.getPosition());
-            telemetry.addData("Current Position Bucket Flip Left", bot.bucket.flip2.getPosition());
+           // telemetry.addData("Current Position Bucket Flip Left", bot.bucket.flip2.getPosition());
             telemetry.update();
 
          /*   if(gp2.wasJustPressed(GamepadKeys.Button.A)){

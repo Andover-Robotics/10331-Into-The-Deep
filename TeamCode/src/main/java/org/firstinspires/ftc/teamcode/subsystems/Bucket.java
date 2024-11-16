@@ -30,7 +30,7 @@ public class Bucket {
     private final CRServo tubingServo2;
 
     public final Servo flip;
-    public final Servo flip2;
+    //public final Servo flip2;
     //private final ColorSensor colorSensor;
     public static final double transferPos=0;
 
@@ -47,11 +47,9 @@ public class Bucket {
         tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
         tubingServo2 = opMode.hardwareMap.crservo.get("intake left");
         flip = opMode.hardwareMap.servo.get("flip right");
-        flip2 = opMode.hardwareMap.servo.get("flip left");
-        flip2.setDirection(Servo.Direction.REVERSE);
-
-
-        //colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
+       // flip2 = opMode.hardwareMap.servo.get("flip left");
+       // flip2.setDirection(Servo.Direction.REVERSE);
+        // colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
     }
 
 /*
@@ -100,13 +98,13 @@ public class Bucket {
 
     public void flipIn(){
         flip.setPosition(transferPos);
-        flip2.setPosition(transferPos);
+       // flip2.setPosition(transferPos);
 
     }
 
     public void flipOut() {
         flip.setPosition(intakePos);
-        flip2.setPosition(intakePos);
+     //   flip2.setPosition(intakePos);
 
     }
 /*
@@ -123,17 +121,16 @@ public class Bucket {
 
  */
 
-
     public void moveFlipRight(double pos){
         flip.setPosition(pos);
     }
     public void move(double pos){
         flip.setPosition(pos);
-        flip2.setPosition(pos);
+       // flip2.setPosition(pos);
     }
-    public void moveFlipLeft(double pos){
-        flip2.setPosition(pos);
-    }
+//    public void moveFlipLeft(double pos){
+//       flip2.setPosition(pos);
+//    }
 
     public void runBackwards() {
         reverseIntake();
@@ -145,13 +142,11 @@ public class Bucket {
     public void resetFlipRight() {
         flip.setPosition(0);
     }
-    public void resetFlipLeft() {
-        flip2.setPosition(0);
-        flip2.setPosition(0);
-    }
+//    public void resetFlipLeft() {
+//        flip2.setPosition(0);
+//        flip2.setPosition(0);
+//    }
     public void reset() {
         move(0);
     }
-
-
 }
