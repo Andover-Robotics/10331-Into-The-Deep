@@ -3,12 +3,10 @@ package org.firstinspires.ftc.teamcode.Test;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
 
-@TeleOp
 public class TestLinkageAndBucket extends LinearOpMode {
     Bot bot;
     private GamepadEx gp2;
@@ -46,7 +44,7 @@ public class TestLinkageAndBucket extends LinearOpMode {
             //bucket testing: flip
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
                 bot.bucket.flipIn();
-            } else if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
+            } else if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
                 bot.bucket.flipOut();
             }
 
@@ -54,3 +52,4 @@ public class TestLinkageAndBucket extends LinearOpMode {
         }
     }
 }
+
