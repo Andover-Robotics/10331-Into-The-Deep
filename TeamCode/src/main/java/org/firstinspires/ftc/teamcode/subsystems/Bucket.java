@@ -22,20 +22,20 @@ import com.qualcomm.robotcore.hardware.Servo;
  * For V3, the distance sensor as configured can handle distances between 0.25" (~0.6cm) and 6" (~15cm).
  * Any target closer than 0.25" will display as 0.25" and any target farther than 6" will display as 6".
 
- */
+**/
 
 public class Bucket {
 
-    private final CRServo tubingServo1;
-    private final CRServo tubingServo2;
+    //  private final CRServo tubingServo1;
+    //  private final CRServo tubingServo2;
 
-    public final Servo flip;
+    // public final Servo flip;
     //public final Servo flip2;
-    //private final ColorSensor colorSensor;
-    public static final double transferPos=0;
+    public final ColorSensor colorSensor;
+    public static final double transferPos = 0;
 
     //tune
-    public static final double intakePos= 0.87;
+    public static final double intakePos = 0.87;
 
     private final float[] hsvValues = {0, 0, 0};
     //values need to be tuned
@@ -43,14 +43,17 @@ public class Bucket {
 
     public Bucket(OpMode opMode) {
 
-        tubingServo1 = opMode.hardwareMap.crservo.get("intake right");
+    /*    tubingServo1 = opMode.hardwareMap.crservo.get("intake right");
         tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
         tubingServo2 = opMode.hardwareMap.crservo.get("intake left");
         flip = opMode.hardwareMap.servo.get("flip right");
-       // flip2 = opMode.hardwareMap.servo.get("flip left");
-       // flip2.setDirection(Servo.Direction.REVERSE);
-        // colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
+
+     */
+        // flip2 = opMode.hardwareMap.servo.get("flip left");
+        // flip2.setDirection(Servo.Direction.REVERSE);
+        colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
     }
+}
 
 /*
     public boolean intakeSense(boolean allianceBlue){
@@ -75,7 +78,7 @@ public class Bucket {
         //atp: correct colored block is in intake -> return true
         return true;
     }
-    */
+
 
     public void intakeNoSense(){
         tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -119,7 +122,7 @@ public class Bucket {
         telemetry.addData("Blue ", colorSensor.blue()*SCALE_FACTOR);
     }
 
- */
+
 
     public void moveFlipRight(double pos){
         flip.setPosition(pos);
@@ -150,3 +153,7 @@ public class Bucket {
         move(0);
     }
 }
+
+
+ */
+

@@ -13,8 +13,11 @@ public class Bot {
 
     public OpMode opMode;
     public static Bot instance;
-    //public Slides slides;
-    //public DiffyClaw diffyClaw;
+
+    public Bucket bucket;
+
+ /*   public Slides slides;
+    public DiffyClaw diffyClaw;
     public Bucket bucket;
     public Linkage linkage;
   //  public Claw claw;
@@ -22,6 +25,7 @@ public class Bot {
     private final DcMotorEx FL, FR, BL, BR;
 
     public boolean fieldCentricRunMode = false;
+    */
 
     public static Bot getInstance(OpMode opMode) {
         if (instance == null) {
@@ -33,7 +37,7 @@ public class Bot {
 
     public Bot(OpMode opMode) {
         this.opMode = opMode;
-        enableAutoBulkRead();
+     /*   enableAutoBulkRead();
         try {
             fieldCentricRunMode = false;
         } catch (Exception e) {
@@ -41,19 +45,24 @@ public class Bot {
 
         }
 
-        FL = opMode.hardwareMap.get(DcMotorEx.class, "fl");
+      */
+
+   /*     FL = opMode.hardwareMap.get(DcMotorEx.class, "fl");
         FR = opMode.hardwareMap.get(DcMotorEx.class, "fr");
         BL = opMode.hardwareMap.get(DcMotorEx.class, "bl");
         BR = opMode.hardwareMap.get(DcMotorEx.class, "br");
 
         prepMotors();
 
+    */
+
         //this.slides = new Slides(opMode);
         //this.diffyClaw = new DiffyClaw(opMode);
      //   this.claw= new Claw(opMode);
         this.bucket = new Bucket(opMode);
-        this.linkage = new Linkage(opMode);
+     //   this.linkage = new Linkage(opMode);
     }
+    /*
 
     public void prepMotors(){
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -117,4 +126,6 @@ public class Bot {
         BR.setMode(STOP_AND_RESET_ENCODER);
         BL.setMode(STOP_AND_RESET_ENCODER);
     }
+
+  */
 }

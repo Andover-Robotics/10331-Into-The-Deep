@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Test;
+/*package org.firstinspires.ftc.teamcode.Test;
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -55,7 +55,7 @@ public class TuneBucket extends LinearOpMode {
                 bot.bucket.moveFlipRight(pos);
             }
 
-          */
+
 
             if(gp2.wasJustPressed(GamepadKeys.Button.A)){
                 if(pos>0){
@@ -91,7 +91,7 @@ public class TuneBucket extends LinearOpMode {
                 bot.bucket.moveFlipLeft(posLeft);
             }
 
-          */
+
 
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
                 bot.bucket.reset();
@@ -100,10 +100,12 @@ public class TuneBucket extends LinearOpMode {
                 bot.bucket.resetFlipRight();
             }
 
-          */
+
         }
     }
 }
+
+ */
 
 
 
