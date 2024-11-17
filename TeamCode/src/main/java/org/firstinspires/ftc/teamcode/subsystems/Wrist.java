@@ -1,4 +1,4 @@
-/*package org.firstinspires.ftc.teamcode.subsystems;
+package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -10,10 +10,13 @@ public class Wrist {
     //decide through testing whether these servos need to be converted to CRservos.
 
 
-    public static final double transferClawPos = 0.7, outtakeClawPos = 0.7, diffyOpen = 0, diffyClose = 1;
+    private final double RUNG_1_POS =30;
+    private final double RUNG_2_POS =30;
+    private final double PICK_UP_POS = 30;
+    private final double TRANSFER_POS = 30;
+    public static final double diffyOpen = 0, diffyClose = 1;
     //will need to tune these values
 
-    public static boolean isOuttakePosition;
 
     public Wrist(OpMode opMode) {
         diffy1 = opMode.hardwareMap.servo.get("diffyRight");
@@ -55,5 +58,3 @@ public class Wrist {
         move(false, outtakeClawPos);
     }
 }
-
- */
