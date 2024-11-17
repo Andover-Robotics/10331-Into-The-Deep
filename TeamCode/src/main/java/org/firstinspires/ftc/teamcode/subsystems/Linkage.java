@@ -1,4 +1,4 @@
-/*package org.firstinspires.ftc.teamcode.subsystems;
+package org.firstinspires.ftc.teamcode.subsystems;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -11,8 +11,8 @@ public class Linkage {
     public final Servo linkage1;
     public final Servo linkage2;
 
-    public static final double extendPos=0.21;
-    public static final double retractPos=0;
+    public static final double extendPos=0.25;
+    public static final double retractPos=0.13;
 
 
     public Linkage(OpMode opMode) {
@@ -35,18 +35,16 @@ public class Linkage {
         if (pos >= extendPos) {
             pos=extendPos;
         }
+        if (pos <= retractPos) {
+            pos=retractPos;
+        }
         linkage1.setPosition(pos);
         linkage2.setPosition(1-pos);
     }
 
-    public void reset() {
-        linkage1.setPosition(1.0);
-        linkage2.setPosition(0.0);
-    }
 
 }
 
- */
 
 
 

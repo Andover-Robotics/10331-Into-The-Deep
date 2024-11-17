@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Test;
 
-/*import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -18,7 +18,7 @@ public class TuneLinkage extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         bot = Bot.getInstance(this);
         gp2 = new GamepadEx(gamepad2);
-        double pos=0;
+        double pos=0.2;
 
         waitForStart();
 
@@ -51,5 +51,3 @@ public class TuneLinkage extends LinearOpMode {
         }
     }
 }
-
- */

@@ -1,4 +1,4 @@
-/*package org.firstinspires.ftc.teamcode.Test;
+package org.firstinspires.ftc.teamcode.Test;
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -28,10 +28,13 @@ public class TestLinkageAndBucket extends LinearOpMode {
             //boolean compound = false;
             //linkage testing
             if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
+                bot.bucket.stopIntake();
                 bot.linkage.retract();
-                //later will change to reset if retract is jank
+                bot.bucket.flipIn();
             } else if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
+                bot.bucket.flipOut();
                 bot.linkage.extend();
+                bot.bucket.intakeNoSense();
             }
 
             //bucket testing: intake
@@ -54,5 +57,3 @@ public class TestLinkageAndBucket extends LinearOpMode {
         }
     }
 }
-
- */

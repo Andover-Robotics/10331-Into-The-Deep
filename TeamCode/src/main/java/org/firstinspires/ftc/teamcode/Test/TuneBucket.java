@@ -1,4 +1,4 @@
-/*package org.firstinspires.ftc.teamcode.Test;
+package org.firstinspires.ftc.teamcode.Test;
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -23,16 +23,14 @@ public class TuneBucket extends LinearOpMode {
         waitForStart();
 
         double pos=0;
-        double posLeft=0;
         while (opModeIsActive() && !isStopRequested()) {
 
             gp2.readButtons();
 
             telemetry.addData("Current Position Bucket Flip Right", bot.bucket.flip.getPosition());
-           // telemetry.addData("Current Position Bucket Flip Left", bot.bucket.flip2.getPosition());
             telemetry.update();
 
-         /*   if(gp2.wasJustPressed(GamepadKeys.Button.A)){
+            if(gp2.wasJustPressed(GamepadKeys.Button.A)){
                 //decrement right - WORKING
                 if(pos>0){
                     pos=pos-0.01;
@@ -55,7 +53,7 @@ public class TuneBucket extends LinearOpMode {
                 bot.bucket.moveFlipRight(pos);
             }
 
-
+/*
 
             if(gp2.wasJustPressed(GamepadKeys.Button.A)){
                 if(pos>0){
@@ -72,6 +70,8 @@ public class TuneBucket extends LinearOpMode {
 
                 bot.bucket.move(pos);
             }
+
+ */
 
          /*   if(gp2.wasJustPressed(GamepadKeys.Button.X)){
                 //decrement left : direction towards robot
@@ -91,21 +91,17 @@ public class TuneBucket extends LinearOpMode {
                 bot.bucket.moveFlipLeft(posLeft);
             }
 
-
+          */
 
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
                 bot.bucket.reset();
             }
-         /*   if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
-                bot.bucket.resetFlipRight();
-            }
-
 
         }
     }
 }
 
- */
+
 
 
 
