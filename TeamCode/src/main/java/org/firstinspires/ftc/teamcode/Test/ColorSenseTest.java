@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Bot;
 public class ColorSenseTest extends LinearOpMode {
 
     Bot bot;
+
     private GamepadEx gp1;
     private final float[] hsvValues = {0, 0, 0};
     String color="nothing";
@@ -47,14 +48,15 @@ public class ColorSenseTest extends LinearOpMode {
                 yellow: highlights: 43, 68.5, 94.5; middle: 42, 93.4, 95.3; shadows: 29, 100, 86.7
               */
 
-            if((hue<359 && hue>345) && (saturation<1.0 && saturation>0.55) && (value>0.25 && value<1.0)){
+
+            if((hue>10 && hue<80) && (saturation>100 && saturation<160)){
                 color="red";
             }
-            else if((hue>41 && hue<63) && (saturation<0.4 && saturation>1.0) && (value<1.0 && value>0.5)){
-                color = "yellow";
+            else if((hue>30 && hue<70) && (saturation>140 && saturation<200)){
+                color= "yellow";
             }
-            else if((hue>190 && hue<265) && (saturation>0.75 && saturation<1.0) && (value<1.0 && value>0.2)){
-                color= "blue";
+            else if((hue>80 && hue<130) && (saturation>80 && saturation<130)){
+                color = "blue";
             }
             else{
                 color= "nothing";
@@ -73,8 +75,8 @@ public class ColorSenseTest extends LinearOpMode {
                 hsvValues);
 
         hue= hsvValues[0];
-        saturation= hsvValues[1];
-        value= hsvValues[2];
+        saturation= hsvValues[1] * 255;
+        value= hsvValues[2] * 255;
 
         telemetry.addData("Hue  ", hue);
         telemetry.addData("Saturation", saturation);
