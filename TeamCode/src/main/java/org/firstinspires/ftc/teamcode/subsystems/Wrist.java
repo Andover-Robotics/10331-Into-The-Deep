@@ -10,12 +10,17 @@ public class Wrist {
     //decide through testing whether these servos need to be converted to CRservos.
 
 
-    private final double RUNG_1_POS =30;
-    private final double RUNG_2_POS =30;
-    private final double PICK_UP_POS = 30;
-    private final double TRANSFER_POS = 30;
-    public static final double diffyOpen = 0, diffyClose = 1;
-    //will need to tune these values
+    private final boolean isDiffyTransfer = false;
+    private final boolean isDiffyPickup = false;
+    private final boolean isDiffyRung = false;
+    private final boolean isDiffyBucket = false;
+
+
+    // tune values
+    private final double TRANSFER_POS = 0;
+    private final double PICKUP_POS = 0.2;
+    private final double RUNG_POS = 0.5;
+    private final double BUCKET_POS = 0.7;
 
 
     public Wrist(OpMode opMode) {
@@ -24,7 +29,7 @@ public class Wrist {
     }
 
     //for rotating, both servos would rotate in the same direction
-    //direction of servo needs to be discovered by testing
+
     public void rotate(double pos) {
         diffy1.setDirection(Servo.Direction.FORWARD);
         diffy2.setDirection(Servo.Direction.FORWARD);
@@ -49,12 +54,19 @@ public class Wrist {
     }
 
 
-    public void transferPos() {
-        move(false, transferClawPos);
-        //check over this - I'm not entirely sure that just opening claw, bringing it to transfer claw pos, and then closing it is going to work.
+    public void transfer() {
+        move(true, TRANSFER_POS);
     }
 
-    public void outtakePos() {
-        move(false, outtakeClawPos);
+    public void pickupPos() {
+        move(true, PICKUP_POS);
+    }
+
+    public void rungPos() {
+        move(false, RUNG_POS);
+    }
+
+    public void bucketPos() {
+        move(false, BUCKET_POS);
     }
 }

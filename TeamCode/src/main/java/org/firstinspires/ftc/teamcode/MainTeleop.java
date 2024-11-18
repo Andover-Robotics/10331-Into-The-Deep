@@ -106,14 +106,8 @@ public class MainTeleop extends LinearOpMode {
 
                 //diffy control (Y)
                 if (gp2.wasJustPressed(GamepadKeys.Button.Y)) {
-                    if(isDiffyOuttake){
-                        bot.diffyClaw.transferPos();
-                        isDiffyOuttake=false;
-                    }
-                    else{
-                        bot.diffyClaw.outtakePos();
-                        isDiffyOuttake=true;
-                    }
+
+
                 }
 
                 //bucket noodles control (B)
@@ -225,8 +219,19 @@ public class MainTeleop extends LinearOpMode {
         bot.slides.periodic();
     }
 
+    private void transfer_and_outtake(double claw_pos) {
+        // sync claw pos to kinematics class, so that it knows what length to extend slides
+        if(bot.claw.getPos != 1) {
+            bot.claw.open();
+        }
+        if(isDiffyTransfer){
+            bot.diffyClaw.transferPos();
+            isDiffyTransfer=false;
+        }
+        bot.claw.close();
+        bot.Wrist.rotate(0.25); // I KNOW THIS LINE IS PROB WRONG
 
-
+    }
 
 
 
