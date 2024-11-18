@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
 import org.firstinspires.ftc.teamcode.subsystems.Slides;
-
+import java.lang.Math;
 
 
 To Do (in order of priority):
@@ -24,6 +24,12 @@ To Do (in order of priority):
 
 @TeleOp
 public class MainTeleop extends LinearOpMode {
+    private double delta_L; //slide extension length needed to get to position
+    private double claw_angle; //this is the angle between claw and horizontal
+    private double slides_angle;  // angle between slides and horizontal
+    private double robot_height = 0.21; // (height of base (not including slides) in meters, CHANGE LATER)
+    private double claw_length = 0.05; //CHANGE LATER
+    private final double TICK_TO_SLIDES_MOVEMENT_CONV = 1; //CHANGE LATER
     Bot bot;
     private GamepadEx gp1;
     private GamepadEx gp2;
@@ -218,5 +224,11 @@ public class MainTeleop extends LinearOpMode {
         bot.slides.runToManual(power);
         bot.slides.periodic();
     }
+
+
+
+
+
+
 }
 */
