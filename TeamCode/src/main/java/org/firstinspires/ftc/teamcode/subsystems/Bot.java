@@ -20,6 +20,7 @@ public class Bot {
     public DiffyClaw diffyClaw;
     public Bucket bucket;
     */
+    public Wrist wrist;
     public Linkage linkage;
    /*
   //  public Claw claw;
@@ -63,6 +64,7 @@ public class Bot {
      //   this.claw= new Claw(opMode);
         this.bucket = new Bucket(opMode);
         this.linkage = new Linkage(opMode);
+        this.wrist= new Wrist(opMode);
     }
     /*
 
