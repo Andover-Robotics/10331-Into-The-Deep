@@ -40,8 +40,8 @@ public class Wrist {
 
     //both servos are moving in different directions to move the claw up or down
     //direction of servo needs to be discovered by testing
-    public void move(boolean isUp, double pos) {
-        if (isUp) {
+    public void move(boolean goingUp, double pos) {
+        if (goingUp) {
             diffy1.setDirection(Servo.Direction.REVERSE);
             diffy2.setDirection(Servo.Direction.FORWARD);
         } else {

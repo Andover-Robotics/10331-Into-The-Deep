@@ -1,4 +1,4 @@
-/*package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode;
 
 
 # MUST UDDATE ROBOT CONTROLLER SDK FOR RR
@@ -13,12 +13,12 @@ import org.firstinspires.ftc.teamcode.subsystems.Bot;
 import org.firstinspires.ftc.teamcode.subsystems.Slides;
 import java.lang.Math;
 
-
+/*
 To Do (in order of priority):
 - kinematics!!! For diffy claw
 - test color sensor (can be done independently with control hub)
 - test all servo values (after build)
--
+*/
 
 
 
@@ -219,6 +219,7 @@ public class MainTeleop extends LinearOpMode {
         bot.slides.periodic();
     }
 
+    /*
     private void transfer_and_outtake(double claw_pos) {
         // sync claw pos to kinematics class, so that it knows what length to extend slides
         if(bot.claw.getPos != 1) {
@@ -231,9 +232,8 @@ public class MainTeleop extends LinearOpMode {
         bot.claw.close();
         bot.Wrist.rotate(0.25); // I KNOW THIS LINE IS PROB WRONG
 
-    }
+    }*/
 
 
 
 }
-*/
