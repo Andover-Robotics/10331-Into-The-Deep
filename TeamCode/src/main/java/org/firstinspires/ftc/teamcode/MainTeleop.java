@@ -1,4 +1,4 @@
-/*package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode;
 
 
 # MUST UDDATE ROBOT CONTROLLER SDK FOR RR
@@ -11,19 +11,25 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
 import org.firstinspires.ftc.teamcode.subsystems.Slides;
+import java.lang.Math;
 
-
-
+/*
 To Do (in order of priority):
 - kinematics!!! For diffy claw
 - test color sensor (can be done independently with control hub)
 - test all servo values (after build)
--
+*/
 
 
 
 @TeleOp
 public class MainTeleop extends LinearOpMode {
+    private double delta_L; //slide extension length needed to get to position
+    private double claw_angle; //this is the angle between claw and horizontal
+    private double slides_angle;  // angle between slides and horizontal
+    private double robot_height = 0.21; // (height of base (not including slides) in meters, CHANGE LATER)
+    private double claw_length = 0.05; //CHANGE LATER
+    private final double TICK_TO_SLIDES_MOVEMENT_CONV = 1; //CHANGE LATER
     Bot bot;
     private GamepadEx gp1;
     private GamepadEx gp2;
@@ -100,14 +106,8 @@ public class MainTeleop extends LinearOpMode {
 
                 //diffy control (Y)
                 if (gp2.wasJustPressed(GamepadKeys.Button.Y)) {
-                    if(isDiffyOuttake){
-                        bot.diffyClaw.transferPos();
-                        isDiffyOuttake=false;
-                    }
-                    else{
-                        bot.diffyClaw.outtakePos();
-                        isDiffyOuttake=true;
-                    }
+
+
                 }
 
                 //bucket noodles control (B)
@@ -218,5 +218,22 @@ public class MainTeleop extends LinearOpMode {
         bot.slides.runToManual(power);
         bot.slides.periodic();
     }
+
+    /*
+    private void transfer_and_outtake(double claw_pos) {
+        // sync claw pos to kinematics class, so that it knows what length to extend slides
+        if(bot.claw.getPos != 1) {
+            bot.claw.open();
+        }
+        if(isDiffyTransfer){
+            bot.diffyClaw.transferPos();
+            isDiffyTransfer=false;
+        }
+        bot.claw.close();
+        bot.Wrist.rotate(0.25); // I KNOW THIS LINE IS PROB WRONG
+
+    }*/
+
+
+
 }
-*/

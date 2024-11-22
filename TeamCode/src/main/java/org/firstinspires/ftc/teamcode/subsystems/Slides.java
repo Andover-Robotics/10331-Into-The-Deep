@@ -1,4 +1,4 @@
-//package org.firstinspires.ftc.teamcode.subsystems;
+package org.firstinspires.ftc.teamcode.subsystems;
 
 
 import com.arcrobotics.ftclib.controller.PIDFController;
@@ -8,13 +8,15 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
-/*
+
 public class Slides {
 
     private final MotorEx rightMotor;
     private final MotorEx leftMotor;
     private PIDFController controller;
     private MotionProfiler profiler = new MotionProfiler(30000, 20000);
+
+
 
 
     //needs to be tuned
@@ -28,6 +30,7 @@ public class Slides {
 
     private double profile_init_time = 0;
     private final OpMode opMode;
+
 
     public enum slidesPosition{
         GROUND,
@@ -81,6 +84,7 @@ public class Slides {
 
 
     public void runToTopBucket() {
+
         runTo(topBucket);
         position = slidesPosition.BUCKET3;
     }
@@ -114,12 +118,14 @@ public class Slides {
 
 
     public void runToManual(double manual) {
-        if (manual > powerMin || manual < -powerMin) {
+        if (Math.abs(manual) > powerMin) {
             manualPower = manual;
         } else {
             manualPower = 0;
         }
     }
+
+
 
     public int getCurrentPosition() {
         return leftMotor.getCurrentPosition();
@@ -182,6 +188,8 @@ public class Slides {
         profiler = new MotionProfiler(30000, 20000);
     }
 
+
+
 }
 
- */
+
