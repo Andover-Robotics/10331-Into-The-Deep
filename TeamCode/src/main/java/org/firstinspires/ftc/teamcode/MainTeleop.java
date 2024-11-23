@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+/*package org.firstinspires.ftc.teamcode;
 
 
 # MUST UDDATE ROBOT CONTROLLER SDK FOR RR
@@ -18,7 +18,7 @@ To Do (in order of priority):
 - kinematics!!! For diffy claw
 - test color sensor (can be done independently with control hub)
 - test all servo values (after build)
-*/
+
 
 
 
@@ -232,8 +232,8 @@ public class MainTeleop extends LinearOpMode {
         bot.claw.close();
         bot.Wrist.rotate(0.25); // I KNOW THIS LINE IS PROB WRONG
 
-    }*/
-
-
+    }
 
 }
+
+ */
