@@ -23,9 +23,6 @@ public class Claw {
         claw.setPosition(closePos);
     }
 
-    public void move(double pos){
-        claw.setPosition(pos);
-    }
 }
 
 

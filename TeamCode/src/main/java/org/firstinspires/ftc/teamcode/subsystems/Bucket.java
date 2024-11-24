@@ -47,14 +47,10 @@ public class Bucket {
         tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
         tubingServo2 = opMode.hardwareMap.crservo.get("intake left");
         flip = opMode.hardwareMap.servo.get("flip right");
-
-
-        // flip2 = opMode.hardwareMap.servo.get("flip left");
-        // flip2.setDirection(Servo.Direction.REVERSE);
         colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
     }
 
- /*   public boolean intakeSense(boolean allianceBlue){
+    public boolean intakeSense(boolean allianceBlue){
         tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
         tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
         prepColorSensor();
@@ -76,8 +72,6 @@ public class Bucket {
         //atp: correct colored block is in intake -> return true
         return true;
     }
-
-  */
 
 
     public void intakeNoSense(){

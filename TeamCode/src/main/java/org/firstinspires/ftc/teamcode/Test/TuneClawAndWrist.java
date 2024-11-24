@@ -37,7 +37,7 @@ public class TuneClawAndWrist extends LinearOpMode {
                 if(pos>0){
                     pos=pos-0.01;
                 }
-                bot.wrist.move(false,pos)
+                bot.wrist.move(false,pos);
             }
 
 
@@ -47,7 +47,7 @@ public class TuneClawAndWrist extends LinearOpMode {
                     pos=pos+0.01;
                 }
 
-                bot.wrist.move(true,pos)
+                bot.wrist.move(true,pos);
             }
 
         }

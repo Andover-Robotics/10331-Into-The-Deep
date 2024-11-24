@@ -16,19 +16,16 @@ public class Bot {
 
     public Bucket bucket;
 
- /*   public Slides slides;
-    public DiffyClaw diffyClaw;
-    public Bucket bucket;
-    */
+    public Slides slides;
+    public Claw claw;
+
     public Wrist wrist;
     public Linkage linkage;
-   /*
-  //  public Claw claw;
 
     private final DcMotorEx FL, FR, BL, BR;
 
     public boolean fieldCentricRunMode = false;
-    */
+
 
     public static Bot getInstance(OpMode opMode) {
         if (instance == null) {
@@ -37,10 +34,16 @@ public class Bot {
         instance.opMode = opMode;
         return instance;
     }
+    private void enableAutoBulkRead() {
+        for (LynxModule mod : opMode.hardwareMap.getAll(LynxModule.class)) {
+            mod.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
+        }
+    }
+
 
     public Bot(OpMode opMode) {
         this.opMode = opMode;
-     /*   enableAutoBulkRead();
+        enableAutoBulkRead();
         try {
             fieldCentricRunMode = false;
         } catch (Exception e) {
@@ -48,25 +51,22 @@ public class Bot {
 
         }
 
-      */
-
-   /*     FL = opMode.hardwareMap.get(DcMotorEx.class, "fl");
+        FL = opMode.hardwareMap.get(DcMotorEx.class, "fl");
         FR = opMode.hardwareMap.get(DcMotorEx.class, "fr");
         BL = opMode.hardwareMap.get(DcMotorEx.class, "bl");
         BR = opMode.hardwareMap.get(DcMotorEx.class, "br");
 
         prepMotors();
 
-    */
 
-        //this.slides = new Slides(opMode);
-        //this.diffyClaw = new DiffyClaw(opMode);
-     //   this.claw= new Claw(opMode);
+
+        this.slides = new Slides(opMode);
+        this.claw= new Claw(opMode);
         this.bucket = new Bucket(opMode);
         this.linkage = new Linkage(opMode);
         this.wrist= new Wrist(opMode);
     }
-    /*
+
 
     public void prepMotors(){
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -109,20 +109,13 @@ public class Bot {
     public void resetEverything(){
         resetEncoder();
         prepMotors();
-        //slides.runToStorage();
-        //slides.resetEncoder();
-        //slides.resetProfiler();
+        slides.runToStorage();
+        slides.resetEncoder();
+        slides.resetProfiler();
         bucket.stopIntake();
         bucket.flipIn();
         linkage.retract();
     }
-
-    private void enableAutoBulkRead() {
-        for (LynxModule mod : opMode.hardwareMap.getAll(LynxModule.class)) {
-            mod.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
-        }
-    }
-
 
     private void resetEncoder() {
         FL.setMode(STOP_AND_RESET_ENCODER);
@@ -131,5 +124,21 @@ public class Bot {
         BL.setMode(STOP_AND_RESET_ENCODER);
     }
 
-  */
+
+
+  /*  private void transfer_and_outtake(boolean isDiffyTransfer, double claw_pos) {
+
+        // sync claw pos to kinematics class, so that it knows what length to extend slides
+        if(claw.getPos() != 1) {
+            claw.open();
+        }
+        if(isDiffyTransfer){
+            wrist.transferPos();
+        }
+        claw.close();
+        wrist.rotate(0.25); // I KNOW THIS LINE IS PROB WRONG
+    }
+
+   */
+
 }

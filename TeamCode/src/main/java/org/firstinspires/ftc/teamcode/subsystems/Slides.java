@@ -82,40 +82,36 @@ public class Slides {
         target = pos;
     }
 
+    public void runSlides(double power) {
+        runToManual(power);
+        periodic();
+    }
 
     public void runToTopBucket() {
 
         runTo(topBucket);
         position = slidesPosition.BUCKET3;
     }
-
-
     public void runToMidBucket() {
         runTo(midBucket);
         position = slidesPosition.BUCKET2;
     }
-
-
     public void runToLowBucket() {
         runTo(lowBucket);
         position = slidesPosition.BUCKET1;
     }
-
     public void runToTopRung() {
         runTo(highRung);
         position = slidesPosition.RUNG2;
     }
-
     public void runToLowRung() {
         runTo(lowRung);
         position = slidesPosition.RUNG1;
     }
-
     public void runToStorage() {
         position = slidesPosition.GROUND;
         runTo(storage);
     }
-
 
     public void runToManual(double manual) {
         if (Math.abs(manual) > powerMin) {
@@ -124,18 +120,6 @@ public class Slides {
             manualPower = 0;
         }
     }
-
-
-
-    public int getCurrentPosition() {
-        return leftMotor.getCurrentPosition();
-    }
-
-    public void resetEncoder() {
-        rightMotor.resetEncoder();
-        leftMotor.resetEncoder();
-    }
-
 
     public void periodic() {
 
@@ -158,8 +142,8 @@ public class Slides {
         } else {
             if (profiler.isDone()) {
                 profiler = new MotionProfiler(30000, 20000);
-               // leftMotor.set(0);
-               // rightMotor.set(0);
+                // leftMotor.set(0);
+                // rightMotor.set(0);
             }
 
             if (manualPower != 0) {
@@ -176,16 +160,24 @@ public class Slides {
         }
     }
 
-    public double getCurrent() {
-        return leftMotor.motorEx.getCurrent(CurrentUnit.MILLIAMPS) + rightMotor.motorEx.getCurrent(CurrentUnit.MILLIAMPS);
-    }
-
-    public slidesPosition getState(){
-        return position;
+    public void resetEncoder() {
+        rightMotor.resetEncoder();
+        leftMotor.resetEncoder();
     }
 
     public void resetProfiler(){
         profiler = new MotionProfiler(30000, 20000);
+    }
+
+    public double getCurrent() {
+        return leftMotor.motorEx.getCurrent(CurrentUnit.MILLIAMPS) + rightMotor.motorEx.getCurrent(CurrentUnit.MILLIAMPS);
+    }
+    public int getCurrentPosition() {
+        return leftMotor.getCurrentPosition();
+    }
+
+    public slidesPosition getState(){
+        return position;
     }
 
 

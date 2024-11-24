@@ -7,72 +7,60 @@ public class Wrist {
 
     public  Servo diffy1;
     public Servo diffy2;
-    //decide through testing whether these servos need to be converted to CRservos.
 
-
-    private final boolean isDiffyTransfer = false;
-    private final boolean isDiffyPickup = false;
-    private final boolean isDiffyRung = false;
-    private final boolean isDiffyBucket = false;
-
-
-    // tune values
-    private final double TRANSFER_POS = 0;
-    private final double PICKUP_POS = 0.2;
-    private final double RUNG_POS = 0.5;
-    private final double BUCKET_POS = 0.7;
+    private final double transferPos=0;
+    private final double outtakePos = 0.7;
 
 
 
     //opposite directions -> rotates
     //same direction -> turns/moves
     //*** Only direction matters not position
-
-    //while turning and rotating -> only one gear moves (which gear depends on direction of motin)
+    //while turning and rotating -> only one gear moves (which gear depends on direction of motion)
     public Wrist(OpMode opMode) {
         diffy1 = opMode.hardwareMap.servo.get("diffyRight");
         diffy2 = opMode.hardwareMap.servo.get("diffyLeft");
     }
 
-    //for rotating, both servos would rotate in the same direction
-
-    public void rotate(double pos) {
-        diffy1.setDirection(Servo.Direction.FORWARD);
-        diffy2.setDirection(Servo.Direction.FORWARD);
-
-        diffy1.setPosition(pos);
-        diffy2.setPosition(pos);
-    }
-
-    //both servos are moving in different directions to move the claw up or down
-    //direction of servo needs to be discovered by testing
-    public void move(boolean goingUp, double pos) {
-        if (goingUp) {
-            diffy1.setDirection(Servo.Direction.REVERSE);
-            diffy2.setDirection(Servo.Direction.FORWARD);
-        } else {
+    public void rotate(boolean clockwise, double pos) {
+        if(clockwise) {
             diffy1.setDirection(Servo.Direction.FORWARD);
             diffy2.setDirection(Servo.Direction.REVERSE);
+        }
+        else{
+            diffy1.setDirection(Servo.Direction.REVERSE);
+            diffy2.setDirection(Servo.Direction.FORWARD);
         }
 
         diffy1.setPosition(pos);
         diffy2.setPosition(pos);
     }
 
-
-    public void transfer() {
-        move(true, TRANSFER_POS);
+    public void move(boolean goingUp, double pos) {
+        if (goingUp) {
+            diffy1.setDirection(Servo.Direction.FORWARD);
+            diffy2.setDirection(Servo.Direction.FORWARD);
+        } else {
+            diffy1.setDirection(Servo.Direction.REVERSE);
+            diffy2.setDirection(Servo.Direction.REVERSE);
+        }
+        diffy1.setPosition(pos);
+        diffy2.setPosition(pos);
+    }
+    public void moveTest(boolean goingUp, double pos) {
+        if (goingUp) {
+            diffy1.setDirection(Servo.Direction.FORWARD);
+            diffy1.setPosition(pos);
+        } else {
+            diffy2.setDirection(Servo.Direction.REVERSE);
+            diffy2.setPosition(pos);
+        }
     }
 
-    public void pickupPos() {
-        move(true, PICKUP_POS);
+    public void transferPos() {
+        move(false, transferPos);
     }
 
-    public void rungPos() {
-        move(false, RUNG_POS);
-    }
-
-    public void bucketPos() {
-        move(false, BUCKET_POS);
-    }
-}
+    public void outtakePos(){
+        move(true, outtakePos);
+    }}

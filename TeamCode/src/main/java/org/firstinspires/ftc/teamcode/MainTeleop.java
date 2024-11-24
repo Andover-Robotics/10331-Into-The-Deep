@@ -1,7 +1,5 @@
-/*package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode;
 
-
-# MUST UDDATE ROBOT CONTROLLER SDK FOR RR
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -19,6 +17,8 @@ To Do (in order of priority):
 - test color sensor (can be done independently with control hub)
 - test all servo values (after build)
 
+ */
+
 
 
 
@@ -27,8 +27,8 @@ public class MainTeleop extends LinearOpMode {
     private double delta_L; //slide extension length needed to get to position
     private double claw_angle; //this is the angle between claw and horizontal
     private double slides_angle;  // angle between slides and horizontal
-    private double robot_height = 0.21; // (height of base (not including slides) in meters, CHANGE LATER)
-    private double claw_length = 0.05; //CHANGE LATER
+    private final double robot_height = 0.21; // (height of base (not including slides) in meters, CHANGE LATER)
+    private final double claw_length = 0.05; //CHANGE LATER
     private final double TICK_TO_SLIDES_MOVEMENT_CONV = 1; //CHANGE LATER
     Bot bot;
     private GamepadEx gp1;
@@ -39,9 +39,10 @@ public class MainTeleop extends LinearOpMode {
 
     private boolean isManual = false;
     private boolean isLinkageRetracted=true;
-    private boolean isDiffyOuttake=true;
     private boolean isIntaking=true;
     private boolean isBucketFlipped=true;
+    private boolean isDiffyTransferPos = true;
+    private boolean isClawOpen= true;
     private boolean isAllianceBlue=false;
 
     public void runOpMode() throws InterruptedException {
@@ -60,13 +61,16 @@ public class MainTeleop extends LinearOpMode {
 
         while (opModeIsActive() && !isStopRequested()) {
             telemetry.addLine("TeleOp has started");
-//            gp1.readButtons();
-//            gp2.readButtons();
-            //potential source for error: having reading buttons within the while loop and within the individual methods
+            gp1.readButtons();
+            gp2.readButtons();
 
             drive();
-            rotateClaw(gp1.getLeftX());
-            runSlides(gp2.getRightY());
+
+            bot.slides.runSlides(gp2.getRightY());
+
+            if (gp2.wasJustPressed(GamepadKeys.Button.START)) {
+                isManual=!isManual;
+            }
 
             //automatic control:
             if(!isManual) {
@@ -74,7 +78,12 @@ public class MainTeleop extends LinearOpMode {
                     automaticIntake();
                 }
                 if (gp2.wasJustPressed(GamepadKeys.Button.B)) {
-                    bot.diffyClaw.outtakePos();
+                    //after moves slide
+                    bot.wrist.outtakePos();
+                    bot.claw.open();
+                    bot.claw.close();
+                    bot.wrist.transferPos();
+                    bot.slides.runToStorage();
                 }
             }
 
@@ -84,30 +93,39 @@ public class MainTeleop extends LinearOpMode {
                 if (gp2.wasJustPressed(GamepadKeys.Button.X)) {
                     if(isLinkageRetracted){
                         bot.linkage.extend();
+                        bot.bucket.flipOut();
+                        isBucketFlipped=false;
                         isLinkageRetracted=false;
                     }
                     else{
                         bot.linkage.retract();
+                        bot.bucket.flipIn();
+                        isBucketFlipped=true;
                         isLinkageRetracted=true;
                     }
                 }
 
                 //bucket flip control (A)
                 if (gp2.wasJustPressed(GamepadKeys.Button.A)) {
-                    if(isBucketFlipped){
-                        bot.bucket.flipOut();
-                        isBucketFlipped=false;
+                    if(!isClawOpen){
+                        bot.claw.open();
+                        isClawOpen=true;
                     }
                     else{
-                        bot.bucket.flipIn();
-                        isBucketFlipped=true;
+                        bot.claw.close();
+                        isClawOpen=false;
                     }
                 }
 
-                //diffy control (Y)
                 if (gp2.wasJustPressed(GamepadKeys.Button.Y)) {
-
-
+                    if(isDiffyTransferPos){
+                        bot.wrist.outtakePos();
+                        isDiffyTransferPos=false;
+                    }
+                    else{
+                        bot.wrist.transferPos();
+                        isDiffyTransferPos=true;
+                    }
                 }
 
                 //bucket noodles control (B)
@@ -193,13 +211,9 @@ public class MainTeleop extends LinearOpMode {
         );
     }
 
-    private void rotateClaw(double pos) {
-      //  gp2.readButtons();
-        bot.diffyClaw.rotate(pos);
-    }
     private void automaticIntake(){
-        bot.linkage.extend();
         bot.bucket.flipOut();
+        bot.linkage.extend();
         while(!bot.bucket.intakeSense(isAllianceBlue)){
             if(gp2.wasJustPressed(GamepadKeys.Button.Y)){
                 break;
@@ -209,31 +223,12 @@ public class MainTeleop extends LinearOpMode {
             }
         }
         bot.bucket.stopIntake();
-        bot.bucket.flipIn();
         bot.linkage.retract();
-        bot.diffyClaw.transferPos();
-    }
-
-    private void runSlides(double power) {
-        bot.slides.runToManual(power);
-        bot.slides.periodic();
-    }
-
-    /*
-    private void transfer_and_outtake(double claw_pos) {
-        // sync claw pos to kinematics class, so that it knows what length to extend slides
-        if(bot.claw.getPos != 1) {
-            bot.claw.open();
-        }
-        if(isDiffyTransfer){
-            bot.diffyClaw.transferPos();
-            isDiffyTransfer=false;
-        }
+        bot.bucket.flipIn();
+        bot.wrist.transferPos();
         bot.claw.close();
-        bot.Wrist.rotate(0.25); // I KNOW THIS LINE IS PROB WRONG
-
+        //then driver moves slides
     }
 
 }
 
- */
