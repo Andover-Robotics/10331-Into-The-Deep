@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+/*package org.firstinspires.ftc.teamcode;
 
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -17,7 +17,7 @@ To Do (in order of priority):
 - test color sensor (can be done independently with control hub)
 - test all servo values (after build)
 
- */
+
 
 
 
@@ -231,4 +231,6 @@ public class MainTeleop extends LinearOpMode {
     }
 
 }
+
+ */
 

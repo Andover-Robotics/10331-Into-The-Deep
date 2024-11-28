@@ -1,66 +1,127 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.qualcomm.robotcore.hardware.Servo;
+import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.arcrobotics.ftclib.hardware.ServoEx;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Wrist {
+    public ServoEx diffyLeft, diffyRight;
 
-    public  Servo diffy1;
-    public Servo diffy2;
+ /*   public final double MIN_ANGLE = 0, MAX_ANGLE = 3000;
 
-    private final double transferPos=0;
-    private final double outtakePos = 0.7;
+    public final double ROLL_MIN = -18;
+    public final double ROLL_MAX = 180;
+    public final double PITCH_MIN = 1500;
+    public final double PITCH_MAX = 5000;
+    public final double PITCH_MID = 800;
+
+  */
+    public final double MIN_ANGLE = 0, MAX_ANGLE = 500;
+    public final double ROLL_MIN = -20;
+    public final double ROLL_MAX = 180;
+    public final double PITCH_MIN = 0;
+    public final double PITCH_MAX = 500;
+    //-150
+    public final double PITCH_MID = 250;
+
+    /*
 
 
+**Min < pitch + Pitch Mid < Pitch Max
 
-    //opposite directions -> rotates
-    //same direction -> turns/moves
-    //*** Only direction matters not position
-    //while turning and rotating -> only one gear moves (which gear depends on direction of motion)
+min-mid < setpoint < max-mid
+
+
+     */
+
+    public double pivotAngleDegrees = 0;
+    public double currentPitch = 0, currentRoll = 0, pitchSetpoint = 0, rollSetpoint = 0;
+
+    double pitchStorage, pitchRung, pitchBucket, pitchWallPickUp;
+    double rollStorage, rollRung, rollBucket, rollWallPickUp, rollVertical=ROLL_MAX;
+
     public Wrist(OpMode opMode) {
-        diffy1 = opMode.hardwareMap.servo.get("diffyRight");
-        diffy2 = opMode.hardwareMap.servo.get("diffyLeft");
+        diffyLeft= new SimpleServo(opMode.hardwareMap, "diffyRight", MIN_ANGLE, MAX_ANGLE, AngleUnit.DEGREES);
+        diffyRight = new SimpleServo(opMode.hardwareMap, "diffyLeft", MIN_ANGLE, MAX_ANGLE, AngleUnit.DEGREES);
+        diffyRight.setInverted(true);
+    }
+    public void storage() {
+        setRollPitch(rollStorage, pitchStorage);
+    }
+    public void wallPickUp() {
+        setRollPitch(rollWallPickUp, pitchWallPickUp);
+    }
+    public void rung() {
+        setRollPitch(rollRung, pitchRung);
+    }
+    public void bucket() {
+        setRollPitch(rollBucket, pitchBucket);
     }
 
-    public void rotate(boolean clockwise, double pos) {
-        if(clockwise) {
-            diffy1.setDirection(Servo.Direction.FORWARD);
-            diffy2.setDirection(Servo.Direction.REVERSE);
-        }
-        else{
-            diffy1.setDirection(Servo.Direction.REVERSE);
-            diffy2.setDirection(Servo.Direction.FORWARD);
-        }
-
-        diffy1.setPosition(pos);
-        diffy2.setPosition(pos);
+    public void vertical() {
+        setRollPitch(rollVertical, PITCH_MIN- PITCH_MID);
     }
 
-    public void move(boolean goingUp, double pos) {
-        if (goingUp) {
-            diffy1.setDirection(Servo.Direction.FORWARD);
-            diffy2.setDirection(Servo.Direction.FORWARD);
-        } else {
-            diffy1.setDirection(Servo.Direction.REVERSE);
-            diffy2.setDirection(Servo.Direction.REVERSE);
-        }
-        diffy1.setPosition(pos);
-        diffy2.setPosition(pos);
-    }
-    public void moveTest(boolean goingUp, double pos) {
-        if (goingUp) {
-            diffy1.setDirection(Servo.Direction.FORWARD);
-            diffy1.setPosition(pos);
-        } else {
-            diffy2.setDirection(Servo.Direction.REVERSE);
-            diffy2.setPosition(pos);
-        }
+
+    // set both roll and pitch at the same time
+    public void setRollPitch(double roll, double pitch) {
+        pitchSetpoint = pitch;
+        rollSetpoint = roll;
+        pitch = (pitch % 360) + PITCH_MID - pivotAngleDegrees + 10;
+        pitch = pitch % 360;
+
+        // Clamp roll and pitch to their respective ranges
+        roll = Math.max(ROLL_MIN, Math.min(ROLL_MAX, roll));
+        pitch = Math.max(PITCH_MIN, Math.min(PITCH_MAX, pitch));
+
+        // Calculate servo angles for combined roll and pitch
+        double leftAngle = pitch + (roll);
+        double rightAngle = pitch + (ROLL_MAX - (roll));
+
+        // Set servos to the calculated angles
+        diffyLeft.turnToAngle(leftAngle);
+        diffyRight.turnToAngle(rightAngle);
+
+        // Update the current roll and pitch values
+        currentRoll = roll;
+        currentPitch = pitch;
     }
 
-    public void transferPos() {
-        move(false, transferPos);
+    public void setRoll(double roll) {
+        rollSetpoint = roll;
+        // Clamp roll to its range
+        roll += 10;
+        roll = Math.max(ROLL_MIN, Math.min(ROLL_MAX, roll));
+
+        // Maintain the current pitch while setting roll
+        double leftAngle = currentPitch + (roll);
+        double rightAngle = currentPitch + (ROLL_MAX - (roll));
+
+        // Set the servo angles for roll
+        diffyLeft.turnToAngle(leftAngle);
+        diffyRight.turnToAngle(rightAngle);
+
+        // Update the current roll value
+        currentRoll = roll;
     }
 
-    public void outtakePos(){
-        move(true, outtakePos);
-    }}
+    public void setPitch(double pitch) {
+        pitchSetpoint = pitch;
+        pitch = pitch + PITCH_MID - pivotAngleDegrees;
+        // Clamp pitch to its range
+        pitch = Math.max(PITCH_MIN, Math.min(PITCH_MAX, pitch));
+
+        // Maintain the current roll while setting pitch
+        double leftAngle = pitch + (currentRoll);
+        double rightAngle = pitch + (ROLL_MAX - (currentRoll));
+
+        // Set the servo angles for pitch
+        diffyLeft.turnToAngle(leftAngle);
+        diffyRight.turnToAngle(rightAngle);
+
+        // Update the current pitch value
+        currentPitch = pitch;
+    }
+
+}
