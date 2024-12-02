@@ -26,64 +26,60 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Bucket {
 
-      private final CRServo tubingServo1;
-      private final CRServo tubingServo2;
+      public final CRServo tubingServo1;
+      public final CRServo tubingServo2;
 
      public final Servo flip;
     //public final Servo flip2;
     public final ColorSensor colorSensor;
-    public static final double transferPos = 0.90;
+    public static final double transferPos = 1;
 
     //tune
-    public static final double intakePos = 0.0;
+    public static final double intakePos = 0.09;
 
     private final float[] hsvValues = {0, 0, 0};
-    //values need to be tuned
-    private final double SCALE_FACTOR = 255;
+    String color="nothing";
+    double hue=0, saturation=0, value=0;
 
     public Bucket(OpMode opMode) {
 
         tubingServo1 = opMode.hardwareMap.crservo.get("intake right");
-        tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
+        tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
         tubingServo2 = opMode.hardwareMap.crservo.get("intake left");
         flip = opMode.hardwareMap.servo.get("flip right");
+        tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
         colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
     }
 
-    public boolean intakeSense(boolean allianceBlue){
-        tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
-        tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
-        prepColorSensor();
+    public void intakeSense(boolean allianceBlue){
+        tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
+        tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
+        runColorSensor();
 
-        //when its black (no sample in bucket)
-        while(hsvValues[0]<5 && hsvValues[1] <5 && hsvValues[2]<5){
+        while(color.equals("nothing")){
             tubingServo1.setPower(1);
             tubingServo2.setPower(1);
-            prepColorSensor();
+            runColorSensor();
         }
-        //after sample in bucket:
 
-        if((allianceBlue && colorSensor.red()>100) || (!allianceBlue && colorSensor.blue()>100)){
+        if((allianceBlue && color.equals("red")) || !allianceBlue && color.equals("blue")){
             reverseIntake();
             intakeSense(allianceBlue);
-            //need to be careful, it is possible to enter infinite recursion
         }
-
-        //atp: correct colored block is in intake -> return true
-        return true;
+        stopIntake();
     }
 
 
     public void intakeNoSense(){
-        tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
-        tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
+        tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
+        tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
         tubingServo1.setPower(1);
         tubingServo2.setPower(1);
     }
 
     public void reverseIntake(){
-        tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
-        tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
+        tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
+        tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
         tubingServo1.setPower(1);
         tubingServo2.setPower(1);
     }
@@ -106,14 +102,46 @@ public class Bucket {
     }
 
     private void prepColorSensor() {
-        Color.RGBToHSV((int) (colorSensor.red() * SCALE_FACTOR),
-                (int) (colorSensor.green() * SCALE_FACTOR),
-                (int) (colorSensor.blue() * SCALE_FACTOR),
+        Color.RGBToHSV((colorSensor.red()),
+                (colorSensor.green()),
+                (colorSensor.blue()),
                 hsvValues);
 
-        telemetry.addData("Red  ", colorSensor.red() *SCALE_FACTOR);
-        telemetry.addData("Green", colorSensor.green()*SCALE_FACTOR);
-        telemetry.addData("Blue ", colorSensor.blue()*SCALE_FACTOR);
+        hue= hsvValues[0];
+        saturation= hsvValues[1] * 255;
+        value= hsvValues[2] * 255;
+    }
+
+    private void runColorSensor() {
+        prepColorSensor();
+        if((hue>30 && hue<80) && (saturation>230 && saturation<270)){
+            color="red";
+        }
+        else if((hue>20 && hue<50) && (saturation>140 && saturation<190)){
+            color= "yellow";
+        }
+        else if((hue>150 && hue<200) && (saturation>230 && saturation<270)){
+            color = "blue";
+        }
+        else{
+            color= "nothing";
+        }
+
+       /*
+        if((hue>-1 && hue<70) && (saturation>100 && saturation<260)){
+            color="red";
+        }
+        else if((hue>50 && hue<90) && (saturation>140 && saturation<220)){
+            color= "yellow";
+        }
+        else if((hue>100 && hue<220) && (saturation>60 && saturation<180)){
+            color = "blue";
+        }
+        else{
+            color= "nothing";
+        }
+
+       */
     }
 
 
@@ -135,7 +163,7 @@ public class Bucket {
     }
 
     public void reset() {
-        move(0);
+        move(intakePos);
     }
 }
 

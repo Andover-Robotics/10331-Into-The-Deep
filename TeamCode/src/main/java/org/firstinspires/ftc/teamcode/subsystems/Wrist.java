@@ -17,13 +17,13 @@ public class Wrist {
     public final double PITCH_MID = 800;
 
   */
-    public final double MIN_ANGLE = 0, MAX_ANGLE = 500;
+    public final double MIN_ANGLE = 0, MAX_ANGLE = 600;
     public final double ROLL_MIN = -20;
     public final double ROLL_MAX = 180;
     public final double PITCH_MIN = 0;
-    public final double PITCH_MAX = 500;
-    //-150
-    public final double PITCH_MID = 250;
+    public final double PITCH_MAX = 400;
+
+    public final double PITCH_MID = 0;
 
     /*
 
@@ -32,6 +32,8 @@ public class Wrist {
 
 min-mid < setpoint < max-mid
 
+
+//
 
      */
 
@@ -44,7 +46,7 @@ min-mid < setpoint < max-mid
     public Wrist(OpMode opMode) {
         diffyLeft= new SimpleServo(opMode.hardwareMap, "diffyRight", MIN_ANGLE, MAX_ANGLE, AngleUnit.DEGREES);
         diffyRight = new SimpleServo(opMode.hardwareMap, "diffyLeft", MIN_ANGLE, MAX_ANGLE, AngleUnit.DEGREES);
-        diffyRight.setInverted(true);
+        diffyLeft.setInverted(true);
     }
     public void storage() {
         setRollPitch(rollStorage, pitchStorage);

@@ -1,4 +1,4 @@
-/*package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode;
 
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -11,17 +11,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Bot;
 import org.firstinspires.ftc.teamcode.subsystems.Slides;
 import java.lang.Math;
 
+
 /*
-To Do (in order of priority):
-- kinematics!!! For diffy claw
-- test color sensor (can be done independently with control hub)
-- test all servo values (after build)
-
-
-
-
-
-
 @TeleOp
 public class MainTeleop extends LinearOpMode {
     private double delta_L; //slide extension length needed to get to position
@@ -44,6 +35,8 @@ public class MainTeleop extends LinearOpMode {
     private boolean isDiffyTransferPos = true;
     private boolean isClawOpen= true;
     private boolean isAllianceBlue=false;
+
+    /*
 
     public void runOpMode() throws InterruptedException {
         bot = Bot.getInstance(this);
@@ -230,7 +223,12 @@ public class MainTeleop extends LinearOpMode {
         //then driver moves slides
     }
 
+
+
 }
 
  */
+
+
+
 

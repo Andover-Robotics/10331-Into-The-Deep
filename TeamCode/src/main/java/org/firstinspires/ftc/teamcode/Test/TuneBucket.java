@@ -22,7 +22,7 @@ public class TuneBucket extends LinearOpMode {
 
         waitForStart();
 
-        double pos=0;
+        double pos=0.2;
         while (opModeIsActive() && !isStopRequested()) {
 
             gp2.readButtons();
@@ -33,7 +33,7 @@ public class TuneBucket extends LinearOpMode {
             if(gp2.wasJustPressed(GamepadKeys.Button.A)){
                 //decrement right - WORKING
                 if(pos>0){
-                    pos=pos-0.01;
+                    pos=pos-0.1;
                 }
 
                 //flip 1: decrement
@@ -45,7 +45,7 @@ public class TuneBucket extends LinearOpMode {
             if(gp2.wasJustPressed(GamepadKeys.Button.B)){
                 //increment right: towards robot
                 if(pos<1){
-                    pos=pos+0.01;
+                    pos=pos+0.1;
                 }
 
                 //flip 1: increment

@@ -14,6 +14,8 @@ public class TestLinkageAndBucket extends LinearOpMode {
     private GamepadEx gp2;
     int times = 0;
 
+    boolean isAllianceBlue=true;
+
     @Override
     public void runOpMode() throws InterruptedException {
         bot = Bot.getInstance(this);
@@ -22,22 +24,40 @@ public class TestLinkageAndBucket extends LinearOpMode {
 
         waitForStart();
 
+        bot.bucket.stopIntake();
+        bot.linkage.retract();
+        bot.bucket.flipIn();
+
         while (opModeIsActive() && !isStopRequested()) {
             gp2.readButtons();
 
-            //boolean compound = false;
-            //linkage testing
+            if(gp2.wasJustPressed(GamepadKeys.Button.START)) {
+                isAllianceBlue= !isAllianceBlue;
+            }
+
             if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
                 bot.bucket.stopIntake();
                 bot.linkage.retract();
                 bot.bucket.flipIn();
-            } else if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
+
+            }
+            if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
                 bot.bucket.flipOut();
                 bot.linkage.extend();
                 bot.bucket.intakeNoSense();
             }
 
-            //bucket testing: intake
+            if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
+                bot.bucket.flipOut();
+                bot.linkage.extend();
+                bot.bucket.intakeSense(isAllianceBlue);
+                bot.bucket.stopIntake();
+                bot.linkage.retract();
+                bot.bucket.flipIn();
+            }
+
+
+            /*
             if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
                 times++;
                 if(times % 2 == 0)
@@ -46,6 +66,8 @@ public class TestLinkageAndBucket extends LinearOpMode {
                     bot.bucket.runBackwards();
             }
 
+
+
             //bucket testing: flip
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
                 bot.bucket.flipIn();
@@ -53,7 +75,10 @@ public class TestLinkageAndBucket extends LinearOpMode {
                 bot.bucket.flipOut();
             }
 
+             */
+
 
         }
     }
+
 }

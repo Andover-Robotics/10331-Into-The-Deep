@@ -16,8 +16,8 @@ public class Bot {
 
     public Bucket bucket;
 
-  //  public Slides slides;
-  //  public Claw claw;
+    public Slides slides;
+    public Claw claw;
 
     public Wrist wrist;
     public Linkage linkage;
@@ -59,8 +59,8 @@ public class Bot {
         prepMotors();
 
 
-        //this.slides = new Slides(opMode);
-        //this.claw= new Claw(opMode);
+        this.slides = new Slides(opMode);
+        this.claw= new Claw(opMode);
         this.bucket = new Bucket(opMode);
         this.linkage = new Linkage(opMode);
         this.wrist= new Wrist(opMode);

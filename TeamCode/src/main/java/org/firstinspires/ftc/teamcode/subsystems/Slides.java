@@ -1,4 +1,4 @@
-/*package org.firstinspires.ftc.teamcode.subsystems;
+package org.firstinspires.ftc.teamcode.subsystems;
 
 
 import com.arcrobotics.ftclib.controller.PIDFController;
@@ -15,7 +15,6 @@ public class Slides {
     private final MotorEx leftMotor;
     private PIDFController controller;
     private MotionProfiler profiler = new MotionProfiler(30000, 20000);
-
 
 
 
@@ -42,12 +41,12 @@ public class Slides {
     }
     private slidesPosition position = slidesPosition.GROUND;
 
-    //tune
-   // public static int storage =0, top = -2350, mid = -1000, low = -500;
+
     public static int storage = 0, topBucket = -2350, midBucket = -1000, lowBucket = -500, lowRung = 999, highRung= 777;
+    public static int test=-998;
     public Slides(OpMode opmode) {
         rightMotor = new MotorEx(opmode.hardwareMap, "slidesRight", Motor.GoBILDA.RPM_312);
-        leftMotor = new MotorEx(opmode.hardwareMap, "slidesCenter", Motor.GoBILDA.RPM_312);
+        leftMotor = new MotorEx(opmode.hardwareMap, "slidesLeft", Motor.GoBILDA.RPM_312);
         rightMotor.setInverted(true);
         leftMotor.setInverted(false);
 
@@ -74,10 +73,13 @@ public class Slides {
 
         controller = new PIDFController(p, i, d, f);
         controller.setTolerance(tolerance);
-        resetProfiler();
-        profiler.init(leftMotor.getCurrentPosition(), pos);
-        profile_init_time = opMode.time;
 
+
+        if (manualPower == 0) {
+            resetProfiler();
+            profiler.init(leftMotor.getCurrentPosition(), pos);
+            profile_init_time = opMode.time;
+        }
         goingDown = pos > target;
         target = pos;
     }
@@ -114,8 +116,16 @@ public class Slides {
     }
 
     public void runToManual(double manual) {
-        if (Math.abs(manual) > powerMin) {
+   /*     if (Math.abs(manual) > powerMin) {
             manualPower = manual;
+        } else {
+            manualPower = 0;
+        }
+
+    */
+
+        if (manual > powerMin || manual < -powerMin) {
+            manualPower = -manual;
         } else {
             manualPower = 0;
         }
@@ -142,8 +152,6 @@ public class Slides {
         } else {
             if (profiler.isDone()) {
                 profiler = new MotionProfiler(30000, 20000);
-                // leftMotor.set(0);
-                // rightMotor.set(0);
             }
 
             if (manualPower != 0) {
@@ -182,6 +190,6 @@ public class Slides {
 
 }
 
- */
+
 
 

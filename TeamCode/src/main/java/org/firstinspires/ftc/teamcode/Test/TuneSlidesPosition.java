@@ -1,4 +1,4 @@
-/*package org.firstinspires.ftc.teamcode.Test;
+package org.firstinspires.ftc.teamcode.Test;
 
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
@@ -97,7 +97,6 @@ public class TuneSlidesPosition extends OpMode {
 
         input.update();
 
-
     }
 
     private <T extends Enum> Stream<String> enumOrdinals(T[] values) {
@@ -105,6 +104,3 @@ public class TuneSlidesPosition extends OpMode {
                 .map(Enum::name);
     }
 }
-
- */
-

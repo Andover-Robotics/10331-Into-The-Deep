@@ -43,6 +43,10 @@ public class TuneWrist extends LinearOpMode {
             if (gp1.wasJustPressed(GamepadKeys.Button.B)) {
                 bot.wrist.setPitch(bot.wrist.PITCH_MIN - bot.wrist.PITCH_MID);
             }
+            if (gp1.wasJustPressed(GamepadKeys.Button.X)) {
+                bot.wrist.diffyLeft.setPosition(0);
+                bot.wrist.diffyRight.setPosition(0);
+            }
 
             telemetry.addData("Right Servo Position", bot.wrist.diffyRight.getAngle());
             telemetry.addData("Left Servo Position", bot.wrist.diffyLeft.getAngle());

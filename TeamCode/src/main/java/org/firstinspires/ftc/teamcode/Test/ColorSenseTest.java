@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
 
@@ -18,57 +19,77 @@ public class ColorSenseTest extends LinearOpMode {
 
     Bot bot;
 
-    private GamepadEx gp1;
+    private GamepadEx gp2;
     private final float[] hsvValues = {0, 0, 0};
     String color="nothing";
     double hue=0, saturation=0, value=0;
 
+    boolean isIntaking=false;
+
     @Override
     public void runOpMode() throws InterruptedException {
         bot = Bot.getInstance(this);
-        gp1 = new GamepadEx(gamepad1);
+        gp2 = new GamepadEx(gamepad1);
 
         waitForStart();
-        gp1.readButtons();
 
         while (opModeIsActive() && !isStopRequested()) {
+            bot.bucket.flipOut();
             telemetry.addLine("Current Color:");
-            testColorSensor();
+            gp2.readButtons();
 
-             /* hsvValues[0] => hue
-                hsvValues[1] => saturation
-                hsvValues[2] => value
-                rgb values from image:
-                blue: middle: 32,56,190; highlights:86, 142,238, shadows: 3,5,79
-                red: middle: 218,47,43; highlights:  219, 88, 87, shadows: 112,1,4
-                yellow: middle: 243,175,16; highlights: 241, 193, 76; shadows: 221,107,0
-                hsv:
-                blue: highlights: 218, 65.9%, 93.3%; middle: 231, 83.2, 74.5; shadows: 238, 96.2, 31
-                red: highlights: 0, 60.3, 85.9; middle: 1, 80.3, 85.5; shadows: 358, 99.1, 43.9
-                yellow: highlights: 43, 68.5, 94.5; middle: 42, 93.4, 95.3; shadows: 29, 100, 86.7
-              */
+            if(gp2.wasJustPressed(GamepadKeys.Button.A)){
+                if (isIntaking) {
+                    bot.bucket.stopIntake();
+                    isIntaking=false;
+                }
+                else{
+                    intakeSense(true);
+                }
+            }
 
 
-            if((hue>10 && hue<80) && (saturation>100 && saturation<160)){
+   /*         if((hue>-1 && hue<70) && (saturation>100 && saturation<260)){
                 color="red";
             }
-            else if((hue>30 && hue<70) && (saturation>140 && saturation<200)){
+            else if((hue>50 && hue<90) && (saturation>140 && saturation<220)){
                 color= "yellow";
             }
-            else if((hue>80 && hue<130) && (saturation>80 && saturation<130)){
+            else if((hue>100 && hue<220) && (saturation>60 && saturation<180)){
                 color = "blue";
             }
             else{
                 color= "nothing";
             }
 
-            telemetry.addData("color", color);
-            telemetry.update();
+    */
 
         }
     }
 
-    private void testColorSensor() {
+
+    public void intakeSense(boolean allianceBlue){
+        color="nothing";
+        telemetry.update();
+        bot.bucket.tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
+        bot.bucket.tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
+        runColorSensor();
+
+        while(color.equals("nothing")){
+            bot.bucket.tubingServo1.setPower(1);
+            bot.bucket.tubingServo2.setPower(1);
+            runColorSensor();
+            telemetry.update();
+        }
+
+        if((allianceBlue && color.equals("red")) || !allianceBlue && color.equals("blue")){
+            bot.bucket.reverseIntake();
+            intakeSense(allianceBlue);
+        }
+        bot.bucket.stopIntake();
+    }
+
+    private void prepColorSensor() {
         Color.RGBToHSV((bot.bucket.colorSensor.red()),
                 (bot.bucket.colorSensor.green()),
                 (bot.bucket.colorSensor.blue()),
@@ -81,6 +102,27 @@ public class ColorSenseTest extends LinearOpMode {
         telemetry.addData("Hue  ", hue);
         telemetry.addData("Saturation", saturation);
         telemetry.addData("Value ", value);
+        telemetry.addData("color", color);
+        telemetry.update();
 
     }
+
+    private void runColorSensor() {
+        prepColorSensor();
+        if((hue>30 && hue<80) && (saturation>230 && saturation<270)){
+            color="red";
+        }
+        else if((hue>20 && hue<50) && (saturation>140 && saturation<190)){
+            color= "yellow";
+        }
+        else if((hue>150 && hue<200) && (saturation>230 && saturation<270)){
+            color = "blue";
+        }
+        else{
+            color= "nothing";
+        }
+        telemetry.addData("color", color);
+        telemetry.update();
+    }
+
 }
