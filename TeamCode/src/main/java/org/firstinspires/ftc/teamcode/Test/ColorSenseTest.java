@@ -11,7 +11,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
+
+import java.util.Locale;
 
 
 @TeleOp(name = "Color Sense Test", group = "Test")
@@ -23,6 +26,7 @@ public class ColorSenseTest extends LinearOpMode {
     private final float[] hsvValues = {0, 0, 0};
     String color="nothing";
     double hue=0, saturation=0, value=0;
+    double distance=10;
 
     boolean isIntaking=false;
 
@@ -35,19 +39,29 @@ public class ColorSenseTest extends LinearOpMode {
 
         while (opModeIsActive() && !isStopRequested()) {
             bot.bucket.flipOut();
-            telemetry.addLine("Current Color:");
             gp2.readButtons();
 
-            if(gp2.wasJustPressed(GamepadKeys.Button.A)){
-                if (isIntaking) {
-                    bot.bucket.stopIntake();
-                    isIntaking=false;
-                }
-                else{
-                    intakeSense(true);
-                }
+            runColorSensor();
+            if (gp2.wasJustPressed(GamepadKeys.Button.A)) {
+                isIntaking=false;
+            }
+            if (gp2.wasJustPressed(GamepadKeys.Button.B)) {
+                isIntaking=true;
+            }
+            if (gp2.wasJustPressed(GamepadKeys.Button.X)) {
+                bot.bucket.reverseIntake();
+            }
+            if(!isIntaking){
+             //  intakeSense(true);
             }
 
+            telemetry.addData("Distance (cm)",
+                    String.format(Locale.US, "%.02f", bot.bucket.distanceSensor.getDistance(DistanceUnit.CM)));
+            telemetry.addData("Hue  ", hue);
+            telemetry.addData("Saturation", saturation);
+            telemetry.addData("Value ", value);
+            telemetry.addData("color", color);
+            telemetry.update();
 
    /*         if((hue>-1 && hue<70) && (saturation>100 && saturation<260)){
                 color="red";
@@ -67,28 +81,27 @@ public class ColorSenseTest extends LinearOpMode {
         }
     }
 
-
     public void intakeSense(boolean allianceBlue){
         color="nothing";
-        telemetry.update();
-        bot.bucket.tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
         bot.bucket.tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
+        distance= bot.bucket.distanceSensor.getDistance(DistanceUnit.CM);
+        telemetry.update();
+
+        while(distance>1.5){
+            bot.bucket.tubingServo2.setPower(0.7);
+            distance= bot.bucket.distanceSensor.getDistance(DistanceUnit.CM);
+            runColorSensor();
+        }
+        bot.bucket.stopIntake();
         runColorSensor();
 
-        while(color.equals("nothing")){
-            bot.bucket.tubingServo1.setPower(1);
-            bot.bucket.tubingServo2.setPower(1);
-            runColorSensor();
-            telemetry.update();
-        }
-
-        if((allianceBlue && color.equals("red")) || !allianceBlue && color.equals("blue")){
+      /*  if((allianceBlue && color.equals("red")) || !allianceBlue && color.equals("blue")){
             bot.bucket.reverseIntake();
             intakeSense(allianceBlue);
         }
-        bot.bucket.stopIntake();
-    }
 
+       */
+    }
     private void prepColorSensor() {
         Color.RGBToHSV((bot.bucket.colorSensor.red()),
                 (bot.bucket.colorSensor.green()),
@@ -98,29 +111,28 @@ public class ColorSenseTest extends LinearOpMode {
         hue= hsvValues[0];
         saturation= hsvValues[1] * 255;
         value= hsvValues[2] * 255;
-
-        telemetry.addData("Hue  ", hue);
-        telemetry.addData("Saturation", saturation);
-        telemetry.addData("Value ", value);
-        telemetry.addData("color", color);
-        telemetry.update();
-
     }
 
     private void runColorSensor() {
         prepColorSensor();
-        if((hue>30 && hue<80) && (saturation>230 && saturation<270)){
-            color="red";
+        if((hue>35 && hue<70) && (saturation>170 && saturation<210)){
+            color="yellow";
         }
-        else if((hue>20 && hue<50) && (saturation>140 && saturation<190)){
-            color= "yellow";
+        else if((hue>15 && hue<30) && (saturation>100 && saturation<170)){
+            color= "red";
         }
-        else if((hue>150 && hue<200) && (saturation>230 && saturation<270)){
+        else if((hue>150 && hue<200) && (saturation>30 && saturation<80)){
             color = "blue";
         }
         else{
             color= "nothing";
         }
+
+        telemetry.addData("Distance (cm)",
+                String.format(Locale.US, "%.02f", bot.bucket.distanceSensor.getDistance(DistanceUnit.CM)));
+        telemetry.addData("Hue  ", hue);
+        telemetry.addData("Saturation", saturation);
+        telemetry.addData("Value ", value);
         telemetry.addData("color", color);
         telemetry.update();
     }

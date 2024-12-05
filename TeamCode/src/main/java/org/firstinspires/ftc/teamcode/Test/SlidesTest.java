@@ -15,13 +15,34 @@ public class SlidesTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-       bot.slides.periodic();
+        bot = Bot.getInstance(this);
+        gp2 = new GamepadEx(gamepad2);
 
+        waitForStart();
+
+       // bot.slides.periodic();
 
         //Slides joystick control
+        while (opModeIsActive() && !isStopRequested()) {
+            gp2.readButtons();
 
-        //Slides Preset Positions (GP2):
-        if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
+            bot.slides.runSlides(-gp2.getRightY());
+            //when joystick down -> telemetry is negative (
+            telemetry.addData("Slides position", -gp2.getRightY());
+            telemetry.update();
+
+            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
+                bot.slides.runToTest();
+            }
+            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+                bot.slides.runToStorage();
+            }
+            if (gp2.wasJustPressed(GamepadKeys.Button.A)) {
+                bot.slides.runToTestPeriodic();
+            }
+
+            //Slides Preset Positions (GP2):
+    /*    if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
             switch(bot.slides.getState()){
                 case GROUND:
                     bot.slides.runToLowBucket();
@@ -65,10 +86,14 @@ public class SlidesTest extends LinearOpMode {
                     break;
             }
         }
+
+     */
+        }
     }
 
-    void runSlides(double power) {
-        bot.slides.runToManual(power);
-        bot.slides.periodic();
+
+        void runSlides ( double power){
+            bot.slides.runToManual(power);
+            bot.slides.periodic();
+        }
     }
-}

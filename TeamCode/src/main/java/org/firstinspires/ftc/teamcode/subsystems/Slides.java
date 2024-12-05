@@ -41,9 +41,9 @@ public class Slides {
     }
     private slidesPosition position = slidesPosition.GROUND;
 
-
     public static int storage = 0, topBucket = -2350, midBucket = -1000, lowBucket = -500, lowRung = 999, highRung= 777;
-    public static int test=-998;
+
+    public static int test=-1200;
     public Slides(OpMode opmode) {
         rightMotor = new MotorEx(opmode.hardwareMap, "slidesRight", Motor.GoBILDA.RPM_312);
         leftMotor = new MotorEx(opmode.hardwareMap, "slidesLeft", Motor.GoBILDA.RPM_312);
@@ -53,7 +53,6 @@ public class Slides {
         controller = new PIDFController(p, i, d, f);
         controller.setTolerance(tolerance);
         controller.setSetPoint(0);
-
 
         rightMotor.setRunMode(Motor.RunMode.RawPower);
         rightMotor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
@@ -87,6 +86,18 @@ public class Slides {
     public void runSlides(double power) {
         runToManual(power);
         periodic();
+    }
+
+    public void runToTest() {
+        runTo(test);
+        //periodic();
+       // position = slidesPosition.BUCKET3;
+    }
+
+    public void runToTestPeriodic() {
+        runTo(test);
+        periodic();
+        // position = slidesPosition.BUCKET3;
     }
 
     public void runToTopBucket() {

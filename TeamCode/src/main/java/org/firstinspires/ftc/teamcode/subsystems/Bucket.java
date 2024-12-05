@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
@@ -26,16 +27,19 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Bucket {
 
-      public final CRServo tubingServo1;
+//      public final CRServo tubingServo1;
       public final CRServo tubingServo2;
 
      public final Servo flip;
     //public final Servo flip2;
     public final ColorSensor colorSensor;
+
+    public final DistanceSensor distanceSensor;
+
     public static final double transferPos = 1;
 
     //tune
-    public static final double intakePos = 0.09;
+    public static final double intakePos = 0.11;
 
     private final float[] hsvValues = {0, 0, 0};
     String color="nothing";
@@ -43,21 +47,22 @@ public class Bucket {
 
     public Bucket(OpMode opMode) {
 
-        tubingServo1 = opMode.hardwareMap.crservo.get("intake right");
-        tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
+    //    tubingServo1 = opMode.hardwareMap.crservo.get("intake right");
+     //   tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
         tubingServo2 = opMode.hardwareMap.crservo.get("intake left");
         flip = opMode.hardwareMap.servo.get("flip right");
-        tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
+    //    tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
         colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
+        distanceSensor = opMode.hardwareMap.get(DistanceSensor.class, "color");
     }
 
     public void intakeSense(boolean allianceBlue){
-        tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
+     //   tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
         tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
         runColorSensor();
 
         while(color.equals("nothing")){
-            tubingServo1.setPower(1);
+      //      tubingServo1.setPower(1);
             tubingServo2.setPower(1);
             runColorSensor();
         }
@@ -71,21 +76,21 @@ public class Bucket {
 
 
     public void intakeNoSense(){
-        tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
+     //   tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
         tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
-        tubingServo1.setPower(1);
+   //     tubingServo1.setPower(1);
         tubingServo2.setPower(1);
     }
 
     public void reverseIntake(){
-        tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
+    //    tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
         tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
-        tubingServo1.setPower(1);
+  //      tubingServo1.setPower(1);
         tubingServo2.setPower(1);
     }
 
     public void stopIntake(){
-        tubingServo1.setPower(0);
+    //    tubingServo1.setPower(0);
         tubingServo2.setPower(0);
     }
 
