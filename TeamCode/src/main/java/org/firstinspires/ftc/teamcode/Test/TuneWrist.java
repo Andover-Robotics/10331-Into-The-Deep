@@ -13,7 +13,6 @@ public class TuneWrist extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        Bot.instance = null;
         bot = Bot.getInstance(this);
 
         gp1 = new GamepadEx(gamepad1);

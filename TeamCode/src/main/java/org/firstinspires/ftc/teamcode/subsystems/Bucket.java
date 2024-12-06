@@ -12,6 +12,13 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
+
+
+import java.util.Locale;
 
 /**
  * Note that the REV Robotics Color-Distance incorporates two sensors into one device.
@@ -27,11 +34,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Bucket {
 
-//      public final CRServo tubingServo1;
-      public final CRServo tubingServo2;
+    public final CRServo tubingServo2;
 
      public final Servo flip;
-    //public final Servo flip2;
+
+    double distance=10;
+
     public final ColorSensor colorSensor;
 
     public final DistanceSensor distanceSensor;
@@ -39,57 +47,63 @@ public class Bucket {
     public static final double transferPos = 1;
 
     //tune
-    public static final double intakePos = 0.11;
+    public static final double intakePos = 0.13;
 
     private final float[] hsvValues = {0, 0, 0};
     String color="nothing";
     double hue=0, saturation=0, value=0;
 
+    private ElapsedTime time;
+
     public Bucket(OpMode opMode) {
 
-    //    tubingServo1 = opMode.hardwareMap.crservo.get("intake right");
-     //   tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
         tubingServo2 = opMode.hardwareMap.crservo.get("intake left");
         flip = opMode.hardwareMap.servo.get("flip right");
-    //    tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
         colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
         distanceSensor = opMode.hardwareMap.get(DistanceSensor.class, "color");
+        time = new ElapsedTime();
     }
 
     public void intakeSense(boolean allianceBlue){
-     //   tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
+        color="nothing";
         tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
-        runColorSensor();
+        distance= distanceSensor.getDistance(DistanceUnit.CM);
 
-        while(color.equals("nothing")){
-      //      tubingServo1.setPower(1);
-            tubingServo2.setPower(1);
+        while(distance>4){
+            tubingServo2.setPower(0.7);
+            distance= distanceSensor.getDistance(DistanceUnit.CM);
+        }
+        while(distance>1.8){
+            tubingServo2.setPower(0.2);
+            distance= distanceSensor.getDistance(DistanceUnit.CM);
             runColorSensor();
         }
+        stopIntake();
 
         if((allianceBlue && color.equals("red")) || !allianceBlue && color.equals("blue")){
+            runColorSensor();
             reverseIntake();
             intakeSense(allianceBlue);
         }
-        stopIntake();
     }
 
 
     public void intakeNoSense(){
-     //   tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
+        time.reset();
         tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
-   //     tubingServo1.setPower(1);
         tubingServo2.setPower(1);
     }
 
     public void reverseIntake(){
-    //    tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
+        time.reset();
         tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
-  //      tubingServo1.setPower(1);
-        tubingServo2.setPower(1);
+        while(time.seconds() < 2) {
+            tubingServo2.setPower(1);
+        }
     }
 
     public void stopIntake(){
+        time.reset();
     //    tubingServo1.setPower(0);
         tubingServo2.setPower(0);
     }
@@ -119,34 +133,18 @@ public class Bucket {
 
     private void runColorSensor() {
         prepColorSensor();
-        if((hue>30 && hue<80) && (saturation>230 && saturation<270)){
-            color="red";
+        if((hue>20 && hue<70) && (saturation>170 && saturation<240)){
+            color="yellow";
         }
-        else if((hue>20 && hue<50) && (saturation>140 && saturation<190)){
-            color= "yellow";
+        else if((hue>15 && hue<50) && (saturation>100 && saturation<180)){
+            color= "red";
         }
-        else if((hue>150 && hue<200) && (saturation>230 && saturation<270)){
+        else if((hue>170 && hue<260) && (saturation>70 && saturation<256)){
             color = "blue";
         }
         else{
             color= "nothing";
         }
-
-       /*
-        if((hue>-1 && hue<70) && (saturation>100 && saturation<260)){
-            color="red";
-        }
-        else if((hue>50 && hue<90) && (saturation>140 && saturation<220)){
-            color= "yellow";
-        }
-        else if((hue>100 && hue<220) && (saturation>60 && saturation<180)){
-            color = "blue";
-        }
-        else{
-            color= "nothing";
-        }
-
-       */
     }
 
 

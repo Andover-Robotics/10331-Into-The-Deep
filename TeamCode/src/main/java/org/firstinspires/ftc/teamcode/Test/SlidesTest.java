@@ -33,6 +33,7 @@ public class SlidesTest extends LinearOpMode {
 
             if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
                 bot.slides.runToTest();
+                //works -> must run first
             }
             if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
                 bot.slides.runToStorage();

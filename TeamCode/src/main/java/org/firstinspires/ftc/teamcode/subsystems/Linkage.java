@@ -12,7 +12,7 @@ public class Linkage {
     public final Servo linkage2;
 
     public static final double extendPos=0.26;
-    public static final double retractPos=0.11;
+    public static final double retractPos=0.14;
 
 
     public Linkage(OpMode opMode) {
