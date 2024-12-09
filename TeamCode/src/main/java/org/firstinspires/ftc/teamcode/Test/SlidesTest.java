@@ -28,20 +28,27 @@ public class SlidesTest extends LinearOpMode {
 
             bot.slides.runSlides(-gp2.getRightY());
             //when joystick down -> telemetry is negative (
-            telemetry.addData("Slides position", -gp2.getRightY());
+            telemetry.addData("Slides Left position", -bot.slides.leftMotor.getCurrentPosition());
+            telemetry.addData("Slides Right position", -bot.slides.rightMotor.getCurrentPosition());
             telemetry.update();
 
             if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
-                bot.slides.runToTest();
-                //works -> must run first
+                bot.slides.runToTopBucket();
             }
             if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
-                bot.slides.runToStorage();
+                bot.slides.runToLowBucket();
+            }
+            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
+                bot.slides.runToTopRung();
+            }
+            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+                bot.slides.runToLowRung();
             }
             if (gp2.wasJustPressed(GamepadKeys.Button.A)) {
-                bot.slides.runToTestPeriodic();
+                bot.slides.runToStorage();
             }
 
+            bot.slides.periodic();
             //Slides Preset Positions (GP2):
     /*    if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
             switch(bot.slides.getState()){

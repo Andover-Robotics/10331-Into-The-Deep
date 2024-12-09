@@ -17,11 +17,11 @@ public class Wrist {
     public final double PITCH_MID = 800;
 
   */
-    public final double MIN_ANGLE = 0, MAX_ANGLE = 800;
-    public final double ROLL_MIN = -20;
-    public final double ROLL_MAX = 180;
-    public final double PITCH_MIN = 300;
-    public final double PITCH_MAX = 600;
+    public final double MIN_ANGLE = -100, MAX_ANGLE = 900;
+    public final double ROLL_MIN = -100;
+    public final double ROLL_MAX = 300;
+    public final double PITCH_MIN = 100;
+    public final double PITCH_MAX = 850;
     public final double PITCH_MID = 0;
 
   //  current val + mid = constant

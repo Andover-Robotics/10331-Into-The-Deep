@@ -11,8 +11,8 @@ public class Linkage {
     public final Servo linkage1;
     public final Servo linkage2;
 
-    public static final double extendPos=0.26;
-    public static final double retractPos=0.13;
+    public static final double extendPos=0.28;
+    public static final double retractPos=0.19;
 
 
     public Linkage(OpMode opMode) {

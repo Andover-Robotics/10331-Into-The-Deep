@@ -11,14 +11,19 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 public class Slides {
 
-    private final MotorEx rightMotor;
-    private final MotorEx leftMotor;
+    public final MotorEx rightMotor;
+    public final MotorEx leftMotor;
     private PIDFController controller;
     private MotionProfiler profiler = new MotionProfiler(30000, 20000);
 
+    //** right slides getting caught when moving down
 
 
-    //needs to be tuned
+    //high chamber -> 26 inches (2020)
+    //low chamber -> 13 inches
+    //high basket -> 43 inches (3820)
+    //low basket -> 25.75 inches  (1850)
+
     private final static double p = 0.015, i = 0 , d = 0, f = 0, staticF = 0.25;
 
     private final double tolerance = 20, powerUp = 0.1, powerDown = 0.05, manualDivide = 1, powerMin = 0.1;
@@ -33,15 +38,19 @@ public class Slides {
 
     public enum slidesPosition{
         GROUND,
-        RUNG1,
+        CHAMBER_LOW,
         BUCKET1,
-        RUNG2,
+        CHAMBER_HIGH,
         BUCKET2,
-        BUCKET3
     }
     private slidesPosition position = slidesPosition.GROUND;
 
-    public static int storage = 0, topBucket = -2350, midBucket = -1000, lowBucket = -500, lowRung = 999, highRung= 777;
+    //high chamber -> 26 inches (2020)
+    //low chamber -> 13 inches
+    //high basket -> 43 inches (3820)
+    //low basket -> 25.75 inches  (1850)
+
+    public static int storage = 0, topBucket = -3820, lowBucket = -1850, lowRung = -50, highRung= -2000;
 
     public static int test=-1200;
     public Slides(OpMode opmode) {
@@ -88,38 +97,23 @@ public class Slides {
         periodic();
     }
 
-    public void runToTest() {
-        runTo(test);
-        //periodic();
-       // position = slidesPosition.BUCKET3;
-    }
-
-    public void runToTestPeriodic() {
-        runTo(test);
-        periodic();
-        // position = slidesPosition.BUCKET3;
-    }
 
     public void runToTopBucket() {
-
         runTo(topBucket);
-        position = slidesPosition.BUCKET3;
-    }
-    public void runToMidBucket() {
-        runTo(midBucket);
         position = slidesPosition.BUCKET2;
     }
+
     public void runToLowBucket() {
         runTo(lowBucket);
         position = slidesPosition.BUCKET1;
     }
     public void runToTopRung() {
         runTo(highRung);
-        position = slidesPosition.RUNG2;
+        position = slidesPosition.CHAMBER_HIGH;
     }
     public void runToLowRung() {
         runTo(lowRung);
-        position = slidesPosition.RUNG1;
+        position = slidesPosition.CHAMBER_LOW;
     }
     public void runToStorage() {
         position = slidesPosition.GROUND;
