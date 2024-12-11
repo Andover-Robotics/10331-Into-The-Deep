@@ -20,7 +20,7 @@ public class Kinematics {
 
 
     // moves the claw to a given target state (x pos, y pos, and angle of claw)
-    // returns position/ticks of the motor/servo
+    // returns position/ticks of the servo/motor
 /*    public double calc_extension(double target_height, double target_angle){
         double length_change = (target_height - HEIGHT_CONST - DIFFY_LENGTH * Math.sin(target_angle) / Math.sin(SLIDES_ANGLE);
         return length_change * LENGTH_TO_TICKS;

@@ -45,13 +45,16 @@ public class TuneWrist extends LinearOpMode {
                 bot.wrist.setRollPitch(140, 420);
             }
             if (gp1.wasJustPressed(GamepadKeys.Button.Y)) {
-                bot.wrist.setRollPitch(100, 230);
+                //bot.wrist.setRollPitch(100, 230);
+                bot.wrist.setPitch(90);
             }
             if (gp1.wasJustPressed(GamepadKeys.Button.A)) {
-                bot.wrist.setRollPitch(70, 500);
+               // bot.wrist.setRollPitch(70, 500);
+                bot.wrist.setRoll(90);
             }
             if (gp1.wasJustPressed(GamepadKeys.Button.B)) {
-                bot.wrist.setRollPitch(0, 220);
+               // bot.wrist.setRollPitch(0, 220);
+                bot.wrist.setRollPitch(0,-45);
             }
 
             telemetry.addData("Right Servo Position", bot.wrist.diffyRight.getAngle());
