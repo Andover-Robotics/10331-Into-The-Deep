@@ -54,7 +54,7 @@ public class ColorSenseTest extends LinearOpMode {
             if(gp1.wasJustPressed(GamepadKeys.Button.A)){
                 bot.bucket.flipOut();
                 bot.linkage.extend();
-               intakeSense(allianceBlue);
+                intakeSense(allianceBlue);
             }
             if(gp1.wasJustPressed(GamepadKeys.Button.Y)){
                 bot.bucket.stopIntake();
@@ -74,8 +74,8 @@ public class ColorSenseTest extends LinearOpMode {
             telemetry.addData("color", color);
             telemetry.addData("alliance blue ", allianceBlue);
             telemetry.update();
-/*
-            if((hue>-1 && hue<70) && (saturation>100 && saturation<260)){
+
+   /*         if((hue>-1 && hue<70) && (saturation>100 && saturation<260)){
                 color="red";
             }
             else if((hue>50 && hue<90) && (saturation>140 && saturation<220)){
@@ -88,9 +88,7 @@ public class ColorSenseTest extends LinearOpMode {
                 color= "nothing";
             }
 
- */
-
-
+    */
 
         }
     }
@@ -135,27 +133,18 @@ public class ColorSenseTest extends LinearOpMode {
 
     private void runColorSensor() {
         prepColorSensor();
-        if((hue>50 && hue<70) && (saturation>130 && saturation<160)){
+        if((hue>20 && hue<70) && (saturation>170 && saturation<240)){
             color="yellow";
         }
-        else if((hue>50 && hue<70) && (saturation>160 && saturation<170)){
+        else if((hue>15 && hue<50) && (saturation>100 && saturation<180)){
             color= "red";
         }
-        else if((hue>90 && hue<130) && (saturation>70 && saturation<110)){
+        else if((hue>170 && hue<260) && (saturation>70 && saturation<256)){
             color = "blue";
         }
         else{
             color= "nothing";
         }
-
-        /*
-         if((hue>20 && hue<70) && (saturation>170 && saturation<240)){
-            color="yellow";
-        } else if((hue>15 && hue<50) && (saturation>100 && saturation<180)){
-            color= "red";
-        }        else if((hue>170 && hue<260) && (saturation>70 && saturation<256)){
-            color = "blue";
-         */
 
         telemetry.addData("Distance (cm)",
                 String.format(Locale.US, "%.02f", bot.bucket.distanceSensor.getDistance(DistanceUnit.CM)));

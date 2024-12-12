@@ -35,27 +35,23 @@ public class TuneWrist extends LinearOpMode {
             if (gp1.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
                 bot.wrist.setRoll(bot.wrist.rollSetpoint + 20);
             }
-            if (gp1.wasJustPressed(GamepadKeys.Button.START)) {
-                bot.wrist.setPitch(bot.wrist.PITCH_MAX);
-            }
-            if (gp1.wasJustPressed(GamepadKeys.Button.BACK)) {
-                bot.wrist.setRollPitch(-60, bot.wrist.PITCH_MIN);
-            }
-            if (gp1.wasJustPressed(GamepadKeys.Button.X)) {
-                bot.wrist.setRollPitch(140, 420);
-            }
-            if (gp1.wasJustPressed(GamepadKeys.Button.Y)) {
-                //bot.wrist.setRollPitch(100, 230);
-                bot.wrist.setPitch(90);
-            }
+
             if (gp1.wasJustPressed(GamepadKeys.Button.A)) {
-               // bot.wrist.setRollPitch(70, 500);
-                bot.wrist.setRoll(90);
+                bot.wrist.setPitch(bot.wrist.PITCH_MAX - bot.wrist.PITCH_MID);
             }
             if (gp1.wasJustPressed(GamepadKeys.Button.B)) {
-               // bot.wrist.setRollPitch(0, 220);
-                bot.wrist.setRollPitch(0,-45);
+                bot.wrist.setPitch(bot.wrist.PITCH_MIN - bot.wrist.PITCH_MID);
             }
+            if (gp1.wasJustPressed(GamepadKeys.Button.X)) {
+                bot.wrist.setRoll(bot.wrist.ROLL_MAX - bot.wrist.ROLL_MID);
+            }
+            if (gp1.wasJustPressed(GamepadKeys.Button.Y)) {
+                bot.wrist.setRoll(bot.wrist.ROLL_MIN - bot.wrist.ROLL_MAX);
+            }
+            if (gp1.wasJustPressed(GamepadKeys.Button.START)) {
+                bot.wrist.setRollPitch(45, 75);
+            }
+
 
             telemetry.addData("Right Servo Position", bot.wrist.diffyRight.getAngle());
             telemetry.addData("Left Servo Position", bot.wrist.diffyLeft.getAngle());
