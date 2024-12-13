@@ -8,15 +8,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class Wrist {
     public ServoEx diffyLeft, diffyRight;
 
- /*   public final double MIN_ANGLE = 0, MAX_ANGLE = 3000;
-
-    public final double ROLL_MIN = -18;
-    public final double ROLL_MAX = 180;
-    public final double PITCH_MIN = 1500;
-    public final double PITCH_MAX = 5000;
-    public final double PITCH_MID = 800;
-
-  */
 
     //these are in degrees
     public final double MIN_ANGLE = -100, MAX_ANGLE = 900;

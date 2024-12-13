@@ -1,32 +1,30 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
+import android.graphics.Color;
+
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
 import org.firstinspires.ftc.teamcode.subsystems.Slides;
 import java.lang.Math;
 
 
-/*
+
 @TeleOp
 public class MainTeleop extends LinearOpMode {
-    private double delta_L; //slide extension length needed to get to position
-    private double claw_angle; //this is the angle between claw and horizontal
-    private double slides_angle;  // angle between slides and horizontal
-    private final double robot_height = 0.21; // (height of base (not including slides) in meters, CHANGE LATER)
-    private final double claw_length = 0.05; //CHANGE LATER
-    private final double TICK_TO_SLIDES_MOVEMENT_CONV = 1; //CHANGE LATER
     Bot bot;
     private GamepadEx gp1;
     private GamepadEx gp2;
     private double driveSpeed = 1;
-
-
 
     private boolean isManual = false;
     private boolean isLinkageRetracted=true;
@@ -35,8 +33,11 @@ public class MainTeleop extends LinearOpMode {
     private boolean isDiffyTransferPos = true;
     private boolean isClawOpen= true;
     private boolean isAllianceBlue=false;
+    private final float[] hsvValues = {0, 0, 0};
+    String color="nothing";
+    double hue=0, saturation=0, value=0;
+    double distance=10;
 
-    /*
 
     public void runOpMode() throws InterruptedException {
         bot = Bot.getInstance(this);
@@ -44,7 +45,6 @@ public class MainTeleop extends LinearOpMode {
         gp2 = new GamepadEx(gamepad2);
 
         bot.resetEverything();
-
         waitForStart();
 
         gp1.readButtons();
@@ -59,6 +59,8 @@ public class MainTeleop extends LinearOpMode {
 
             drive();
 
+            bot.slides.periodic();
+
             bot.slides.runSlides(gp2.getRightY());
 
             if (gp2.wasJustPressed(GamepadKeys.Button.START)) {
@@ -69,13 +71,16 @@ public class MainTeleop extends LinearOpMode {
             if(!isManual) {
                 if (gp2.wasJustPressed(GamepadKeys.Button.A)) {
                     automaticIntake();
+                    bot.bucket.stopIntake();
+                    bot.linkage.retract();
+                    bot.bucket.flipIn();
                 }
                 if (gp2.wasJustPressed(GamepadKeys.Button.B)) {
                     //after moves slide
-                    bot.wrist.outtakePos();
+                    bot.wrist.bucket();
                     bot.claw.open();
                     bot.claw.close();
-                    bot.wrist.transferPos();
+                    bot.wrist.storage();
                     bot.slides.runToStorage();
                 }
             }
@@ -112,11 +117,11 @@ public class MainTeleop extends LinearOpMode {
 
                 if (gp2.wasJustPressed(GamepadKeys.Button.Y)) {
                     if(isDiffyTransferPos){
-                        bot.wrist.outtakePos();
+                        bot.wrist.bucket();
                         isDiffyTransferPos=false;
                     }
                     else{
-                        bot.wrist.transferPos();
+                        bot.wrist.storage();
                         isDiffyTransferPos=true;
                     }
                 }
@@ -146,17 +151,11 @@ public class MainTeleop extends LinearOpMode {
                         bot.slides.runToLowBucket();
                         break;
                     case BUCKET1:
-                        bot.slides.runToMidBucket();
-                        break;
-                    case BUCKET2:
                         bot.slides.runToTopBucket();
                 }
             }
             else if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
                 switch(bot.slides.getState()){
-                    case BUCKET3:
-                        bot.slides.runToMidBucket();
-                        break;
                     case BUCKET2:
                         bot.slides.runToLowBucket();
                         break;
@@ -166,10 +165,10 @@ public class MainTeleop extends LinearOpMode {
             }
             else if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
                 switch(bot.slides.getState()){
-                    case RUNG2:
+                    case CHAMBER_HIGH:
                         bot.slides.runToLowRung();
                         break;
-                    case RUNG1:
+                    case CHAMBER_LOW:
                         bot.slides.runToStorage();
                         break;
                 }
@@ -179,13 +178,79 @@ public class MainTeleop extends LinearOpMode {
                     case GROUND:
                         bot.slides.runToLowRung();
                         break;
-                    case RUNG1:
+                    case CHAMBER_LOW:
                         bot.slides.runToTopRung();
                         break;
                 }
             }
         }
     }
+
+    private void automaticIntake(){
+        color="nothing";
+        bot.bucket.tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
+        distance= bot.bucket.distanceSensor.getDistance(DistanceUnit.CM);
+        telemetry.update();
+
+        while(distance>4){
+            if(gp2.wasJustPressed(GamepadKeys.Button.Y)){
+                break;
+            }
+            if(gp2.wasJustPressed(GamepadKeys.Button.X)){
+                automaticIntake();
+            }
+            bot.bucket.tubingServo2.setPower(0.7);
+            distance= bot.bucket.distanceSensor.getDistance(DistanceUnit.CM);
+        }
+        while(distance>1.8){
+            if(gp2.wasJustPressed(GamepadKeys.Button.Y)){
+                break;
+            }
+            if(gp2.wasJustPressed(GamepadKeys.Button.X)){
+                automaticIntake();
+            }
+            bot.bucket.tubingServo2.setPower(0.2);
+            distance= bot.bucket.distanceSensor.getDistance(DistanceUnit.CM);
+            runColorSensor();
+        }
+        bot.bucket.stopIntake();
+
+        if((isAllianceBlue && color.equals("red")) || !isAllianceBlue && color.equals("blue")){
+            runColorSensor();
+            bot.bucket.reverseIntake();
+            automaticIntake();
+
+        }
+
+    }
+
+    private void prepColorSensor() {
+        Color.RGBToHSV((bot.bucket.colorSensor.red()),
+                (bot.bucket.colorSensor.green()),
+                (bot.bucket.colorSensor.blue()),
+                hsvValues);
+
+        hue= hsvValues[0];
+        saturation= hsvValues[1] * 255;
+        value= hsvValues[2] * 255;
+    }
+
+    private void runColorSensor() {
+        prepColorSensor();
+        if((hue>20 && hue<70) && (saturation>170 && saturation<240)){
+            color="yellow";
+        }
+        else if((hue>15 && hue<50) && (saturation>100 && saturation<180)){
+            color= "red";
+        }
+        else if((hue>170 && hue<260) && (saturation>70 && saturation<256)){
+            color = "blue";
+        }
+        else{
+            color= "nothing";
+        }
+    }
+
 
     private void drive() {
         gp1.readButtons();
@@ -203,31 +268,7 @@ public class MainTeleop extends LinearOpMode {
                 turnVector.getX() * driveSpeed / 1.7
         );
     }
-
-    private void automaticIntake(){
-        bot.bucket.flipOut();
-        bot.linkage.extend();
-        while(!bot.bucket.intakeSense(isAllianceBlue)){
-            if(gp2.wasJustPressed(GamepadKeys.Button.Y)){
-                break;
-            }
-            if(gp2.wasJustPressed(GamepadKeys.Button.X)){
-                automaticIntake();
-            }
-        }
-        bot.bucket.stopIntake();
-        bot.linkage.retract();
-        bot.bucket.flipIn();
-        bot.wrist.transferPos();
-        bot.claw.close();
-        //then driver moves slides
-    }
-
-
-
 }
-
- */
 
 
 

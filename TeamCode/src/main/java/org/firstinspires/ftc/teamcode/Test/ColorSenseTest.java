@@ -25,7 +25,7 @@ public class ColorSenseTest extends LinearOpMode {
 
     private GamepadEx gp1;
     private final float[] hsvValues = {0, 0, 0};
-    String color="nothing";
+    private String color="nothing";
     double hue=0, saturation=0, value=0;
     double distance=10;
 

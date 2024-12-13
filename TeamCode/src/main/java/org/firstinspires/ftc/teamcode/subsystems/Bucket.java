@@ -50,7 +50,7 @@ public class Bucket {
     public static final double intakePos = 0.13;
 
     private final float[] hsvValues = {0, 0, 0};
-    String color="nothing";
+    public String color="nothing";
     double hue=0, saturation=0, value=0;
 
     private ElapsedTime time;
@@ -68,6 +68,7 @@ public class Bucket {
         color="nothing";
         tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
         distance= distanceSensor.getDistance(DistanceUnit.CM);
+        telemetry.update();
 
         while(distance>4){
             tubingServo2.setPower(0.7);
@@ -79,6 +80,7 @@ public class Bucket {
             runColorSensor();
         }
         stopIntake();
+        telemetry.update();
 
         if((allianceBlue && color.equals("red")) || !allianceBlue && color.equals("blue")){
             runColorSensor();
