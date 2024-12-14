@@ -12,11 +12,11 @@ public class Wrist {
     //these are in degrees
     public final double MIN_ANGLE = -100, MAX_ANGLE = 900;
     public final double ROLL_MID = 45;
-    public final double ROLL_MIN = 0;
-    public final double ROLL_MAX = 450;
-    public final double PITCH_MIN = 0;
-    public final double PITCH_MAX = 800;
-    public final double PITCH_MID = 90;
+    public final double ROLL_MIN = 0; //-100
+    public final double ROLL_MAX = 450; //300
+    public final double PITCH_MIN = 0; //-100
+    public final double PITCH_MAX = 500; //850
+    public final double PITCH_MID = 200; //0
 
   //  current val + mid = constant
 
@@ -36,7 +36,7 @@ min-mid < setpoint < max-mid
     public double pivotAngleDegrees = 0;
     public double currentPitch = 0, currentRoll = 0, pitchSetpoint = 0, rollSetpoint = 0;
 
-    double pitchStorage, pitchRung, pitchBucket, pitchWallPickUp;
+    double pitchStorage=-240, pitchRung, pitchBucket, pitchWallPickUp;
     double rollStorage, rollRung, rollBucket, rollWallPickUp, rollVertical=ROLL_MAX;
 
     public Wrist(OpMode opMode) {
@@ -58,7 +58,7 @@ min-mid < setpoint < max-mid
     }
 
     public void vertical() {
-        setRollPitch(rollVertical, PITCH_MIN- PITCH_MID);
+        setRollPitch(rollVertical, PITCH_MIN - PITCH_MID);
     }
 
 

@@ -7,8 +7,8 @@ public class Claw {
 
     public final Servo claw;
 
-    public static final double openPos=0.42;
-    public static final double closePos=0.32;
+    public static final double openPos=0.46;
+    public static final double closePos=0.35;
 
 
     public Claw(OpMode opMode) {

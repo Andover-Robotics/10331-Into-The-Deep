@@ -35,7 +35,6 @@ public class TuneWrist extends LinearOpMode {
             if (gp1.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
                 bot.wrist.setRoll(bot.wrist.rollSetpoint + 20);
             }
-
             if (gp1.wasJustPressed(GamepadKeys.Button.A)) {
                 bot.wrist.setPitch(bot.wrist.PITCH_MAX - bot.wrist.PITCH_MID);
             }
