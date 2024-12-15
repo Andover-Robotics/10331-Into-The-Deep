@@ -7,8 +7,11 @@ public class Claw {
 
     public final Servo claw;
 
-    public static final double openPos=0.46;
-    public static final double closePos=0.35;
+    public static final double openPos=0.55;
+    public static final double graspPos=0.52;
+
+    public static final double closePos=0.46;
+
 
 
     public Claw(OpMode opMode) {
@@ -21,6 +24,10 @@ public class Claw {
     }
     public void close(){
         claw.setPosition(closePos);
+    }
+
+    public void grasp(){
+        claw.setPosition(graspPos);
     }
     public void move(double pos){
         claw.setPosition(pos);

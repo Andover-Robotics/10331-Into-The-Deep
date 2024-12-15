@@ -70,10 +70,17 @@ public class MainTeleop extends LinearOpMode {
             //automatic control:
             if(!isManual) {
                 if (gp2.wasJustPressed(GamepadKeys.Button.A)) {
+                    bot.wrist.reset();
+                    bot.claw.open();
+                    //below code creates space for flip to occur
+                    bot.wrist.setPitch(bot.wrist.pitchSetpoint - 20);
                     automaticIntake();
                     bot.bucket.stopIntake();
                     bot.linkage.retract();
                     bot.bucket.flipIn();
+                    bot.wrist.reset();
+                    //possibly move surgical tubing a bit HERE
+                    bot.claw.grasp();
                 }
                 if (gp2.wasJustPressed(GamepadKeys.Button.B)) {
                     //after moves slide
@@ -82,6 +89,8 @@ public class MainTeleop extends LinearOpMode {
                     bot.claw.close();
                     bot.wrist.storage();
                     bot.slides.runToStorage();
+                    bot.claw.open();
+                    bot.wrist.reset();
                 }
             }
 
@@ -90,12 +99,14 @@ public class MainTeleop extends LinearOpMode {
                 //linkage control (X)
                 if (gp2.wasJustPressed(GamepadKeys.Button.X)) {
                     if(isLinkageRetracted){
-                        bot.linkage.extend();
                         bot.bucket.flipOut();
+                        bot.linkage.extend();
                         isBucketFlipped=false;
                         isLinkageRetracted=false;
                     }
                     else{
+                        bot.wrist.reset();
+                        bot.wrist.setPitch(bot.wrist.pitchSetpoint - 20);
                         bot.linkage.retract();
                         bot.bucket.flipIn();
                         isBucketFlipped=true;
@@ -103,14 +114,15 @@ public class MainTeleop extends LinearOpMode {
                     }
                 }
 
-                //bucket flip control (A)
+                //bucket claw control
                 if (gp2.wasJustPressed(GamepadKeys.Button.A)) {
                     if(!isClawOpen){
                         bot.claw.open();
                         isClawOpen=true;
                     }
                     else{
-                        bot.claw.close();
+                        //is never closed -> hopefully can still go from outtake-> storage (TEST)
+                        bot.claw.grasp();
                         isClawOpen=false;
                     }
                 }

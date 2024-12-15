@@ -27,6 +27,7 @@ public class TestLinkageAndBucket extends LinearOpMode {
         bot.bucket.stopIntake();
         bot.linkage.retract();
         bot.bucket.flipIn();
+        bot.claw.open();
 
         while (opModeIsActive() && !isStopRequested()) {
             gp2.readButtons();
@@ -48,12 +49,7 @@ public class TestLinkageAndBucket extends LinearOpMode {
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
-                bot.bucket.flipOut();
-                bot.linkage.extend();
-                bot.bucket.intakeSense(isAllianceBlue);
-                bot.bucket.stopIntake();
-                bot.linkage.retract();
-                bot.bucket.flipIn();
+
             }
 
 

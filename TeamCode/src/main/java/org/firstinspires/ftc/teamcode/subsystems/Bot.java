@@ -108,14 +108,15 @@ public class Bot {
     public void resetEverything(){
         resetEncoder();
         prepMotors();
- /*       slides.runToStorage();
+        slides.runToStorage();
         slides.resetEncoder();
         slides.resetProfiler();
+        wrist.reset();
+        claw.open();
         bucket.stopIntake();
         bucket.flipIn();
         linkage.retract();
 
-  */
     }
 
     private void resetEncoder() {

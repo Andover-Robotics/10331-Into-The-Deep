@@ -3,41 +3,38 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.arcrobotics.ftclib.hardware.ServoEx;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class Wrist {
     public ServoEx diffyLeft, diffyRight;
 
 
+      /*
+
+        1) (260,280) => TRANSFER
+        2) (420,260)
+        3)(480,160)
+        4) (480,-140)
+        5) (240,-140) => OUTTAKE
+
+
+         */
+
     //these are in degrees
     public final double MIN_ANGLE = -100, MAX_ANGLE = 900;
-    public final double ROLL_MID = 45;
+  //  public final double ROLL_MID = 240;
     public final double ROLL_MIN = 0; //-100
-    public final double ROLL_MAX = 450; //300
+    public final double ROLL_MAX = 340; //180
     public final double PITCH_MIN = 0; //-100
-    public final double PITCH_MAX = 500; //850
-    public final double PITCH_MID = 200; //0
+    public final double PITCH_MAX = 820; //100
+    public final double PITCH_MID = 90; //200
 
-  //  current val + mid = constant
-
-
-    /*
-
-
-**Min < pitch + Pitch Mid < Pitch Max
-
-min-mid < setpoint < max-mid
-
-
-//
-
-     */
+    private ElapsedTime time= new ElapsedTime();;
 
     public double pivotAngleDegrees = 0;
     public double currentPitch = 0, currentRoll = 0, pitchSetpoint = 0, rollSetpoint = 0;
-
-    double pitchStorage=-240, pitchRung, pitchBucket, pitchWallPickUp;
-    double rollStorage, rollRung, rollBucket, rollWallPickUp, rollVertical=ROLL_MAX;
 
     public Wrist(OpMode opMode) {
         diffyLeft= new SimpleServo(opMode.hardwareMap, "diffyRight", MIN_ANGLE, MAX_ANGLE, AngleUnit.DEGREES);
@@ -45,27 +42,62 @@ min-mid < setpoint < max-mid
         diffyRight.setInverted(true);
     }
     public void storage() {
-        setRollPitch(rollStorage, pitchStorage);
-    }
-    public void wallPickUp() {
-        setRollPitch(rollWallPickUp, pitchWallPickUp);
-    }
-    public void rung() {
-        setRollPitch(rollRung, pitchRung);
+        time.reset();
+        while(time.seconds() < 1) {
+            setRoll(100);
+            setPitch(520);
+        }
+        time.reset();
+        while(time.seconds() < 1) {
+            setRoll(100);
+            setPitch(480);
+        }
+        time.reset();
+        while(time.seconds() < 1) {
+            setRoll(320);
+            setPitch(480);
+        }
+        time.reset();
+        while(time.seconds() < 1) {
+            setRoll(320);
+            setPitch(-40);
+        }
+        setRoll(80);
+        setPitch(-40);
     }
     public void bucket() {
-        setRollPitch(rollBucket, pitchBucket);
+        time.reset();
+        while(time.seconds() < 1) {
+            setRoll(80);
+            setPitch(-40);
+        }
+        time.reset();
+        while(time.seconds() < 1) {
+            setRoll(240);
+            setPitch(160);
+        }
+        time.reset();
+        while(time.seconds() < 1) {
+            setRoll(240);
+            setPitch(520);
+        }
+        setRoll(100);
+        setPitch(520);
     }
-
+    public void reset() {
+        setRoll(80);
+        setPitch(-40);
+    }
     public void vertical() {
-        setRollPitch(rollVertical, PITCH_MIN - PITCH_MID);
+        setRollPitch(ROLL_MIN, PITCH_MIN);
     }
-
 
     // set both roll and pitch at the same time
     public void setRollPitch(double roll, double pitch) {
+
         pitchSetpoint = pitch;
         rollSetpoint = roll;
+
         pitch = (pitch % 360) + PITCH_MID - pivotAngleDegrees + 10;
         pitch = pitch % 360;
 
@@ -107,6 +139,7 @@ min-mid < setpoint < max-mid
     public void setPitch(double pitch) {
         pitchSetpoint = pitch;
         pitch = pitch + PITCH_MID - pivotAngleDegrees;
+
         // Clamp pitch to its range
         pitch = Math.max(PITCH_MIN, Math.min(PITCH_MAX, pitch));
 

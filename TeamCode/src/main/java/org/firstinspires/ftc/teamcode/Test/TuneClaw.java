@@ -23,7 +23,9 @@ public class TuneClaw extends LinearOpMode {
 
         waitForStart();
 
-        double pos=bot.claw.claw.getPosition();
+        bot.claw.close();
+        double pos=bot.claw.closePos;
+
         while (opModeIsActive() && !isStopRequested()) {
 
             gp2.readButtons();

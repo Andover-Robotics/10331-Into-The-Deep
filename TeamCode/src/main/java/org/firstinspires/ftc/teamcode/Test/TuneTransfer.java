@@ -22,15 +22,14 @@ public class TuneTransfer extends LinearOpMode {
         bot.bucket.stopIntake();
         bot.linkage.retract();
         bot.bucket.flipIn();
+        bot.claw.open();
 
-        double clawPos=bot.claw.claw.getPosition();
-        double bucketPos=bot.bucket.flip.getPosition();
-        double linkagePos= bot.linkage.retractPos;
+        double clawPos=bot.claw.openPos;
 
         while (opModeIsActive() && !isStopRequested()) {
             gp1.readButtons();
 
-            if(gp1.wasJustPressed(GamepadKeys.Button.A)){
+      /*     if(gp1.wasJustPressed(GamepadKeys.Button.A)){
                 if(bucketPos>0){
                     bucketPos=bucketPos-0.05;
                 }
@@ -44,6 +43,8 @@ public class TuneTransfer extends LinearOpMode {
                 bot.bucket.moveFlipRight(bucketPos);
             }
 
+       */
+
             if(gp1.wasJustPressed(GamepadKeys.Button.X)){
                 if(clawPos>0){
                     clawPos=clawPos-0.01;
@@ -56,19 +57,23 @@ public class TuneTransfer extends LinearOpMode {
                 }
                 bot.claw.move(clawPos);
             }
-            if(gp1.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)){
-                if(linkagePos>0){
-                    linkagePos=linkagePos-0.01;
-                }
-                bot.linkage.move(linkagePos);
+            if(gp1.wasJustPressed(GamepadKeys.Button.A)){
+                bot.bucket.flipOut();
+                bot.linkage.extend();
+                bot.bucket.intakeNoSense();
+            }
+            if(gp1.wasJustPressed(GamepadKeys.Button.B)){
+                bot.bucket.stopIntake();
+                bot.linkage.retract();
+                bot.bucket.flipIn();
             }
             if(gp1.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)){
-                if(linkagePos<1){
-                    linkagePos=linkagePos+0.01;
-                }
-                bot.linkage.move(linkagePos);
+                bot.bucket.intake(0.2);
             }
-            ;
+            if(gp1.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)){
+                bot.bucket.stopIntake();
+            }
+
             telemetry.addData("Current Position Bucket", bot.bucket.flip.getPosition());
             telemetry.addData("Current Position Claw", bot.claw.claw.getPosition());
             telemetry.addData("Current Position Linkage Right", bot.linkage.linkage1.getPosition());

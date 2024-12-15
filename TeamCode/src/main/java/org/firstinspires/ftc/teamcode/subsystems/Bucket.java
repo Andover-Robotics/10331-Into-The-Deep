@@ -93,20 +93,24 @@ public class Bucket {
     public void intakeNoSense(){
         time.reset();
         tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
-        tubingServo2.setPower(1);
+        tubingServo2.setPower(0.7);
+    }
+    public void intake(double power){
+        time.reset();
+        tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
+        tubingServo2.setPower(power);
     }
 
     public void reverseIntake(){
         time.reset();
         tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
         while(time.seconds() < 2) {
-            tubingServo2.setPower(1);
+            tubingServo2.setPower(0.7);
         }
     }
 
     public void stopIntake(){
         time.reset();
-    //    tubingServo1.setPower(0);
         tubingServo2.setPower(0);
     }
 
@@ -149,26 +153,12 @@ public class Bucket {
         }
     }
 
-
-
     public void moveFlipRight(double pos){
         flip.setPosition(pos);
     }
-    public void move(double pos){
-        flip.setPosition(pos);
-       // flip2.setPosition(pos);
-    }
-
-
-    public void runBackwards() {
-        reverseIntake();
-    }
-    public void runForwards() {
-        intakeNoSense();
-    }
 
     public void reset() {
-        move(intakePos);
+        moveFlipRight(intakePos);
     }
 }
 
