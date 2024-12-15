@@ -7,10 +7,10 @@ public class Claw {
 
     public final Servo claw;
 
-    public static final double openPos=0.55;
-    public static final double graspPos=0.52;
+    public static final double openPos=0.85;
+    public static final double graspPos=0.78;
 
-    public static final double closePos=0.46;
+    public static final double closePos=0.79;
 
 
 

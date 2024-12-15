@@ -33,6 +33,10 @@ Sequence 1:
         4) 100. 520 -> transfer
    */
 
+
+        //0,20
+        //0,-100
+
         gp1 = new GamepadEx(gamepad1);
 
         bot.wrist.vertical();
@@ -57,16 +61,14 @@ Sequence 1:
                 bot.wrist.setRoll(bot.wrist.rollSetpoint + 20);
             }
             if (gp1.wasJustPressed(GamepadKeys.Button.A)) {
-                bot.wrist.setRoll(100);
-                bot.wrist.setPitch(520);
+                bot.wrist.storage();
              //   bot.wrist.setRollPitch(100,520);
             }
             if (gp1.wasJustPressed(GamepadKeys.Button.B)) {
-                bot.wrist.setRoll(100);
-                bot.wrist.setPitch(480);
+                bot.wrist.clip();
              //   bot.wrist.setRollPitch(100,480);
             }
-            if (gp1.wasJustPressed(GamepadKeys.Button.Y)) {
+       /*    if (gp1.wasJustPressed(GamepadKeys.Button.Y)) {
                 bot.wrist.setRoll(320);
                 bot.wrist.setPitch(480);
              //   bot.wrist.setRollPitch(320,480);
@@ -105,6 +107,8 @@ Sequence 1:
                 bot.wrist.setRoll(80);
                 bot.wrist.setPitch(-40);
             }
+
+        */
 
             /*
         1) (100,520) => TRANSFER

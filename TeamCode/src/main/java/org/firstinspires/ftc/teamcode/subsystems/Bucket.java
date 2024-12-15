@@ -102,11 +102,11 @@ public class Bucket {
     }
 
     public void reverseIntake(){
-        time.reset();
+    //    time.reset();
         tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
-        while(time.seconds() < 2) {
-            tubingServo2.setPower(0.7);
-        }
+    //    while(time.seconds() < 2) {
+        tubingServo2.setPower(0.7);
+     //   }
     }
 
     public void stopIntake(){

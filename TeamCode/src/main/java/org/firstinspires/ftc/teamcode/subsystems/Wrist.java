@@ -26,9 +26,9 @@ public class Wrist {
     public final double MIN_ANGLE = -100, MAX_ANGLE = 900;
   //  public final double ROLL_MID = 240;
     public final double ROLL_MIN = 0; //-100
-    public final double ROLL_MAX = 340; //180
-    public final double PITCH_MIN = 0; //-100
-    public final double PITCH_MAX = 820; //100
+    public final double ROLL_MAX = 480; //360
+    public final double PITCH_MIN = -100; //0
+    public final double PITCH_MAX = 750; //180 // 700
     public final double PITCH_MID = 90; //200
 
     private ElapsedTime time= new ElapsedTime();;
@@ -42,10 +42,13 @@ public class Wrist {
         diffyRight.setInverted(true);
     }
     public void storage() {
-        time.reset();
+
+        setRoll(0);
+        setPitch(20);
+    /*    time.reset();
         while(time.seconds() < 1) {
-            setRoll(100);
-            setPitch(520);
+            setRoll(0);
+            setPitch(20);
         }
         time.reset();
         while(time.seconds() < 1) {
@@ -64,9 +67,11 @@ public class Wrist {
         }
         setRoll(80);
         setPitch(-40);
+
+     */
     }
-    public void bucket() {
-        time.reset();
+    public void clip() {
+     /*   time.reset();
         while(time.seconds() < 1) {
             setRoll(80);
             setPitch(-40);
@@ -83,11 +88,18 @@ public class Wrist {
         }
         setRoll(100);
         setPitch(520);
+
+      */
+
+        setRoll(0);
+        setPitch(-100);
     }
-    public void reset() {
+   /* public void reset() {
         setRoll(80);
         setPitch(-40);
     }
+
+    */
     public void vertical() {
         setRollPitch(ROLL_MIN, PITCH_MIN);
     }
