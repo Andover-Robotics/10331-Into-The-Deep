@@ -125,7 +125,6 @@ public class Bot {
     }
 
     //ACTIONS
-
     public class slidesPeriodic implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
@@ -137,6 +136,7 @@ public class Bot {
         return new slidesPeriodic();
     }
 
+    //Bucket Outtake (Auto): move wrist, slides up, claw open; reset all back to storage. specify 1 for low, 2 for high
     public SequentialAction bucketOuttakeAction(int level) {
         switch(level) {
             case 1:
@@ -144,14 +144,30 @@ public class Bot {
                         new InstantAction(() -> wrist.bucketOuttakePos()),
                         new SleepAction(0.1),
                         new InstantAction(() -> slides.runToLowBucket()),
-                        new SleepAction(0.1)
+                        new InstantAction(() -> claw.open()),
+                        new SleepAction(0.5),
+                        //reset position:
+                        new InstantAction(() -> claw.close()),
+                        new SleepAction(0.1),
+                        new InstantAction(() -> wrist.storage()),
+                        new SleepAction(0.1),
+                        new InstantAction(() -> slides.runToStorage()),
+                        new SleepAction(0.5)
                 );
             case 2:
                 return new SequentialAction(
                         new InstantAction(() -> wrist.bucketOuttakePos()),
                         new SleepAction(0.1),
                         new InstantAction(() -> slides.runToTopBucket()),
-                        new SleepAction(0.1)
+                        new InstantAction(() -> claw.open()),
+                        new SleepAction(0.1),
+                        //reset position:
+                        new InstantAction(() -> claw.close()),
+                        new SleepAction(0.1),
+                        new InstantAction(() -> wrist.storage()),
+                        new SleepAction(0.1),
+                        new InstantAction(() -> slides.runToStorage()),
+                        new SleepAction(0.5)
                 );
             default:
                 return null;
