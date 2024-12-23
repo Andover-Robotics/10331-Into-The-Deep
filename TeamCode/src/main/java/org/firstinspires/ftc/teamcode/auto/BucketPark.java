@@ -37,7 +37,7 @@ public class BucketPark extends LinearOpMode {
         telemetry.setAutoClear(true);
 
         Pose2d initialPoseRed = new Pose2d(-34, -53, Math.toRadians(90));
-        Pose2d initialPoseBlue = new Pose2d(0,0,0);
+        Pose2d initialPoseBlue = new Pose2d(38, 56, Math.toRadians(-90));
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPoseRed);
         Action bucketParkRed = drive.actionBuilder(drive.pose)
@@ -61,11 +61,12 @@ public class BucketPark extends LinearOpMode {
                 drive = new MecanumDrive(hardwareMap, initialPoseBlue);
                 bucketParkBlue = drive.actionBuilder(drive.pose)
                         //drive to bucket pos:
-                        .strafeToLinearHeading(new Vector2d(-52, -53), Math.toRadians(45))
+                        .strafeToLinearHeading(new Vector2d(56,56), Math.toRadians(225))
                         //outtake seq action:
                         .afterTime(0.5, bot.bucketOuttakeAction(1))
+                        //park:
                         .turn(Math.toRadians(-45))
-                        .strafeToLinearHeading(new Vector2d(56,-60), -Math.atan2(7,108))
+                        .strafeToLinearHeading(new Vector2d(-52,60), Math.toRadians(180)-Math.atan2(8,108))
                         .build();
                 telemetry.addData("Alliance: ", "blue");
                 //change these values
