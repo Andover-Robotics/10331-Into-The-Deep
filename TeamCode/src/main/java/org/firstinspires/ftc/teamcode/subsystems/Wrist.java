@@ -70,6 +70,12 @@ public class Wrist {
 
      */
     }
+
+    public void bucketOuttakePos() {
+        //change this to correct positions - currently placeholder
+        setRoll(1);
+        setPitch(1);
+    }
     public void clip() {
      /*   time.reset();
         while(time.seconds() < 1) {

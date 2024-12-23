@@ -6,14 +6,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 
 public class Linkage {
-
     public final Bucket bucket;
     public final Servo linkage1;
     public final Servo linkage2;
-
     public static final double extendPos=0.31;
     public static final double retractPos=0.15;
-
 
     public Linkage(OpMode opMode) {
         linkage1 = opMode.hardwareMap.get(Servo.class, "right linkage");
@@ -41,8 +38,6 @@ public class Linkage {
         linkage1.setPosition(pos);
         linkage2.setPosition(1-pos);
     }
-
-
 }
 
 

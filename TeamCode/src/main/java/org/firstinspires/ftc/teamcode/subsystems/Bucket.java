@@ -33,30 +33,20 @@ import java.util.Locale;
 **/
 
 public class Bucket {
-
     public final CRServo tubingServo2;
-
-     public final Servo flip;
-
+    public final Servo flip;
     double distance=10;
-
     public final ColorSensor colorSensor;
-
     public final DistanceSensor distanceSensor;
-
     public static final double transferPos = 1;
-
     //tune
     public static final double intakePos = 0.13;
-
     private final float[] hsvValues = {0, 0, 0};
     public String color="nothing";
     double hue=0, saturation=0, value=0;
-
     private ElapsedTime time;
 
     public Bucket(OpMode opMode) {
-
         tubingServo2 = opMode.hardwareMap.crservo.get("intake left");
         flip = opMode.hardwareMap.servo.get("flip right");
         colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
@@ -88,7 +78,6 @@ public class Bucket {
             intakeSense(allianceBlue);
         }
     }
-
 
     public void intakeNoSense(){
         time.reset();

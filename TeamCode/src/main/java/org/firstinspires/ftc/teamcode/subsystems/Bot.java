@@ -3,6 +3,14 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
+
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.InstantAction;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -10,22 +18,16 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
 public class Bot {
-
     public OpMode opMode;
     public static Bot instance;
-
+    //Subsystems
     public Bucket bucket;
-
     public Slides slides;
     public Claw claw;
-
     public Wrist wrist;
     public Linkage linkage;
-
     private final DcMotorEx FL, FR, BL, BR;
-
     public boolean fieldCentricRunMode = false;
-
 
     public static Bot getInstance(OpMode opMode) {
         if (instance == null) {
@@ -34,12 +36,12 @@ public class Bot {
         instance.opMode = opMode;
         return instance;
     }
+
     private void enableAutoBulkRead() {
         for (LynxModule mod : opMode.hardwareMap.getAll(LynxModule.class)) {
             mod.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
     }
-
 
     public Bot(OpMode opMode) {
         this.opMode = opMode;
@@ -48,7 +50,6 @@ public class Bot {
             fieldCentricRunMode = false;
         } catch (Exception e) {
             fieldCentricRunMode = false;
-
         }
 
         FL = opMode.hardwareMap.get(DcMotorEx.class, "fl");
@@ -57,8 +58,6 @@ public class Bot {
         BR = opMode.hardwareMap.get(DcMotorEx.class, "br");
 
         prepMotors();
-
-
         this.slides = new Slides(opMode);
         this.claw= new Claw(opMode);
         this.bucket = new Bucket(opMode);
@@ -80,7 +79,6 @@ public class Bot {
         BL.setMode(RUN_USING_ENCODER);
         BR.setMode(RUN_USING_ENCODER);
         //note: need to plug in encoders for this to work
-
     }
 
     public void driveRobotCentric(double strafeSpeed, double forwardBackSpeed, double turnSpeed) {
@@ -126,21 +124,37 @@ public class Bot {
         BL.setMode(STOP_AND_RESET_ENCODER);
     }
 
+    //ACTIONS
 
-
-  /*  private void transfer_and_outtake(boolean isDiffyTransfer, double claw_pos) {
-
-        // sync claw pos to kinematics class, so that it knows what length to extend slides
-        if(claw.getPos() != 1) {
-            claw.open();
+    public class slidesPeriodic implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            slides.periodic();
+            return true;
         }
-        if(isDiffyTransfer){
-            wrist.transferPos();
-        }
-        claw.close();
-        wrist.rotate(0.25); // I KNOW THIS LINE IS PROB WRONG
+    }
+    public Action slidesPeriodic() {
+        return new slidesPeriodic();
     }
 
-   */
-
+    public SequentialAction bucketOuttakeAction(int level) {
+        switch(level) {
+            case 1:
+                return new SequentialAction(
+                        new InstantAction(() -> wrist.bucketOuttakePos()),
+                        new SleepAction(0.1),
+                        new InstantAction(() -> slides.runToLowBucket()),
+                        new SleepAction(0.1)
+                );
+            case 2:
+                return new SequentialAction(
+                        new InstantAction(() -> wrist.bucketOuttakePos()),
+                        new SleepAction(0.1),
+                        new InstantAction(() -> slides.runToTopBucket()),
+                        new SleepAction(0.1)
+                );
+            default:
+                return null;
+        }
+    }
 }
