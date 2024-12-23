@@ -17,10 +17,10 @@ public class MeepMeepTesting {
                 .build();
 
         redAlliance.runAction(redAlliance.getDrive().actionBuilder(new Pose2d(-34, -53, Math.toRadians(90)))
-                .waitSeconds(5)
-                .strafeToLinearHeading(new Vector2d(-52, -53), Math.toRadians(45))
-                //outtake action
-                .turn(Math.toRadians(-45))
+                //.waitSeconds(5)
+//                .strafeToLinearHeading(new Vector2d(-52, -53), Math.toRadians(45))
+//                //outtake action
+                .turn(Math.toRadians(-90))
                 .strafeToLinearHeading(new Vector2d(56,-60), -Math.atan2(7,108))
                 .build());
 
