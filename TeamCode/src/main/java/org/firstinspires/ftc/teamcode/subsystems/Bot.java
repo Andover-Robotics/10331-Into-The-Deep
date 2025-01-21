@@ -57,13 +57,16 @@ public class Bot {
         BR = opMode.hardwareMap.get(DcMotorEx.class, "br");
 
         prepMotors();
+        this.bucket = new Bucket(opMode);
 
 
-        this.slides = new Slides(opMode);
+/*        this.slides = new Slides(opMode);
         this.claw= new Claw(opMode);
         this.bucket = new Bucket(opMode);
         this.linkage = new Linkage(opMode);
         this.wrist= new Wrist(opMode);
+
+ */
     }
 
 
@@ -107,6 +110,7 @@ public class Bot {
 
     public void resetEverything(){
         resetEncoder();
+        /*
       //  prepMotors();
 //        slides.runToStorage();
 //        slides.resetEncoder();
@@ -116,6 +120,8 @@ public class Bot {
         bucket.stopIntake();
         bucket.flipIn();
         linkage.retract();
+
+         */
 
     }
 

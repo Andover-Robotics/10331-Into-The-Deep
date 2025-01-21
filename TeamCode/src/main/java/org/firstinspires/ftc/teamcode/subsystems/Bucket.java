@@ -35,6 +35,7 @@ import java.util.Locale;
 public class Bucket {
 
     public final CRServo tubingServo2;
+    public final CRServo tubingServo1;
 
      public final Servo flip;
 
@@ -58,14 +59,15 @@ public class Bucket {
     public Bucket(OpMode opMode) {
 
         tubingServo2 = opMode.hardwareMap.crservo.get("intake left");
+        tubingServo1 = opMode.hardwareMap.crservo.get("intake right");
         flip = opMode.hardwareMap.servo.get("flip right");
         colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
         distanceSensor = opMode.hardwareMap.get(DistanceSensor.class, "color");
-        time = new ElapsedTime();
+//        time = new ElapsedTime();
     }
 
     public void intakeSense(boolean allianceBlue){
-        color="nothing";
+     /*   color="nothing";
         tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
         distance= distanceSensor.getDistance(DistanceUnit.CM);
         telemetry.update();
@@ -87,42 +89,57 @@ public class Bucket {
             reverseIntake();
             intakeSense(allianceBlue);
         }
+
+      */
     }
 
 
     public void intakeNoSense(){
-        time.reset();
+      /*  time.reset();
         tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
         tubingServo2.setPower(0.7);
+
+       */
     }
     public void intake(double power){
         time.reset();
         tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
+        tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
         tubingServo2.setPower(power);
+        tubingServo1.setPower(power);
     }
 
     public void reverseIntake(){
+        /*
     //    time.reset();
         tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
     //    while(time.seconds() < 2) {
         tubingServo2.setPower(0.7);
      //   }
+
+         */
     }
 
     public void stopIntake(){
-        time.reset();
+   /*     time.reset();
         tubingServo2.setPower(0);
+
+    */
     }
 
     public void flipIn(){
-        flip.setPosition(transferPos);
+      /*  flip.setPosition(transferPos);
        // flip2.setPosition(transferPos);
+
+       */
 
     }
 
     public void flipOut() {
-        flip.setPosition(intakePos);
+      /*  flip.setPosition(intakePos);
      //   flip2.setPosition(intakePos);
+
+       */
 
     }
 
@@ -154,12 +171,14 @@ public class Bucket {
     }
 
     public void moveFlipRight(double pos){
-        flip.setPosition(pos);
+     //   flip.setPosition(pos);
     }
 
     public void reset() {
-        moveFlipRight(intakePos);
+       // moveFlipRight(intakePos);
     }
+
+
 }
 
 

@@ -7,9 +7,13 @@ import android.graphics.Color;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -21,34 +25,50 @@ import java.util.Locale;
 @TeleOp(name = "Color Sense Test", group = "Test")
 public class ColorSenseTest extends LinearOpMode {
 
-    Bot bot;
-
     private GamepadEx gp1;
     private final float[] hsvValues = {0, 0, 0};
     private String color="nothing";
     double hue=0, saturation=0, value=0;
-    double distance=10;
+    double distance=1;
 
     boolean allianceBlue=false;
 
+    private ColorSensor colorSensor;
+
+    private DistanceSensor distanceSensor;
+
+    private CRServo tubingServo2;
+    private CRServo tubingServo1;
+
     @Override
     public void runOpMode() throws InterruptedException {
-        bot = Bot.getInstance(this);
         gp1 = new GamepadEx(gamepad1);
         gp1.readButtons();
+        initColorSensor(this);
 
-        bot.bucket.stopIntake();
+    /*    bot.bucket.stopIntake();
         bot.linkage.retract();
         bot.bucket.flipIn();
+
+     */
 
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {
-            bot.bucket.flipOut();
+          //  bot.bucket.flipOut();
             gp1.readButtons();
 
+            if(gp1.wasJustPressed(GamepadKeys.Button.B)) {
+                tubingServo1.setPower(0);
+                tubingServo2.setPower(0);
+            }
+            if(gp1.wasJustPressed(GamepadKeys.Button.A)) {
+                tubingServo1.setPower(0.3);
+                tubingServo2.setPower(0.3 );
+            }
+
             runColorSensor();
-            if (gp1.wasJustPressed(GamepadKeys.Button.X)) {
+     /*       if (gp1.wasJustPressed(GamepadKeys.Button.X)) {
                 bot.bucket.reverseIntake();
             }
             if(gp1.wasJustPressed(GamepadKeys.Button.A)){
@@ -66,8 +86,10 @@ public class ColorSenseTest extends LinearOpMode {
                 allianceBlue=false;
             }
 
+      */
+
             telemetry.addData("Distance (cm)",
-                    String.format(Locale.US, "%.02f", bot.bucket.distanceSensor.getDistance(DistanceUnit.CM)));
+                    String.format(Locale.US, "%.02f", distanceSensor.getDistance(DistanceUnit.CM)));
             telemetry.addData("Hue  ", hue);
             telemetry.addData("Saturation", saturation);
             telemetry.addData("Value ", value);
@@ -93,7 +115,9 @@ public class ColorSenseTest extends LinearOpMode {
         }
     }
 
-    public void intakeSense(boolean allianceBlue){
+
+
+/*    public void intakeSense(boolean allianceBlue){
         color="nothing";
         bot.bucket.tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
         distance= bot.bucket.distanceSensor.getDistance(DistanceUnit.CM);
@@ -120,10 +144,12 @@ public class ColorSenseTest extends LinearOpMode {
         bot.linkage.retract();
         bot.bucket.flipIn();
     }
+
+ */
     private void prepColorSensor() {
-        Color.RGBToHSV((bot.bucket.colorSensor.red()),
-                (bot.bucket.colorSensor.green()),
-                (bot.bucket.colorSensor.blue()),
+        Color.RGBToHSV((colorSensor.red()),
+                (colorSensor.green()),
+                (colorSensor.blue()),
                 hsvValues);
 
         hue= hsvValues[0];
@@ -133,13 +159,15 @@ public class ColorSenseTest extends LinearOpMode {
 
     private void runColorSensor() {
         prepColorSensor();
-        if((hue>20 && hue<70) && (saturation>170 && saturation<240)){
+        if((hue>40 && hue<70) && (saturation>170 && saturation<240)){
             color="yellow";
         }
-        else if((hue>15 && hue<50) && (saturation>100 && saturation<180)){
+        else if((hue>15 && hue<40) && (saturation>180 && saturation<220)){
             color= "red";
+            //30 and 204
+            //
         }
-        else if((hue>170 && hue<260) && (saturation>70 && saturation<256)){
+        else if((hue>110 && hue<220) && (saturation>70 && saturation<256)){
             color = "blue";
         }
         else{
@@ -147,13 +175,20 @@ public class ColorSenseTest extends LinearOpMode {
         }
 
         telemetry.addData("Distance (cm)",
-                String.format(Locale.US, "%.02f", bot.bucket.distanceSensor.getDistance(DistanceUnit.CM)));
+                String.format(Locale.US, "%.02f", distanceSensor.getDistance(DistanceUnit.CM)));
         telemetry.addData("Hue  ", hue);
         telemetry.addData("Saturation", saturation);
         telemetry.addData("Value ", value);
         telemetry.addData("color", color);
         telemetry.addData("alliance blue ", allianceBlue);
         telemetry.update();
+    }
+    private void initColorSensor(OpMode opMode) {
+        colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
+        distanceSensor = opMode.hardwareMap.get(DistanceSensor.class, "color");
+        tubingServo2 = opMode.hardwareMap.crservo.get("intake left");
+        tubingServo1 = opMode.hardwareMap.crservo.get("intake right");
+        tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
 }

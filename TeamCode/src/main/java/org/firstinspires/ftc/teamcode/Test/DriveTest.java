@@ -21,21 +21,24 @@ public class DriveTest extends LinearOpMode {
         gp1 = new GamepadEx(gamepad1);
         gp1.readButtons();
 
-        bot.bucket.stopIntake();
+   /*     bot.bucket.stopIntake();
         bot.linkage.retract();
         bot.bucket.flipIn();
+
+    */
         waitForStart();
 
         while(opModeIsActive() & !isStopRequested()) {
-            bot.bucket.stopIntake();
+         /*   bot.bucket.stopIntake();
             bot.linkage.retract();
             bot.bucket.flipIn();
+
+          */
             gp1.readButtons();
             drive();
         }
     }
     private void drive() {
-        gp1.readButtons();
         bot.prepMotors();
         driveSpeed = 1;
         driveSpeed *= 1 - 0.9 * gp1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
