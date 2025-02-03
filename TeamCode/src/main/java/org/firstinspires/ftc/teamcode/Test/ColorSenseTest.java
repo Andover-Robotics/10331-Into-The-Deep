@@ -24,6 +24,7 @@ import java.util.Locale;
 
 @TeleOp(name = "Color Sense Test", group = "Test")
 public class ColorSenseTest extends LinearOpMode {
+    Bot bot;
 
     private GamepadEx gp1;
     private final float[] hsvValues = {0, 0, 0};
@@ -46,11 +47,11 @@ public class ColorSenseTest extends LinearOpMode {
         gp1.readButtons();
         initColorSensor(this);
 
-    /*    bot.bucket.stopIntake();
+        bot.bucket.stopIntake();
         bot.linkage.retract();
         bot.bucket.flipIn();
 
-     */
+
 
         waitForStart();
 
@@ -68,8 +69,8 @@ public class ColorSenseTest extends LinearOpMode {
             }
 
             runColorSensor();
-     /*       if (gp1.wasJustPressed(GamepadKeys.Button.X)) {
-                bot.bucket.reverseIntake();
+            if (gp1.wasJustPressed(GamepadKeys.Button.X)) {
+                bot.bucket.reverseIntake(0.5);
             }
             if(gp1.wasJustPressed(GamepadKeys.Button.A)){
                 bot.bucket.flipOut();
@@ -86,7 +87,7 @@ public class ColorSenseTest extends LinearOpMode {
                 allianceBlue=false;
             }
 
-      */
+
 
             telemetry.addData("Distance (cm)",
                     String.format(Locale.US, "%.02f", distanceSensor.getDistance(DistanceUnit.CM)));
@@ -97,7 +98,7 @@ public class ColorSenseTest extends LinearOpMode {
             telemetry.addData("alliance blue ", allianceBlue);
             telemetry.update();
 
-   /*         if((hue>-1 && hue<70) && (saturation>100 && saturation<260)){
+            if((hue>-1 && hue<70) && (saturation>100 && saturation<260)){
                 color="red";
             }
             else if((hue>50 && hue<90) && (saturation>140 && saturation<220)){
@@ -110,25 +111,25 @@ public class ColorSenseTest extends LinearOpMode {
                 color= "nothing";
             }
 
-    */
+
 
         }
     }
 
 
 
-/*    public void intakeSense(boolean allianceBlue){
+    public void intakeSense(boolean allianceBlue){
         color="nothing";
-        bot.bucket.tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
+        bot.bucket.tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
         distance= bot.bucket.distanceSensor.getDistance(DistanceUnit.CM);
         telemetry.update();
 
         while(distance>4){
-            bot.bucket.tubingServo2.setPower(0.7);
+            bot.bucket.tubingServo1.setPower(0.7);
             distance= bot.bucket.distanceSensor.getDistance(DistanceUnit.CM);
         }
         while(distance>1.8){
-            bot.bucket.tubingServo2.setPower(0.2);
+            bot.bucket.tubingServo1.setPower(0.2);
             distance= bot.bucket.distanceSensor.getDistance(DistanceUnit.CM);
             runColorSensor();
         }
@@ -137,7 +138,7 @@ public class ColorSenseTest extends LinearOpMode {
 
         if((allianceBlue && color.equals("red")) || !allianceBlue && color.equals("blue")){
             runColorSensor();
-            bot.bucket.reverseIntake();
+            bot.bucket.reverseIntake(0.5);
             intakeSense(allianceBlue);
         }
         bot.bucket.stopIntake();
@@ -145,7 +146,7 @@ public class ColorSenseTest extends LinearOpMode {
         bot.bucket.flipIn();
     }
 
- */
+
     private void prepColorSensor() {
         Color.RGBToHSV((colorSensor.red()),
                 (colorSensor.green()),
@@ -192,3 +193,4 @@ public class ColorSenseTest extends LinearOpMode {
     }
 
 }
+

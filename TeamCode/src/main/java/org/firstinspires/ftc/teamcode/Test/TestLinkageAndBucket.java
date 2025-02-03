@@ -34,6 +34,8 @@ public class TestLinkageAndBucket extends LinearOpMode {
         bot.bucket.flipIn();
         bot.claw.open();
 
+
+
         while (opModeIsActive() && !isStopRequested()) {
             gp2.readButtons();
 
@@ -57,8 +59,8 @@ public class TestLinkageAndBucket extends LinearOpMode {
 
             }
 
+/*
 
-            /*
             if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
                 times++;
                 if(times % 2 == 0)
@@ -68,6 +70,8 @@ public class TestLinkageAndBucket extends LinearOpMode {
             }
 
 
+ */
+
 
             //bucket testing: flip
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
@@ -76,7 +80,7 @@ public class TestLinkageAndBucket extends LinearOpMode {
                 bot.bucket.flipOut();
             }
 
-             */
+
 
 
         }
@@ -100,3 +104,6 @@ public class TestLinkageAndBucket extends LinearOpMode {
     }
 
 }
+
+
+

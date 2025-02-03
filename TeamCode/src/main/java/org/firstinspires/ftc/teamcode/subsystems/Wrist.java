@@ -22,6 +22,9 @@ public class Wrist {
                                       //we don't want to reset/reprogram the servos, we can use this;
 
     //private ElapsedTime time= new ElapsedTime();
+    //just some notes:
+    // right port 1 -
+    // left port 3
 
     public Wrist(OpMode opMode) {
         wrist_l = new SimpleServo(opMode.hardwareMap, "wrist_l", MIN_ANGLE, MAX_ANGLE, AngleUnit.DEGREES);

@@ -25,11 +25,11 @@ public class TuneTransfer extends LinearOpMode {
         bot.claw.open();
 
         double clawPos=bot.claw.openPos;
-
+        double bucketPos = bot.bucket.transferPos;
         while (opModeIsActive() && !isStopRequested()) {
             gp1.readButtons();
 
-      /*     if(gp1.wasJustPressed(GamepadKeys.Button.A)){
+           if(gp1.wasJustPressed(GamepadKeys.Button.A)){
                 if(bucketPos>0){
                     bucketPos=bucketPos-0.05;
                 }
@@ -43,7 +43,9 @@ public class TuneTransfer extends LinearOpMode {
                 bot.bucket.moveFlipRight(bucketPos);
             }
 
-       */
+
+
+
 
             if(gp1.wasJustPressed(GamepadKeys.Button.X)){
                 if(clawPos>0){
@@ -77,7 +79,7 @@ public class TuneTransfer extends LinearOpMode {
             telemetry.addData("Current Position Bucket", bot.bucket.flip.getPosition());
             telemetry.addData("Current Position Claw", bot.claw.claw.getPosition());
             telemetry.addData("Current Position Linkage Right", bot.linkage.linkage1.getPosition());
-            telemetry.addData("Current Position Linkage Left", bot.linkage.linkage2.getPosition());
+           // telemetry.addData("Current Position Linkage Left", bot.linkage.linkage2.getPosition());
             telemetry.update();
 
 
@@ -85,3 +87,4 @@ public class TuneTransfer extends LinearOpMode {
     }
 
 }
+

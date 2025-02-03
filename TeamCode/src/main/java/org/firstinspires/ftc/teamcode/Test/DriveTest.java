@@ -21,19 +21,19 @@ public class DriveTest extends LinearOpMode {
         gp1 = new GamepadEx(gamepad1);
         gp1.readButtons();
 
-   /*     bot.bucket.stopIntake();
+        bot.bucket.stopIntake();
         bot.linkage.retract();
         bot.bucket.flipIn();
 
-    */
+
         waitForStart();
 
         while(opModeIsActive() & !isStopRequested()) {
-         /*   bot.bucket.stopIntake();
+           bot.bucket.stopIntake();
             bot.linkage.retract();
             bot.bucket.flipIn();
 
-          */
+
             gp1.readButtons();
             drive();
         }
@@ -54,5 +54,8 @@ public class DriveTest extends LinearOpMode {
         );
     }
 }
+
+
+
 
 

@@ -34,7 +34,7 @@ import java.util.Locale;
 
 public class Bucket {
 
-    public final CRServo tubingServo2;
+    //public final CRServo tubingServo2;
     public final CRServo tubingServo1;
 
      public final Servo flip;
@@ -54,11 +54,11 @@ public class Bucket {
     public String color="nothing";
     double hue=0, saturation=0, value=0;
 
-    private ElapsedTime time;
+    //private ElapsedTime time;
 
     public Bucket(OpMode opMode) {
 
-        tubingServo2 = opMode.hardwareMap.crservo.get("intake left");
+        //tubingServo2 = opMode.hardwareMap.crservo.get("intake left");
         tubingServo1 = opMode.hardwareMap.crservo.get("intake right");
         flip = opMode.hardwareMap.servo.get("flip right");
         colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
@@ -67,17 +67,17 @@ public class Bucket {
     }
 
     public void intakeSense(boolean allianceBlue){
-     /*   color="nothing";
-        tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
+        color="nothing";
+        tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
         distance= distanceSensor.getDistance(DistanceUnit.CM);
         telemetry.update();
 
         while(distance>4){
-            tubingServo2.setPower(0.7);
+            tubingServo1.setPower(0.7);
             distance= distanceSensor.getDistance(DistanceUnit.CM);
         }
         while(distance>1.8){
-            tubingServo2.setPower(0.2);
+            tubingServo1.setPower(0.2);
             distance= distanceSensor.getDistance(DistanceUnit.CM);
             runColorSensor();
         }
@@ -86,60 +86,60 @@ public class Bucket {
 
         if((allianceBlue && color.equals("red")) || !allianceBlue && color.equals("blue")){
             runColorSensor();
-            reverseIntake();
+            reverseIntake(0.5);
             intakeSense(allianceBlue);
         }
 
-      */
+
     }
 
 
     public void intakeNoSense(){
-      /*  time.reset();
-        tubingServo2.setDirection(DcMotorSimple.Direction.REVERSE);
-        tubingServo2.setPower(0.7);
+        //time.reset();
+        tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
+        tubingServo1.setPower(0.7);
 
-       */
+
     }
     public void intake(double power){
-        time.reset();
-        tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
-        tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
-        tubingServo2.setPower(power);
+        //time.reset();
+        tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
+        //ubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
         tubingServo1.setPower(power);
+        //tubingServo1.setPower(power);
     }
 
-    public void reverseIntake(){
-        /*
+    public void reverseIntake(double power){
+
     //    time.reset();
-        tubingServo2.setDirection(DcMotorSimple.Direction.FORWARD);
+        tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
     //    while(time.seconds() < 2) {
-        tubingServo2.setPower(0.7);
+        tubingServo1.setPower(power);
      //   }
 
-         */
+
     }
 
     public void stopIntake(){
-   /*     time.reset();
-        tubingServo2.setPower(0);
+       // time.reset();
+        tubingServo1.setPower(0);
 
-    */
+
     }
 
     public void flipIn(){
-      /*  flip.setPosition(transferPos);
+        flip.setPosition(transferPos);
        // flip2.setPosition(transferPos);
 
-       */
+
 
     }
 
     public void flipOut() {
-      /*  flip.setPosition(intakePos);
+        flip.setPosition(intakePos);
      //   flip2.setPosition(intakePos);
 
-       */
+
 
     }
 
@@ -171,15 +171,16 @@ public class Bucket {
     }
 
     public void moveFlipRight(double pos){
-     //   flip.setPosition(pos);
+       flip.setPosition(pos);
     }
 
     public void reset() {
-       // moveFlipRight(intakePos);
+       moveFlipRight(intakePos);
     }
 
 
 }
+
 
 
 

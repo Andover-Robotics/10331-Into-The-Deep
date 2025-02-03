@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_WITHOUT_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -16,11 +17,14 @@ public class Bot {
 
     public Bucket bucket;
 
-    public Slides slides;
+
     public Claw claw;
 
     public Wrist wrist;
     public Linkage linkage;
+
+
+    public Slides slides;
 
     private final DcMotorEx FL, FR, BL, BR;
 
@@ -51,38 +55,54 @@ public class Bot {
 
         }
 
-        FL = opMode.hardwareMap.get(DcMotorEx.class, "fl");
-        FR = opMode.hardwareMap.get(DcMotorEx.class, "fr");
-        BL = opMode.hardwareMap.get(DcMotorEx.class, "bl");
-        BR = opMode.hardwareMap.get(DcMotorEx.class, "br");
+        FL = opMode.hardwareMap.get(DcMotorEx.class, "FL");
+        FR = opMode.hardwareMap.get(DcMotorEx.class, "FR");
+        BL = opMode.hardwareMap.get(DcMotorEx.class, "BL");
+        BR = opMode.hardwareMap.get(DcMotorEx.class, "BR");
+
+
 
         prepMotors();
         this.bucket = new Bucket(opMode);
 
 
-/*        this.slides = new Slides(opMode);
+       this.slides = new Slides(opMode);
+
         this.claw= new Claw(opMode);
         this.bucket = new Bucket(opMode);
         this.linkage = new Linkage(opMode);
         this.wrist= new Wrist(opMode);
 
- */
+
+
+
     }
 
 
     public void prepMotors(){
+
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         FR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         BL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         BR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
+/*
         FL.setMode(RUN_USING_ENCODER);
         FR.setMode(RUN_USING_ENCODER);
         BL.setMode(RUN_USING_ENCODER);
         BR.setMode(RUN_USING_ENCODER);
+
+ */
+
+        FL.setMode(RUN_WITHOUT_ENCODER);
+        FR.setMode(RUN_WITHOUT_ENCODER);
+        BL.setMode(RUN_WITHOUT_ENCODER);
+        BR.setMode(RUN_WITHOUT_ENCODER);
+
         //note: need to plug in encoders for this to work
+
+
 
     }
 
@@ -102,6 +122,7 @@ public class Bot {
                 speeds[i] /= maxSpeed;
             }
         }
+
         FL.setPower(speeds[0]);
         FR.setPower(speeds[1]);
         BL.setPower(speeds[2]);
@@ -110,18 +131,18 @@ public class Bot {
 
     public void resetEverything(){
         resetEncoder();
-        /*
-      //  prepMotors();
-//        slides.runToStorage();
-//        slides.resetEncoder();
-//        slides.resetProfiler();
-      //  wrist.reset();
+
+      prepMotors();
+       slides.runToStorage();
+        slides.resetEncoder();
+        slides.resetProfiler();
+        wrist.reset();
         claw.open();
         bucket.stopIntake();
         bucket.flipIn();
         linkage.retract();
 
-         */
+
 
     }
 
@@ -134,8 +155,10 @@ public class Bot {
 
 
 
-  /*  private void transfer_and_outtake(boolean isDiffyTransfer, double claw_pos) {
 
+
+    private void transfer_and_outtake(boolean isDiffyTransfer, double claw_pos) {
+/*
         // sync claw pos to kinematics class, so that it knows what length to extend slides
         if(claw.getPos() != 1) {
             claw.open();
@@ -145,8 +168,9 @@ public class Bot {
         }
         claw.close();
         wrist.rotate(0.25); // I KNOW THIS LINE IS PROB WRONG
+
+ */
     }
 
-   */
 
 }

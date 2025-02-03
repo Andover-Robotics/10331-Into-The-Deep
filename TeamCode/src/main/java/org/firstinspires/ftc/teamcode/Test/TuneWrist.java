@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
+/*
 @TeleOp(name = "TuneWrist", group = "Test")
 public class TuneWrist extends LinearOpMode {
     public Bot bot;
@@ -31,7 +31,7 @@ Sequence 1:
         2) 240,160
         3) 240. 520
         4) 100. 520 -> transfer
-   */
+
 
 
         //0,20
@@ -68,7 +68,7 @@ Sequence 1:
                 bot.wrist.clip();
              //   bot.wrist.setRollPitch(100,480);
             }
-       /*    if (gp1.wasJustPressed(GamepadKeys.Button.Y)) {
+           if (gp1.wasJustPressed(GamepadKeys.Button.Y)) {
                 bot.wrist.setRoll(320);
                 bot.wrist.setPitch(480);
              //   bot.wrist.setRollPitch(320,480);
@@ -108,7 +108,7 @@ Sequence 1:
                 bot.wrist.setPitch(-40);
             }
 
-        */
+
 
             /*
         1) (100,520) => TRANSFER
@@ -116,7 +116,7 @@ Sequence 1:
         3) (320,480)
         4) (320,-40)
         5) (80,-40) => OUTTAKE
-             */
+
 
 
 
@@ -133,3 +133,5 @@ Sequence 1:
         }
     }
 }
+
+*/

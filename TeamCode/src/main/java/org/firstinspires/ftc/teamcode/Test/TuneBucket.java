@@ -52,7 +52,12 @@ public class TuneBucket extends LinearOpMode {
                 //flip 2:
                 bot.bucket.moveFlipRight(pos);
             }
-
+            if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
+                bot.bucket.intake(0.3);
+            }
+            if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
+                bot.bucket.stopIntake();
+            }
 /*
 
             if(gp2.wasJustPressed(GamepadKeys.Button.A)){
@@ -71,9 +76,9 @@ public class TuneBucket extends LinearOpMode {
                 bot.bucket.move(pos);
             }
 
- */
 
-         /*   if(gp2.wasJustPressed(GamepadKeys.Button.X)){
+
+            if(gp2.wasJustPressed(GamepadKeys.Button.X)){
                 //decrement left : direction towards robot
 
                 if(posLeft>0){
@@ -91,15 +96,19 @@ public class TuneBucket extends LinearOpMode {
                 bot.bucket.moveFlipLeft(posLeft);
             }
 
-          */
+
 
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
                 bot.bucket.reset();
             }
 
+ */
+
         }
     }
 }
+
+
 
 
 

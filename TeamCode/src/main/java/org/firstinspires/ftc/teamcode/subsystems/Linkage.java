@@ -9,26 +9,27 @@ public class Linkage {
 
     public final Bucket bucket;
     public final Servo linkage1;
-    public final Servo linkage2;
+    //public final Servo linkage2;
 
     public static final double extendPos=0.31;
     public static final double retractPos=0.15;
 
 
+
     public Linkage(OpMode opMode) {
         linkage1 = opMode.hardwareMap.get(Servo.class, "right linkage");
-        linkage2 = opMode.hardwareMap.get(Servo.class, "left linkage");
+        //linkage2 = opMode.hardwareMap.get(Servo.class, "left linkage");
         bucket = new Bucket(opMode);
     }
 
     public void extend(){
         linkage1.setPosition(extendPos);
-        linkage2.setPosition(1-extendPos);
+        //linkage2.setPosition(1-extendPos);
     }
 
     public void retract(){
         linkage1.setPosition(retractPos);
-        linkage2.setPosition(1-retractPos);
+        //linkage2.setPosition(1-retractPos);
     }
 
     public void move(double pos){
@@ -39,11 +40,14 @@ public class Linkage {
             pos=retractPos;
         }
         linkage1.setPosition(pos);
-        linkage2.setPosition(1-pos);
+        //linkage2.setPosition(1-pos);
     }
 
 
+
 }
+
+
 
 
 

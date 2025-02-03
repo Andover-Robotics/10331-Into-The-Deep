@@ -20,7 +20,7 @@ public class SlidesTest extends LinearOpMode {
 
         waitForStart();
 
-       // bot.slides.periodic();
+        bot.slides.periodic();
 
         //Slides joystick control
         while (opModeIsActive() && !isStopRequested()) {
@@ -97,11 +97,13 @@ public class SlidesTest extends LinearOpMode {
 
      */
         }
-    }
+    }}
 
 
-        void runSlides ( double power){
+/*        void runSlides (double power){
             bot.slides.runToManual(power);
             bot.slides.periodic();
         }
     }
+
+ */

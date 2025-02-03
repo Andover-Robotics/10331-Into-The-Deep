@@ -23,8 +23,8 @@ public class TuneClaw extends LinearOpMode {
 
         waitForStart();
 
-        bot.claw.close();
-        double pos=bot.claw.closePos;
+        //bot.claw.close();
+        double pos = 0.2;
 
         while (opModeIsActive() && !isStopRequested()) {
 
@@ -49,3 +49,5 @@ public class TuneClaw extends LinearOpMode {
         }
     }
 }
+
+

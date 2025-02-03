@@ -25,7 +25,7 @@ public class TuneLinkage extends LinearOpMode {
         while (opModeIsActive() && !isStopRequested()) {
             gp2.readButtons();
             telemetry.addData("Current Position Linkage Right", bot.linkage.linkage1.getPosition());
-            telemetry.addData("Current Position Linkage Left", bot.linkage.linkage2.getPosition());
+            //telemetry.addData("Current Position Linkage Left", bot.linkage.linkage2.getPosition());
             telemetry.update();
 
             if(gp2.wasJustPressed(GamepadKeys.Button.A)){
@@ -39,15 +39,19 @@ public class TuneLinkage extends LinearOpMode {
                 if(pos>0){
                     pos=pos-0.01;
                 }
-                bot.linkage.move(pos);
+                bot.linkage.linkage1.setPosition(pos);
             }
             if(gp2.wasJustPressed(GamepadKeys.Button.Y)){
                 if(pos<1){
                     pos=pos+0.01;
                 }
-                bot.linkage.move(pos);
+                bot.linkage.linkage1.setPosition(pos);
             }
 
         }
     }
 }
+
+
+
+
