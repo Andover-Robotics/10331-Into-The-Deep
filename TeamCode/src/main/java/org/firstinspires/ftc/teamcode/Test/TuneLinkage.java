@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
 
@@ -18,14 +19,29 @@ public class TuneLinkage extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         bot = Bot.getInstance(this);
         gp2 = new GamepadEx(gamepad2);
-        double pos=0.2;
+        double pos=0.1;
 
         waitForStart();
+
+        //pos = bot.linkage.linkage2.getPosition();
+        bot.linkage.linkage2.setDirection(Servo.Direction.REVERSE);
+        //bot.linkage.linkage2.setPosition(0.1);
+        bot.linkage.retract();
+
+        //linkage 1:
+        //min = 0.09
+        //max = 0.42
+
+        //linkage2:
+        //min = 0.17
+        //max = 0.37
+
+
 
         while (opModeIsActive() && !isStopRequested()) {
             gp2.readButtons();
             telemetry.addData("Current Position Linkage Right", bot.linkage.linkage1.getPosition());
-            //telemetry.addData("Current Position Linkage Left", bot.linkage.linkage2.getPosition());
+            telemetry.addData("Current Position Linkage Left", bot.linkage.linkage2.getPosition());
             telemetry.update();
 
             if(gp2.wasJustPressed(GamepadKeys.Button.A)){
@@ -39,18 +55,22 @@ public class TuneLinkage extends LinearOpMode {
                 if(pos>0){
                     pos=pos-0.01;
                 }
-                bot.linkage.linkage1.setPosition(pos);
+                //bot.linkage.linkage1.setPosition(pos);
+               bot.linkage.linkage2.setPosition(pos);
             }
             if(gp2.wasJustPressed(GamepadKeys.Button.Y)){
                 if(pos<1){
                     pos=pos+0.01;
                 }
-                bot.linkage.linkage1.setPosition(pos);
+                //bot.linkage.linkage1.setPosition(pos);
+                bot.linkage.linkage2.setPosition(pos);
+
+            }
             }
 
         }
     }
-}
+
 
 
 

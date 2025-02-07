@@ -34,6 +34,7 @@ public class MainTeleop extends LinearOpMode {
     private boolean isDiffyTransferPos = true;
     private boolean isClawOpen = true;
     private boolean isAllianceBlue = false;
+
     private ElapsedTime time;
 
     public void runOpMode() throws InterruptedException {
@@ -89,7 +90,17 @@ public class MainTeleop extends LinearOpMode {
                 bot.wrist.setPitch(curr_pos);
             }
 
+            //linkage
+            if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
+                if(isLinkageRetracted) {
+                    bot.linkage.extend();
+                } else {
+                    bot.linkage.retract();
+                }
+            }
+
             //increment linkage forward
+            /*
             if (gp2.wasJustPressed(GamepadKeys.Button.X)) {
                 double curr_pos = bot.linkage.linkage1.getPosition();
                 if (curr_pos < 1) {
@@ -98,7 +109,10 @@ public class MainTeleop extends LinearOpMode {
                 bot.linkage.move(curr_pos);
             }
 
+             */
+
             //increment linkage backward
+            /*
             if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
                 double curr_pos = bot.linkage.linkage1.getPosition();
                 if (curr_pos > 0) {
@@ -107,6 +121,8 @@ public class MainTeleop extends LinearOpMode {
                 bot.linkage.linkage1.setPosition(curr_pos);
             }
 
+
+             */
             //noodles
             /*
             if(gp2.getLeftY() > 0.01) {
@@ -141,7 +157,6 @@ public class MainTeleop extends LinearOpMode {
                     isIntaking = true;
                 }
             }
-
 
 
 

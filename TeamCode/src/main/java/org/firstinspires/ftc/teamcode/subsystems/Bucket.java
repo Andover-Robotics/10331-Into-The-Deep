@@ -37,7 +37,11 @@ public class Bucket {
     //public final CRServo tubingServo2;
     public final CRServo tubingServo1;
 
-     public final Servo flip;
+     public final Servo flip1;
+
+     public final Servo flip2;
+
+
 
     double distance=10;
 
@@ -60,7 +64,9 @@ public class Bucket {
 
         //tubingServo2 = opMode.hardwareMap.crservo.get("intake left");
         tubingServo1 = opMode.hardwareMap.crservo.get("intake right");
-        flip = opMode.hardwareMap.servo.get("flip right");
+        flip1 = opMode.hardwareMap.servo.get("flip right");
+        flip1.setDirection(Servo.Direction.REVERSE);
+        flip2 = opMode.hardwareMap.servo.get("flip left");
         colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
         distanceSensor = opMode.hardwareMap.get(DistanceSensor.class, "color");
 //        time = new ElapsedTime();
@@ -128,16 +134,16 @@ public class Bucket {
     }
 
     public void flipIn(){
-        flip.setPosition(transferPos);
-       // flip2.setPosition(transferPos);
+        flip1.setPosition(transferPos);
+        flip2.setPosition(transferPos);
 
 
 
     }
 
     public void flipOut() {
-        flip.setPosition(intakePos);
-     //   flip2.setPosition(intakePos);
+        flip1.setPosition(intakePos);
+        flip2.setPosition(intakePos);
 
 
 
@@ -169,13 +175,16 @@ public class Bucket {
             color= "nothing";
         }
     }
-
+/*
     public void moveFlipRight(double pos){
        flip.setPosition(pos);
     }
 
+ */
+
     public void reset() {
-       moveFlipRight(intakePos);
+       flip1.setPosition(intakePos);
+       flip2.setPosition(intakePos);
     }
 
 
