@@ -141,7 +141,7 @@ public class Bot {
         switch(level) {
             case 1:
                 return new SequentialAction(
-                        new InstantAction(() -> wrist.bucketOuttakePos()),
+                       // new InstantAction(() -> wrist.bucketOuttakePos()),
                         new SleepAction(0.1),
                         new InstantAction(() -> slides.runToLowBucket()),
                         new InstantAction(() -> claw.open()),
@@ -156,7 +156,7 @@ public class Bot {
                 );
             case 2:
                 return new SequentialAction(
-                        new InstantAction(() -> wrist.bucketOuttakePos()),
+                       // new InstantAction(() -> wrist.bucketOuttakePos()),
                         new SleepAction(0.1),
                         new InstantAction(() -> slides.runToTopBucket()),
                         new InstantAction(() -> claw.open()),
