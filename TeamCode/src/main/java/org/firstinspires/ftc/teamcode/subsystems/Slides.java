@@ -17,24 +17,19 @@ public class Slides {
     private MotionProfiler profiler = new MotionProfiler(30000, 20000);
 
     //** right slides getting caught when moving down
-
-
     //high chamber -> 26 inches (2020)
     //low chamber -> 13 inches
     //high basket -> 43 inches (3820)
     //low basket -> 25.75 inches  (1850)
 
     private final static double p = 0.015, i = 0 , d = 0, f = 0, staticF = 0.25;
-
     private final double tolerance = 20, powerUp = 0.1, powerDown = 0.05, manualDivide = 1, powerMin = 0.1;
     private double target = 0 ;
     public double power;
     private double manualPower=0;
     public boolean goingDown=false;
-
     private double profile_init_time = 0;
     private final OpMode opMode;
-
 
     public enum slidesPosition{
         GROUND,
