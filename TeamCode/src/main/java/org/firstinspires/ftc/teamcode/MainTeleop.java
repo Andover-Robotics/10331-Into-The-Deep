@@ -95,7 +95,7 @@ public class MainTeleop extends LinearOpMode {
                 if (curr_pos < 1) {
                     curr_pos += 0.01;
                 }
-                bot.linkage.move(curr_pos);
+              //  bot.linkage.move(curr_pos);
             }
 
             //increment linkage backward

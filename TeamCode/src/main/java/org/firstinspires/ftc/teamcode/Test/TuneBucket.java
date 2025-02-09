@@ -22,12 +22,17 @@ public class TuneBucket extends LinearOpMode {
 
         waitForStart();
 
-        double pos=0.2;
+        double pos=0.0;
+        bot.bucket.flip1.setPosition(0);
+        bot.bucket.flip2.setPosition(0);
+        //pos = bot.bucket.flip1.getPosition();
+
         while (opModeIsActive() && !isStopRequested()) {
 
             gp2.readButtons();
 
-            telemetry.addData("Current Position Bucket Flip Right", bot.bucket.flip.getPosition());
+            telemetry.addData("Current Position Bucket Flip Right", bot.bucket.flip1.getPosition());
+            telemetry.addData("Current Position Bucket Flip left", bot.bucket.flip2.getPosition());
             telemetry.update();
 
             if(gp2.wasJustPressed(GamepadKeys.Button.A)){
@@ -36,9 +41,10 @@ public class TuneBucket extends LinearOpMode {
                     pos=pos-0.1;
                 }
 
-                //flip 1: decrement
-                //flip 2:
-                bot.bucket.moveFlipRight(pos);
+                bot.bucket.flip1.setPosition(pos);
+                //bot.bucket.flip2.setPosition(pos);
+
+
             }
 
 
@@ -50,13 +56,29 @@ public class TuneBucket extends LinearOpMode {
 
                 //flip 1: increment
                 //flip 2:
-                bot.bucket.moveFlipRight(pos);
+                bot.bucket.flip1.setPosition(pos);
             }
             if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
-                bot.bucket.intake(0.3);
+                //decrement right - WORKING
+                if(pos>0){
+                    pos=pos-0.1;
+                }
+
+                //flip 1: decrement
+                //flip 2:
+                bot.bucket.flip2.setPosition(pos);
+                //bot.bucket.flip2.setPosition(pos);
+                //bot.bucket.intake(0.3);
             }
             if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
-                bot.bucket.stopIntake();
+                //bot.bucket.stopIntake();
+                if(pos<1){
+                    pos=pos+0.1;
+                }
+
+                //flip 1: increment
+                //flip 2:
+                bot.bucket.flip2.setPosition(pos);
             }
 /*
 
