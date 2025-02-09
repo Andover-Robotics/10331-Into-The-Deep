@@ -141,14 +141,7 @@ public class MainTeleop extends LinearOpMode {
                     isIntaking = true;
                 }
             }
-
-
-
-
-
-
         }
-
     }
 
     private void drive() {
