@@ -110,13 +110,8 @@ public class ColorSenseTest extends LinearOpMode {
             else{
                 color= "nothing";
             }
-
-
-
         }
     }
-
-
 
     public void intakeSense(boolean allianceBlue){
         color="nothing";
@@ -145,7 +140,6 @@ public class ColorSenseTest extends LinearOpMode {
         bot.linkage.retract();
         bot.bucket.flipIn();
     }
-
 
     private void prepColorSensor() {
         Color.RGBToHSV((colorSensor.red()),

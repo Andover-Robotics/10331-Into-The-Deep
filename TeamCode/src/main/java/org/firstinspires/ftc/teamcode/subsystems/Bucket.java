@@ -63,7 +63,7 @@ public class Bucket {
     public Bucket(OpMode opMode) {
 
         //tubingServo2 = opMode.hardwareMap.crservo.get("intake left");
-        tubingServo1 = opMode.hardwareMap.crservo.get("intake right");
+        tubingServo1 = opMode.hardwareMap.crservo.get("intake");
         flip1 = opMode.hardwareMap.servo.get("flip right");
         flip1.setDirection(Servo.Direction.REVERSE);
         flip2 = opMode.hardwareMap.servo.get("flip left");

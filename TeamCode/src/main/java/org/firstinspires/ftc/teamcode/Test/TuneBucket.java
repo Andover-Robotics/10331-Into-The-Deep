@@ -35,97 +35,27 @@ public class TuneBucket extends LinearOpMode {
             telemetry.addData("Current Position Bucket Flip left", bot.bucket.flip2.getPosition());
             telemetry.update();
 
-//            if(gp2.wasJustPressed(GamepadKeys.Button.A)){
-//                //decrement right - WORKING
-//                if(pos>0){
-//                    pos=pos-0.1;
-//                }
-//
-//                bot.bucket.flip1.setPosition(pos);
-//                //bot.bucket.flip2.setPosition(pos);
-//
-//
-//            }
-//
-//
-//            if(gp2.wasJustPressed(GamepadKeys.Button.B)){
-//                //increment right: towards robot
-//                if(pos<1){
-//                    pos=pos+0.1;
-//                }
-//
-//                //flip 1: increment
-//                //flip 2:
-//                bot.bucket.flip1.setPosition(pos);
-//            }
-//            if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
-//                //decrement right - WORKING
-//                if(pos>0){
-//                    pos=pos-0.1;
-//                }
-//
-//                //flip 1: decrement
-//                //flip 2:
-//                bot.bucket.flip2.setPosition(pos);
-//                //bot.bucket.flip2.setPosition(pos);
-//                //bot.bucket.intake(0.3);
-//            }
-//            if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
-//                //bot.bucket.stopIntake();
-//                if(pos<1){
-//                    pos=pos+0.1;
-//                }
-//
-//                //flip 1: increment
-//                //flip 2:
-//                bot.bucket.flip2.setPosition(pos);
-//            }
-/*
+            if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
+                if(pos > 0)
+                    pos = pos-0.1;
 
-            if(gp2.wasJustPressed(GamepadKeys.Button.A)){
-                if(pos>0){
-                    pos=pos-0.1;
-                }
-                bot.bucket.move(pos);
+                bot.bucket.flip1.setPosition(pos);
+                bot.bucket.flip2.setPosition(pos);
             }
 
-
-            if(gp2.wasJustPressed(GamepadKeys.Button.B)){
-                if(pos<1){
+            if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
+                if(pos < 1)
                     pos=pos+0.1;
-                }
 
-                bot.bucket.move(pos);
+                bot.bucket.flip1.setPosition(pos);
+                bot.bucket.flip2.setPosition(pos);
             }
-
-
-
-            if(gp2.wasJustPressed(GamepadKeys.Button.X)){
-                //decrement left : direction towards robot
-
-                if(posLeft>0){
-                    posLeft=posLeft-0.1;
-                }
-
-                bot.bucket.moveFlipLeft(posLeft);
-            }
-
-            if(gp2.wasJustPressed(GamepadKeys.Button.Y)){
-                //increment left : towards field
-                if(posLeft<1){
-                    posLeft=posLeft+0.1;
-                }
-                bot.bucket.moveFlipLeft(posLeft);
-            }
-
-
 
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
                 bot.bucket.reset();
             }
 
- */
-
+            //run intake
             if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
                 bot.bucket.intakeNoSense();
             }
@@ -133,7 +63,6 @@ public class TuneBucket extends LinearOpMode {
             if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
                 bot.bucket.stopIntake();
             }
-
         }
     }
 }
