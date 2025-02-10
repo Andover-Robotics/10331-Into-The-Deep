@@ -28,6 +28,8 @@ public class SlidesTest extends LinearOpMode {
 
             bot.slides.runSlides(-gp2.getRightY());
             //when joystick down -> telemetry is negative (
+
+            telemetry.addData("GP2 position (value for runTo i think?)", gp2.getRightY());
             telemetry.addData("Slides Left position", -bot.slides.leftMotor.getCurrentPosition());
             telemetry.addData("Slides Right position", -bot.slides.rightMotor.getCurrentPosition());
             telemetry.update();
