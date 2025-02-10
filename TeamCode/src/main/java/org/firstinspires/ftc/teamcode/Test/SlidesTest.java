@@ -34,6 +34,7 @@ public class SlidesTest extends LinearOpMode {
             telemetry.addData("Slides Right position", -bot.slides.rightMotor.getCurrentPosition());
             telemetry.update();
 
+            //slides preset positions
             if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
                 bot.slides.runToTopBucket();
             }
@@ -51,61 +52,7 @@ public class SlidesTest extends LinearOpMode {
             }
 
             bot.slides.periodic();
-            //Slides Preset Positions (GP2):
-    /*    if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
-            switch(bot.slides.getState()){
-                case GROUND:
-                    bot.slides.runToLowBucket();
-                    break;
-                case BUCKET1:
-                    bot.slides.runToMidBucket();
-                    break;
-                case BUCKET2:
-                    bot.slides.runToTopBucket();
-            }
-        }
-        else if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
-            switch(bot.slides.getState()){
-                case BUCKET3:
-                    bot.slides.runToMidBucket();
-                    break;
-                case BUCKET2:
-                    bot.slides.runToLowBucket();
-                    break;
-                case BUCKET1:
-                    bot.slides.runToStorage();
-            }
-        }
-        else if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
-            switch(bot.slides.getState()){
-                case RUNG2:
-                    bot.slides.runToLowRung();
-                    break;
-                case RUNG1:
-                    bot.slides.runToStorage();
-                    break;
-            }
-        }
-        else if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
-            switch(bot.slides.getState()){
-                case GROUND:
-                    bot.slides.runToLowRung();
-                    break;
-                case RUNG1:
-                    bot.slides.runToTopRung();
-                    break;
-            }
-        }
 
-     */
-        }
-    }}
-
-
-/*        void runSlides (double power){
-            bot.slides.runToManual(power);
-            bot.slides.periodic();
         }
     }
-
- */
+}
