@@ -116,14 +116,6 @@ public class Slides {
     }
 
     public void runToManual(double manual) {
-        if (Math.abs(manual) > powerMin) {
-            manualPower = manual;
-        } else {
-            manualPower = 0;
-        }
-
-
-
         if (manual > powerMin || manual < -powerMin) {
             manualPower = -manual;
         } else {
@@ -133,7 +125,6 @@ public class Slides {
 
     public void periodic() {
 
-        //switch this??
         rightMotor.setInverted(false);
         leftMotor.setInverted(true);
         controller.setPIDF(p, i, d, f);

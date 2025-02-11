@@ -40,7 +40,7 @@ public class DriveTest extends LinearOpMode {
     }
     private void drive() {
         bot.prepMotors();
-        driveSpeed = 1;
+        driveSpeed = 0.7;
         driveSpeed *= 1 - 0.9 * gp1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
         driveSpeed = Math.max(0, driveSpeed);
 
