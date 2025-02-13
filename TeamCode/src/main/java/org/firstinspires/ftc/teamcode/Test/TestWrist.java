@@ -3,9 +3,12 @@ package org.firstinspires.ftc.teamcode.Test;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
 
+
+@TeleOp(name="test wrist")
 public class TestWrist extends LinearOpMode {
     Bot bot;
     private GamepadEx gp2;
@@ -31,13 +34,13 @@ public class TestWrist extends LinearOpMode {
 
             if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
                 //increment position by 0.1
-                pos = pos <= 0.9 ? pos+0.1 : 1;
+                pos = pos <= 0.95 ? pos+0.05 : 1;
                 bot.wrist.wrist_l.setPosition(pos);
                 bot.wrist.wrist_r.setPosition(pos);
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
-                pos = pos >= 0.1 ? pos-0.1 : 0;
+                pos = pos >= 0.05 ? pos-0.05 : 0;
                 bot.wrist.wrist_l.setPosition(pos);
                 bot.wrist.wrist_r.setPosition(pos);
             }

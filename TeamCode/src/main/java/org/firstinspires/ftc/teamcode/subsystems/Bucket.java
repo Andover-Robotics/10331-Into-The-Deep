@@ -65,8 +65,9 @@ public class Bucket {
         //tubingServo2 = opMode.hardwareMap.crservo.get("intake left");
         tubingServo1 = opMode.hardwareMap.crservo.get("intake");
         flip1 = opMode.hardwareMap.servo.get("flip right");
-        flip1.setDirection(Servo.Direction.REVERSE);
+        //flip1.setDirection(Servo.Direction.REVERSE);
         flip2 = opMode.hardwareMap.servo.get("flip left");
+        flip2.setDirection(Servo.Direction.REVERSE);
         colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color");
         distanceSensor = opMode.hardwareMap.get(DistanceSensor.class, "color");
 //        time = new ElapsedTime();
@@ -75,7 +76,7 @@ public class Bucket {
     public void intakeSense(boolean allianceBlue){
         color="nothing";
         tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
-        distance= distanceSensor.getDistance(DistanceUnit.CM);
+        distance = distanceSensor.getDistance(DistanceUnit.CM);
         telemetry.update();
 
         while(distance>4){

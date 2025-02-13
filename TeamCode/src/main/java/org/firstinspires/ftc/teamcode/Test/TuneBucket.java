@@ -46,23 +46,39 @@ public class TuneBucket extends LinearOpMode {
             if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
                 if(pos < 1)
                     pos=pos+0.1;
+                //goes towards the bot
 
                 bot.bucket.flip1.setPosition(pos);
                 bot.bucket.flip2.setPosition(pos);
             }
 
+//            if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
+//                if(pos > 0)
+//                    pos = pos-0.1;
+//
+//                bot.bucket.flip2.setPosition(pos);
+//            }
+//
+//            if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
+//                if(pos < 1)
+//                    pos=pos+0.1;
+//                bot.bucket.flip2.setPosition(pos);
+//            }
+
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
                 bot.bucket.reset();
             }
 
-            //run intake
-            if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
+            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+                //start intake
                 bot.bucket.intakeNoSense();
             }
 
-            if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
+            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
+                //stop intake
                 bot.bucket.stopIntake();
             }
+
         }
     }
 }
