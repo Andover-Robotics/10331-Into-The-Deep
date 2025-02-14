@@ -138,7 +138,7 @@ public class Bot {
 
     //Bucket Outtake (Auto): move wrist, slides up, claw open; reset all back to storage. specify 1 for low, 2 for high
     public SequentialAction bucketOuttakeAction(int level) {
-        switch(level) {
+        switch (level) {
             case 1:
                 return new SequentialAction(
                         new InstantAction(() -> wrist.bucketOuttakePos()),
@@ -173,4 +173,16 @@ public class Bot {
                 return null;
         }
     }
+    public SequentialAction intakeAction() {
+        return new SequentialAction(
+                new InstantAction(()->linkage.extend()),
+                new SleepAction(0.1),
+                new InstantAction(()->bucket.intake(0.8)), //may need to change the intake function
+                new SleepAction(0.1),
+                new InstantAction(()->linkage.retract()),
+                new SleepAction(0.5)
+        );
+    }
+
 }
+
