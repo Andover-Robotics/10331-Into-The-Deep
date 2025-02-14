@@ -8,9 +8,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Claw {
 
     public final Servo claw;
-    public static final double openPos=0.85;
-    public static final double graspPos=0.78;
-    public static final double closePos=0.79;
+    public static final double openPos=0.1;
+    public static final double graspPos=0.01;
+    public static final double closePos=0;
     //Note: all values MUST BE CHANGED (receive from TeleOp)
 
     public Claw(OpMode opMode) {

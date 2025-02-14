@@ -44,6 +44,15 @@ public class TestWrist extends LinearOpMode {
                 bot.wrist.wrist_l.setPosition(pos);
                 bot.wrist.wrist_r.setPosition(pos);
             }
+
+
+            if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
+                bot.wrist.bucketOuttake();
+            }
+
+            if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
+                bot.wrist.specOuttake();
+            }
         }
     }
 }

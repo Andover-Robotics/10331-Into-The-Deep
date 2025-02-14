@@ -1,4 +1,4 @@
-/*package org.firstinspires.ftc.teamcode.Test;
+package org.firstinspires.ftc.teamcode.Test;
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -24,7 +24,8 @@ public class TuneClaw extends LinearOpMode {
         waitForStart();
 
         //bot.claw.close();
-        double pos = 0.2;
+        double pos = 0;
+        bot.claw.move(0);
 
         while (opModeIsActive() && !isStopRequested()) {
 
@@ -32,6 +33,7 @@ public class TuneClaw extends LinearOpMode {
 
             telemetry.addData("Current Position", bot.claw.claw.getPosition());
             telemetry.update();
+
 
             if(gp2.wasJustPressed(GamepadKeys.Button.X)){
                 if(pos>0){
@@ -50,6 +52,6 @@ public class TuneClaw extends LinearOpMode {
     }
 }
 
- */
+
 
 
