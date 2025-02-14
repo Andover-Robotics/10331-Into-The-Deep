@@ -49,10 +49,10 @@ public class Bucket {
 
     public final DistanceSensor distanceSensor;
 
-    public static final double transferPos = 1;
+    public static final double transferPos = 0;
 
     //tune
-    public static final double intakePos = 0.13;
+    public static final double intakePos = 0.7;
 
     private final float[] hsvValues = {0, 0, 0};
     public String color="nothing";
@@ -137,9 +137,6 @@ public class Bucket {
     public void flipIn(){
         flip1.setPosition(transferPos);
         flip2.setPosition(transferPos);
-
-
-
     }
 
     public void flipOut() {

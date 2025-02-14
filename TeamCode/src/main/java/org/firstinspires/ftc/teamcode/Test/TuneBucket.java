@@ -52,18 +52,13 @@ public class TuneBucket extends LinearOpMode {
                 bot.bucket.flip2.setPosition(pos);
             }
 
-//            if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
-//                if(pos > 0)
-//                    pos = pos-0.1;
-//
-//                bot.bucket.flip2.setPosition(pos);
-//            }
-//
-//            if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
-//                if(pos < 1)
-//                    pos=pos+0.1;
-//                bot.bucket.flip2.setPosition(pos);
-//            }
+            if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
+                bot.bucket.flipIn();
+            }
+
+            if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
+                bot.bucket.flipOut();
+            }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
                 bot.bucket.reset();
@@ -78,6 +73,8 @@ public class TuneBucket extends LinearOpMode {
                 //stop intake
                 bot.bucket.stopIntake();
             }
+
+
 
         }
     }
