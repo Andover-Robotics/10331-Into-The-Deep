@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class Wrist {
     public Servo wrist_l;
     public Servo wrist_r;
+    private double intermediate_transfer_pos = 0.1;
     private double spec_outtake_pos = 0.72;
     private double initial_outtake_pos = 0.67;
     private double transfer_pos = 0;
@@ -28,6 +29,11 @@ public class Wrist {
     public void setPitch(double pos) {
         wrist_l.setPosition(pos);
         wrist_r.setPosition(pos);
+    }
+
+    public void intermediate() {
+        wrist_l.setPosition(intermediate_transfer_pos);
+        wrist_l.setPosition(intermediate_transfer_pos);
     }
 
     public void bucketOuttake() {

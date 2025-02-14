@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
 
@@ -46,6 +47,14 @@ public class TuneClaw extends LinearOpMode {
                     pos=pos+0.01;
                 }
                 bot.claw.move(pos);
+            }
+
+            if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
+                bot.claw.open();
+            }
+
+            if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
+                bot.claw.close();
             }
 
         }
