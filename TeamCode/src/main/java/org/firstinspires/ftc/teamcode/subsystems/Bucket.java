@@ -104,7 +104,7 @@ public class Bucket {
     public void intakeNoSense(){
         //time.reset();
         tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
-        tubingServo1.setPower(0.7);
+        tubingServo1.setPower(0.85);
 
 
     }
