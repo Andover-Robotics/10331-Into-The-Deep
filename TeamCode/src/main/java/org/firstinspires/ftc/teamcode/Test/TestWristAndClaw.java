@@ -33,7 +33,7 @@ public class TestWristAndClaw extends LinearOpMode {
         waitForStart();
         bot.wrist.wrist_r.setPosition(0.2);
         bot.wrist.wrist_l.setPosition(0.2);
-        bot.claw.close();
+      //  bot.claw.close();
 
         while(opModeIsActive() && !isStopRequested()) {
             gp2.readButtons();

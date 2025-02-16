@@ -104,9 +104,14 @@ public class Bucket {
     public void intakeNoSense(){
         //time.reset();
         tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
-        tubingServo1.setPower(0.85);
+        tubingServo1.setPower(1);
 
 
+    }
+
+    public void reverseIntake(){
+        tubingServo1.setDirection(DcMotorSimple.Direction.FORWARD);
+        tubingServo1.setPower(0.7);
     }
     public void intake(double power){
         //time.reset();

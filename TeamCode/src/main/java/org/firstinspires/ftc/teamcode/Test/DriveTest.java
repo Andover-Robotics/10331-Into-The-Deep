@@ -20,18 +20,18 @@ public class DriveTest extends LinearOpMode {
         bot = Bot.getInstance(this);
         gp1 = new GamepadEx(gamepad1);
         gp1.readButtons();
-
-        bot.bucket.stopIntake();
-        bot.linkage.retract();
-        bot.bucket.flipIn();
+//
+//        bot.bucket.stopIntake();
+//        bot.linkage.retract();
+//        bot.bucket.flipIn();
 
 
         waitForStart();
 
         while(opModeIsActive() & !isStopRequested()) {
-           bot.bucket.stopIntake();
-            bot.linkage.retract();
-            bot.bucket.flipIn();
+//           bot.bucket.stopIntake();
+//            bot.linkage.retract();
+//            bot.bucket.flipIn();
 
 
             gp1.readButtons();

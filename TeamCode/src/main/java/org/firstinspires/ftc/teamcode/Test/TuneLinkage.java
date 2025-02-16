@@ -24,9 +24,9 @@ public class TuneLinkage extends LinearOpMode {
         waitForStart();
 
         //pos = bot.linkage.linkage2.getPosition();
-        bot.linkage.linkage2.setDirection(Servo.Direction.REVERSE);
+       // bot.linkage.linkage2.setDirection(Servo.Direction.REVERSE);
         //bot.linkage.linkage2.setPosition(0.1);
-        bot.linkage.retract();
+        bot.linkage.extend();
 
         //linkage 1:
         //min = 0.09
@@ -35,8 +35,6 @@ public class TuneLinkage extends LinearOpMode {
         //linkage2:
         //min = 0.17
         //max = 0.37
-
-
 
         while (opModeIsActive() && !isStopRequested()) {
             gp2.readButtons();
@@ -52,26 +50,27 @@ public class TuneLinkage extends LinearOpMode {
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.X)){
-                if(pos>0){
-                    pos=pos-0.01;
-                }
+                double pos1 = bot.linkage.linkage1.getPosition();
+                double pos2 = bot.linkage.linkage2.getPosition();
+
+                if(pos1>0) pos1-=0.05;
+                if(pos2>0) pos2-=0.05;
+
                 //bot.linkage.linkage1.setPosition(pos);
-               bot.linkage.linkage2.setPosition(pos);
+               bot.linkage.linkage2.setPosition(pos1);
+               bot.linkage.linkage2.setPosition(pos2);
             }
             if(gp2.wasJustPressed(GamepadKeys.Button.Y)){
-                if(pos<1){
-                    pos=pos+0.01;
-                }
+                double pos1 = bot.linkage.linkage1.getPosition();
+                double pos2 = bot.linkage.linkage2.getPosition();
+
+                if(pos1<1) pos1+=0.05;
+                if(pos2<1) pos2+=0.05;
+
                 //bot.linkage.linkage1.setPosition(pos);
-                bot.linkage.linkage2.setPosition(pos);
-
+                bot.linkage.linkage2.setPosition(pos1);
+                bot.linkage.linkage2.setPosition(pos2);
             }
-            }
-
         }
     }
-
-
-
-
-
+}
