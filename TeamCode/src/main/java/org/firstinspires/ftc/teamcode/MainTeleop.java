@@ -123,10 +123,10 @@ public class MainTeleop extends LinearOpMode {
             //run noodles forward
             if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
                 if(isIntaking) {
-                    bot.bucket.stopIntake();
+//                    bot.bucket.stopIntake();
                     isIntaking = false;
                 } else {
-                    bot.bucket.intake(0.5);
+//                    bot.bucket.intake(0.5);
                     isIntaking = true;
                 }
             }
@@ -134,10 +134,10 @@ public class MainTeleop extends LinearOpMode {
             //run noodles backward
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
                 if(isIntaking) {
-                    bot.bucket.stopIntake();
+//                    bot.bucket.stopIntake();
                     isIntaking = false;
                 } else {
-                    bot.bucket.reverseIntake(0.5);
+//                    bot.bucket.reverseIntake(0.5);
                     isIntaking = true;
                 }
             }

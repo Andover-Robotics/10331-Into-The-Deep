@@ -10,10 +10,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class Wrist {
     public Servo wrist_l;
     public Servo wrist_r;
-    private double intermediate_transfer_pos = 0.1;
+    private double intermediate_transfer_pos = 0.3;
     private double spec_outtake_pos = 0.72;
     private double initial_outtake_pos = 0.67;
-    private double transfer_pos = 0;
+    private double transfer_pos = 0.05;
 
     public Wrist(OpMode opMode) {
         wrist_l = opMode.hardwareMap.servo.get("left wrist");

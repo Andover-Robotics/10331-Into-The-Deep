@@ -21,7 +21,8 @@ public class Bot {
     public OpMode opMode;
     public static Bot instance;
     //Subsystems
-    public Bucket bucket;
+   // public Bucket bucket;
+    public IntakeArm arm;
     public Slides slides;
     public Claw claw;
     public Wrist wrist;
@@ -60,7 +61,8 @@ public class Bot {
         prepMotors();
         this.slides = new Slides(opMode);
         this.claw= new Claw(opMode);
-        this.bucket = new Bucket(opMode);
+       // this.bucket = new Bucket(opMode);
+        this.arm = new IntakeArm(opMode);
         this.linkage = new Linkage(opMode);
         this.wrist= new Wrist(opMode);
     }
@@ -111,8 +113,8 @@ public class Bot {
 //        slides.resetProfiler();
       //  wrist.reset();
         claw.open();
-        bucket.stopIntake();
-        bucket.flipIn();
+//        bucket.stopIntake();
+//        bucket.flipIn();
         linkage.retract();
 
     }

@@ -31,8 +31,7 @@ public class TestWristAndClaw extends LinearOpMode {
       //  double pos = 0.0;
 
         waitForStart();
-        bot.wrist.wrist_r.setPosition(0.2);
-        bot.wrist.wrist_l.setPosition(0.2);
+        bot.wrist.intermediate();
       //  bot.claw.close();
 
         while(opModeIsActive() && !isStopRequested()) {
@@ -55,7 +54,13 @@ public class TestWristAndClaw extends LinearOpMode {
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
+                bot.wrist.storage();
+                bot.wrist.intermediate();
                 runningActions.add(bucketOuttakeAction());
+            }
+
+            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+                bot.wrist.setPitch(0.8);
             }
 
             //boilerplate for actions (?pls work)
@@ -80,7 +85,7 @@ public class TestWristAndClaw extends LinearOpMode {
                 // new InstantAction(() -> wrist.bucketOuttakePos()),
                 new SleepAction(0.1),
                 new InstantAction(() -> bot.wrist.intermediate()),
-                new SleepAction(0.2),
+                new SleepAction(0.5),
                 new InstantAction(() -> bot.claw.open()),
                 new SleepAction(0.2),
                 new InstantAction(() -> bot.wrist.storage()),

@@ -37,9 +37,9 @@ public class TestLinkageAndBucket extends LinearOpMode {
         double pos=0;
 
         waitForStart();
-        bot.bucket.flipIn();
+       // bot.bucket.flipIn();
         bot.linkage.extend();
-        bot.bucket.flipOut();
+       // bot.bucket.flipOut();
         bot.wrist.intermediate();
         bot.claw.open();
         bot.wrist.storage();
@@ -48,17 +48,17 @@ public class TestLinkageAndBucket extends LinearOpMode {
             gp2.readButtons();
 
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
-                bot.bucket.intakeNoSense();
+               // bot.bucket.intakeNoSense();
             }
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
-                bot.bucket.stopIntake();
+              //  bot.bucket.stopIntake();
             }
 
             //bucket testing: flip
             if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
-                bot.bucket.flipIn();
+              //  bot.bucket.flipIn();
             } else if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
-                bot.bucket.flipOut();
+              //  bot.bucket.flipOut();
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
@@ -69,7 +69,7 @@ public class TestLinkageAndBucket extends LinearOpMode {
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
-                bot.bucket.reverseIntake();
+              //  bot.bucket.reverseIntake();
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {

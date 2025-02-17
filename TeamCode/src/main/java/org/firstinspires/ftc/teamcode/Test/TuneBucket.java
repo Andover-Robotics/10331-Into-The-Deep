@@ -23,55 +23,55 @@ public class TuneBucket extends LinearOpMode {
         waitForStart();
 
         double pos=0.0;
-        bot.bucket.flip1.setPosition(0);
-        bot.bucket.flip2.setPosition(0);
+      //  bot.bucket.flip1.setPosition(0);
+       // bot.bucket.flip2.setPosition(0);
         //pos = bot.bucket.flip1.getPosition();
 
         while (opModeIsActive() && !isStopRequested()) {
 
             gp2.readButtons();
-
-            telemetry.addData("Current Position Bucket Flip Right", bot.bucket.flip1.getPosition());
-            telemetry.addData("Current Position Bucket Flip left", bot.bucket.flip2.getPosition());
-            telemetry.update();
+//
+//            telemetry.addData("Current Position Bucket Flip Right", bot.bucket.flip1.getPosition());
+//            telemetry.addData("Current Position Bucket Flip left", bot.bucket.flip2.getPosition());
+//            telemetry.update();
 
             if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
                 if(pos > 0)
                     pos = pos-0.1;
-
-                bot.bucket.flip1.setPosition(pos);
-                bot.bucket.flip2.setPosition(pos);
+//
+//                bot.bucket.flip1.setPosition(pos);
+//                bot.bucket.flip2.setPosition(pos);
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
                 if(pos < 1)
                     pos=pos+0.1;
                 //goes towards the bot
-
-                bot.bucket.flip1.setPosition(pos);
-                bot.bucket.flip2.setPosition(pos);
+//
+//                bot.bucket.flip1.setPosition(pos);
+//                bot.bucket.flip2.setPosition(pos);
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
-                bot.bucket.flipIn();
+//                bot.bucket.flipIn();
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
-                bot.bucket.flipOut();
+//                bot.bucket.flipOut();
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
-                bot.bucket.reset();
+//                bot.bucket.reset();
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
                 //start intake
-                bot.bucket.intakeNoSense();
+//                bot.bucket.intakeNoSense();
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
                 //stop intake
-                bot.bucket.stopIntake();
+//                bot.bucket.stopIntake();
             }
 
 

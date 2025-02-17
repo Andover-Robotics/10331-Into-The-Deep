@@ -47,9 +47,9 @@ public class ColorSenseTest extends LinearOpMode {
         gp1.readButtons();
         initColorSensor(this);
 
-        bot.bucket.stopIntake();
+       // bot.bucket.stopIntake();
         bot.linkage.retract();
-        bot.bucket.flipIn();
+       // bot.bucket.flipIn();
 
 
 
@@ -70,15 +70,15 @@ public class ColorSenseTest extends LinearOpMode {
 
             runColorSensor();
             if (gp1.wasJustPressed(GamepadKeys.Button.X)) {
-                bot.bucket.reverseIntake(0.5);
+               // bot.bucket.reverseIntake(0.5);
             }
             if(gp1.wasJustPressed(GamepadKeys.Button.A)){
-                bot.bucket.flipOut();
+               // bot.bucket.flipOut();
                 bot.linkage.extend();
                 intakeSense(allianceBlue);
             }
             if(gp1.wasJustPressed(GamepadKeys.Button.Y)){
-                bot.bucket.stopIntake();
+             //   bot.bucket.stopIntake();
             }
             if(gp1.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)){
                 allianceBlue=true;
@@ -115,30 +115,30 @@ public class ColorSenseTest extends LinearOpMode {
 
     public void intakeSense(boolean allianceBlue){
         color="nothing";
-        bot.bucket.tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
-        distance= bot.bucket.distanceSensor.getDistance(DistanceUnit.CM);
+       // bot.bucket.tubingServo1.setDirection(DcMotorSimple.Direction.REVERSE);
+       // distance= bot.bucket.distanceSensor.getDistance(DistanceUnit.CM);
         telemetry.update();
 
         while(distance>4){
-            bot.bucket.tubingServo1.setPower(0.7);
-            distance= bot.bucket.distanceSensor.getDistance(DistanceUnit.CM);
+         //   bot.bucket.tubingServo1.setPower(0.7);
+         //   distance= bot.bucket.distanceSensor.getDistance(DistanceUnit.CM);
         }
         while(distance>1.8){
-            bot.bucket.tubingServo1.setPower(0.2);
-            distance= bot.bucket.distanceSensor.getDistance(DistanceUnit.CM);
+          //  bot.bucket.tubingServo1.setPower(0.2);
+          //  distance= bot.bucket.distanceSensor.getDistance(DistanceUnit.CM);
             runColorSensor();
         }
-        bot.bucket.stopIntake();
+       // bot.bucket.stopIntake();
         telemetry.update();
 
         if((allianceBlue && color.equals("red")) || !allianceBlue && color.equals("blue")){
             runColorSensor();
-            bot.bucket.reverseIntake(0.5);
+//            bot.bucket.reverseIntake(0.5);
             intakeSense(allianceBlue);
         }
-        bot.bucket.stopIntake();
+//        bot.bucket.stopIntake();
         bot.linkage.retract();
-        bot.bucket.flipIn();
+//        bot.bucket.flipIn();
     }
 
     private void prepColorSensor() {
