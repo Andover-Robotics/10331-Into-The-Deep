@@ -14,6 +14,7 @@ public class IntakeArm {
         wristRotationServo = opMode.hardwareMap.servo.get("intake_wrist");
         clawOpenClose = opMode.hardwareMap.servo.get("intake_claw");
         wrist_l = opMode.hardwareMap.servo.get("flip_left");
+        wrist_l.setDirection(Servo.Direction.REVERSE);
         wrist_r = opMode.hardwareMap.servo.get("flip_right");
     }
 

@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Linkage {
 
-    public final Bucket bucket;
+    //public final Bucket bucket;
     public final Servo linkage1;
     public final Servo linkage2;
 
@@ -22,7 +22,7 @@ public class Linkage {
         linkage1 = opMode.hardwareMap.get(Servo.class, "right linkage");
         linkage2 = opMode.hardwareMap.get(Servo.class, "left linkage");
         linkage2.setDirection(Servo.Direction.REVERSE);
-        bucket = new Bucket(opMode);
+      //  bucket = new Bucket(opMode);
     }
     //linkage 1:
     //min = 0.09
