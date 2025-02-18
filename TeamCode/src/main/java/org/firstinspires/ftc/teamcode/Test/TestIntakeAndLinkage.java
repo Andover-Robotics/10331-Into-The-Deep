@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.Test;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
@@ -8,25 +7,20 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
-
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @TeleOp
-public class TestLinkageAndBucket extends LinearOpMode {
+public class TestIntakeAndLinkage extends LinearOpMode {
     Bot bot;
     private GamepadEx gp2;
     private GamepadEx gp1;
     private double driveSpeed = 1;
     private FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
-
     @Override
     public void runOpMode() throws InterruptedException {
         bot = Bot.getInstance(this);
@@ -37,28 +31,22 @@ public class TestLinkageAndBucket extends LinearOpMode {
         double pos=0;
 
         waitForStart();
-       // bot.bucket.flipIn();
+
+        //initial positions:
         bot.linkage.extend();
-       // bot.bucket.flipOut();
         bot.wrist.intermediate();
         bot.claw.open();
-        bot.wrist.storage();
+        bot.arm.rotateWrist(0);
+        bot.arm.setPitch(0);
+        bot.arm.closeClaw();
 
         while (opModeIsActive() && !isStopRequested()) {
             gp2.readButtons();
-
-            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
-               // bot.bucket.intakeNoSense();
-            }
-            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
-              //  bot.bucket.stopIntake();
-            }
-
-            //bucket testing: flip
+            //testing individual functions:
             if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
-              //  bot.bucket.flipIn();
+                bot.arm.intakePos();
             } else if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
-              //  bot.bucket.flipOut();
+                bot.arm.transferPos();
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
@@ -68,15 +56,22 @@ public class TestLinkageAndBucket extends LinearOpMode {
                 bot.linkage.extend();
             }
 
+            //testing full actions:
+
+            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
+               runningActions.add(intakeAction());
+            }
+
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
               //  bot.bucket.reverseIntake();
+                runningActions.add(confirmIntake());
             }
 
-            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
-                runningActions.add(bucketOuttakeAction());
+            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+                runningActions.add(clawOuttakeAction());
             }
 
-            //boilerplate for actions (?pls work)
+            //run actions:
             List<Action> newActions = new ArrayList<>();
             for (Action action : runningActions) {
                 action.preview(packet.fieldOverlay());
@@ -88,24 +83,41 @@ public class TestLinkageAndBucket extends LinearOpMode {
 
             dash.sendTelemetryPacket(packet);
         }
-
     }
 
-    public SequentialAction bucketOuttakeAction() {
+    public SequentialAction clawOuttakeAction() {
         return new SequentialAction(
-                // new InstantAction(() -> wrist.bucketOuttakePos()),
                 new SleepAction(0.1),
                 new InstantAction(() -> bot.wrist.intermediate()),
                 new SleepAction(0.2),
                 new InstantAction(() -> bot.claw.open()),
                 new SleepAction(0.2),
-                new InstantAction(() -> bot.wrist.storage()),
+                new InstantAction(() -> bot.wrist.transfer()),
                 new SleepAction(0.2),
                 new InstantAction(() -> bot.claw.close()),
                 new SleepAction(0.2),
                 new InstantAction(() -> bot.wrist.bucketOuttake())
         );
     }
+
+    public SequentialAction intakeAction() {
+        return new SequentialAction(
+                new InstantAction(() -> bot.linkage.extend()),
+                new SleepAction(0.1),
+                new InstantAction(()->bot.arm.intakePos())
+        );
+    }
+
+    public SequentialAction confirmIntake() {
+        return new SequentialAction(
+                new InstantAction(() -> bot.arm.closeClaw()),
+                new SleepAction(0.1),
+                new InstantAction(() -> bot.arm.transferPos()),
+                new SleepAction(0.1),
+                new InstantAction(() -> bot.linkage.retract())
+        );
+    }
+
 //    private void drive() {
 //        gp1.readButtons();
 //        bot.prepMotors();
@@ -123,7 +135,23 @@ public class TestLinkageAndBucket extends LinearOpMode {
 //        );
 //    }
 
+    //intake actions to pick up sample:
+            /*
+        intake action:
+        - extend linkage
+        - intake arm to pos parallel with the field while rotating arm 180 degrees
+        - open intake claw
+
+        intake action pt 2:
+        - close intake claw
+        - go to transfer position
+        - retract linkage
+
+        claw (transfer - outtake) action:
+        - open claw
+        - claw go to transfer pos
+        - close claw
+        - claw go to outtake pos
+         */
+
 }
-
-
-

@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.subsystems;
-
 import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.arcrobotics.ftclib.hardware.ServoEx;
@@ -32,20 +31,20 @@ public class Wrist {
     }
 
     public void intermediate() {
-        wrist_l.setPosition(intermediate_transfer_pos);
-        wrist_l.setPosition(intermediate_transfer_pos);
+        setPitch(intermediate_transfer_pos);
+    }
+
+    public void transfer() {
+        setPitch(transfer_pos);
     }
 
     public void bucketOuttake() {
-        wrist_l.setPosition(initial_outtake_pos);
-        wrist_r.setPosition(initial_outtake_pos);
+        setPitch(initial_outtake_pos);
     }
 
     public void specOuttake() {
-        wrist_l.setPosition(spec_outtake_pos);
-        wrist_r.setPosition(spec_outtake_pos);
+        setPitch(spec_outtake_pos);
     }
-
 }
 
 

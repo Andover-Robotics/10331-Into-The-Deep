@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.subsystems;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -39,8 +38,13 @@ public class IntakeArm {
         clawOpenClose.setPosition(0);
     }
     public void intakePos() {
+        rotateWrist(0.75);
+        setPitch(0.75);
+        openClaw();
+    }
+
+    public void transferPos() {
         rotateWrist(0);
         setPitch(0);
-        openClaw();
     }
 }
