@@ -11,7 +11,9 @@ import org.firstinspires.ftc.teamcode.subsystems.Bot;
 public class IntakeArmTest extends LinearOpMode {
     Bot bot;
     private GamepadEx gp2;
-    double pos = 0;
+    double pitchPos = 0;
+    double rotatePos = 0;
+    double openPos = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -31,26 +33,36 @@ public class IntakeArmTest extends LinearOpMode {
             telemetry.addData("Current Position Wrist Rotation Servo: ", bot.arm.wristRotationServo.getPosition());
             telemetry.update();
             //tune rotation:
+            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+                //rotatePos = openPos+0.05 < 1 ? openPos+0.05 : openPos;
+                rotatePos = openPos+0.05;
+                bot.arm.rotateWrist(rotatePos);
+            }
+            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
+                //rotatePos =  openPos-0.05 > 0 ? openPos-0.05 : openPos;
+                rotatePos =  openPos-0.05;
+                bot.arm.rotateWrist(rotatePos);
+            }
 
             //tune open/close:
 
             if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
-                pos = pos+0.1 < 1 ? pos+0.1 : pos;
-                bot.arm.setClawPos(pos);
+                openPos = openPos+0.1 < 1 ? openPos+0.1 : openPos;
+                bot.arm.setClawPos(openPos);
             }
             if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
-                pos = pos - 0.1 > 0 ? pos-0.1 : pos;
-                bot.arm.setClawPos(pos);
+                openPos = openPos - 0.1 > 0 ? openPos-0.1 : openPos;
+                bot.arm.setClawPos(openPos);
             }
 
             //tune wrist:
             if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
-                pos = pos+0.1 < 1 ? pos+0.1 : pos;
-                bot.arm.setPitch(pos);
+                pitchPos = pitchPos+0.05 < 1 ? pitchPos+0.05 : pitchPos;
+                bot.arm.setPitch(pitchPos);
             }
             if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
-                pos = pos - 0.1 > 0 ? pos-0.1 : pos;
-                bot.arm.setPitch(pos);
+                pitchPos = pitchPos - 0.05 > 0 ? pitchPos-0.05 : pitchPos;
+                bot.arm.setPitch(pitchPos);
             }
         }
     }
