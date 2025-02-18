@@ -45,6 +45,10 @@ public class Wrist {
     public void specOuttake() {
         setPitch(spec_outtake_pos);
     }
+
+    public void reset() {
+        setPitch(0);
+    }
 }
 
 

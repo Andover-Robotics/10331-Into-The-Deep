@@ -118,12 +118,10 @@ public class Bot {
 //        slides.runToStorage();
 //        slides.resetEncoder();
 //        slides.resetProfiler();
-      //  wrist.reset();
-        claw.open();
-//        bucket.stopIntake();
-//        bucket.flipIn();
+        claw.close();
+        wrist.reset();
+        arm.reset();
         linkage.retract();
-
     }
 
     private void resetEncoder() {
