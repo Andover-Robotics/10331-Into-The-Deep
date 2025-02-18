@@ -30,6 +30,13 @@ public class Bot {
     private final DcMotorEx FL, FR, BL, BR;
     public boolean fieldCentricRunMode = false;
 
+    public enum BotState {
+        INTAKE,
+        TRANSFER,
+        OUTTAKE
+    }
+    public BotState state;
+
     public static Bot getInstance(OpMode opMode) {
         if (instance == null) {
             return instance = new Bot(opMode);
@@ -136,6 +143,31 @@ public class Bot {
     }
     public Action slidesPeriodic() {
         return new slidesPeriodic();
+    }
+
+    //TELEOP ACTIONS:
+    public SequentialAction clawToTransfer() {
+        return new SequentialAction(
+                new SleepAction(0.1),
+                new InstantAction(() -> wrist.intermediate()),
+                new SleepAction(0.2),
+                new InstantAction(() -> claw.open()),
+                new SleepAction(0.2),
+                new InstantAction(() -> wrist.transfer()),
+                new SleepAction(0.2),
+                new InstantAction(() -> claw.close()),
+                new SleepAction(0.2)
+        );
+    }
+
+    public SequentialAction armToTransfer() {
+        return new SequentialAction(
+                new InstantAction(() -> arm.closeClaw()),
+                new SleepAction(0.1),
+                new InstantAction(() -> arm.transferPos()),
+                new SleepAction(0.1),
+                new InstantAction(() -> linkage.retract())
+        );
     }
 
     //Bucket Outtake (Auto): move wrist, slides up, claw open; reset all back to storage. specify 1 for low, 2 for high
