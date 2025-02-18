@@ -65,12 +65,14 @@ public class MainTeleOp extends LinearOpMode {
                 //if current state is transfer: go to transfer pos
             }
 
+            //
             if (gp2.wasJustPressed(GamepadKeys.Button.Y)) {
+                //bucket outtake
 
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
-                bot.arm.intermediatePos();
+                //spec outtake
             }
 
             //linkage extend and retract
@@ -78,7 +80,6 @@ public class MainTeleOp extends LinearOpMode {
                 bot.linkage.extend();
             }
 
-            //increment linkage backward
             if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
                 bot.linkage.retract();
             }
@@ -117,10 +118,3 @@ public class MainTeleOp extends LinearOpMode {
     }
 
 }
-
-
-
-
-
-
-
