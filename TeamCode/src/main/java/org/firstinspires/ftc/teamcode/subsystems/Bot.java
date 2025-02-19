@@ -158,6 +158,41 @@ public class Bot {
         );
     }
 
+    public SequentialAction bucketOuttake(int lvl) {
+        switch(lvl) {
+            case 1:
+                return new SequentialAction(
+                        new SleepAction(0.1),
+                        new InstantAction(() -> wrist.bucketOuttake()),
+                        new SleepAction(0.1),
+                        new InstantAction(() -> slides.runToLowBucket()),
+                        new SleepAction(0.1),
+                        new InstantAction(() -> claw.open())
+                );
+            case 2:
+                return new SequentialAction(
+                        new SleepAction(0.1),
+                        new InstantAction(() -> wrist.bucketOuttake()),
+                        new SleepAction(0.1),
+                        new InstantAction(() -> slides.runToTopBucket()),
+                        new SleepAction(0.1),
+                        new InstantAction(() -> claw.open())
+                );
+            default:
+                return null;
+        }
+    }
+
+    public SequentialAction specOuttake() {
+        return new SequentialAction(
+                new SleepAction(0.1),
+                new InstantAction(() -> wrist.specOuttake()),
+                new SleepAction(0.1),
+                new InstantAction(() -> slides.runToTopRung())
+        );
+        //let the driver choose the positioning and then bring down the slides to storage position for slides clipping
+    }
+
     public SequentialAction armToTransfer() {
         return new SequentialAction(
                 new InstantAction(() -> arm.closeClaw()),

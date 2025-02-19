@@ -65,22 +65,31 @@ public class MainTeleOp extends LinearOpMode {
                 //if current state is transfer: go to transfer pos
             }
 
-            //
+            //outtake:
+            //bucket->
             if (gp2.wasJustPressed(GamepadKeys.Button.Y)) {
-                //bucket outtake
-
+                runningActions.add(bot.bucketOuttake(1));
+                bot.state = Bot.BotState.INTAKE;
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
-                //spec outtake
+                runningActions.add(bot.bucketOuttake(2));
+                bot.state = Bot.BotState.INTAKE;
             }
 
-            //linkage extend and retract
-            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
+            //spec->
+            if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
+                runningActions.add(bot.specOuttake());
+                bot.state = Bot.BotState.INTAKE;
+            }
+
+
+            //linkage extend and retract - we can keep it on driver 1 for now
+            if (gp1.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
                 bot.linkage.extend();
             }
 
-            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+            if (gp1.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
                 bot.linkage.retract();
             }
 
