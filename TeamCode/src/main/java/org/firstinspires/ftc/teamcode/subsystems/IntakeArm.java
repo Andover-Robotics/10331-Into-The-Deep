@@ -42,6 +42,8 @@ public class IntakeArm {
     }
     public void intakePos() {
         setPitch(0.85);
+        rotateWrist(0.65);
+        openClaw();
     }
 
     public void transferPos() {

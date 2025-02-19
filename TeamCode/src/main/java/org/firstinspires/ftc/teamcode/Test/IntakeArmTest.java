@@ -46,11 +46,10 @@ public class IntakeArmTest extends LinearOpMode {
 //            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
 //                //rotatePos =  openPos-0.05 > 0 ? openPos-0.05 : openPos;
 //              //  rotatePos =  openPos-0.05;
-//                bot.arm.rotateWrist(0);
+//               // bot.arm.rotateWrist(0);
 //            }
 
             //tune open/close:
-
             if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
 //                openPos = openPos+0.1 < 1 ? openPos+0.1 : openPos;
 //                bot.arm.setClawPos(openPos);

@@ -111,7 +111,7 @@ public class TestIntakeAndLinkage extends LinearOpMode {
     public SequentialAction confirmIntake() {
         return new SequentialAction(
                 new InstantAction(() -> bot.arm.closeClaw()),
-                new SleepAction(0.1),
+                new SleepAction(0.8),
                 new InstantAction(() -> bot.arm.transferPos()),
                 new SleepAction(0.1),
                 new InstantAction(() -> bot.linkage.retract())
