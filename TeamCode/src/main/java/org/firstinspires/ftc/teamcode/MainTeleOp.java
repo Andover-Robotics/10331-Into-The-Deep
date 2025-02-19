@@ -53,7 +53,8 @@ public class MainTeleOp extends LinearOpMode {
             //intake movements:
             if (gp2.wasJustPressed(GamepadKeys.Button.X)) {
                 if(bot.state == Bot.BotState.INTAKE) {
-                    bot.arm.intakePos();
+                   // bot.arm.intakePos();
+                    runningActions.add(bot.intakeAction());
                     bot.state = Bot.BotState.TRANSFER;
                 } else if (bot.state == Bot.BotState.TRANSFER){
                     runningActions.add(bot.armToTransfer());

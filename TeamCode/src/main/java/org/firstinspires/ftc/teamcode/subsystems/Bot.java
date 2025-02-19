@@ -203,6 +203,14 @@ public class Bot {
         );
     }
 
+    public SequentialAction intakeAction() {
+        return new SequentialAction(
+                new InstantAction(() -> linkage.extend()),
+                new SleepAction(0.1),
+                new InstantAction(()-> arm.intakePos())
+        );
+    }
+
     //Bucket Outtake (Auto): move wrist, slides up, claw open; reset all back to storage. specify 1 for low, 2 for high
     public SequentialAction bucketOuttakeAction(int level) {
         switch(level) {

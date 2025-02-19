@@ -17,13 +17,12 @@ public class TestWrist extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         bot = Bot.getInstance(this);
         gp2 = new GamepadEx(gamepad2);
-        double pos = 0.0;
+        double pos = 0;
 
         waitForStart();
 
         //sync servos to 0
-        bot.wrist.wrist_l.setPosition(0);
-        bot.wrist.wrist_r.setPosition(0);
+        bot.wrist.setPitch(0);
 
         while(opModeIsActive() && !isStopRequested()) {
             gp2.readButtons();
