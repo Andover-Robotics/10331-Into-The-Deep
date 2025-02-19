@@ -184,5 +184,16 @@ public class Bot {
         );
     }
 
+    public SequentialAction pushOuttakeAction() {
+        return new SequentialAction(
+                new InstantAction(()->linkage.extend()),
+                new SleepAction(0.1),
+                new InstantAction(()->bucket.reverseIntake()),
+                new SleepAction(0.1),
+                new InstantAction(()->linkage.retract()),
+                new SleepAction(0.5)
+        );
+    }
+
 }
 
