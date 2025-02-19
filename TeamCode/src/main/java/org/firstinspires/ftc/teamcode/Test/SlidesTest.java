@@ -32,21 +32,21 @@ public class SlidesTest extends LinearOpMode {
             telemetry.addData("Slides Right position", -bot.slides.rightMotor.getCurrentPosition());
             telemetry.update();
 
-            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
-                bot.slides.runToTopBucket();
-            }
-            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
-                bot.slides.runToLowBucket();
-            }
-            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
-                bot.slides.runToTopRung();
-            }
-            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
-                bot.slides.runToLowRung();
-            }
-            if (gp2.wasJustPressed(GamepadKeys.Button.A)) {
-                bot.slides.runToStorage();
-            }
+//            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
+//                bot.slides.runToTopBucket();
+//            }
+//            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+//                bot.slides.runToLowBucket();
+//            }
+//            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
+//                bot.slides.runToTopRung();
+//            }
+//            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+//                bot.slides.runToLowRung();
+//            }
+//            if (gp2.wasJustPressed(GamepadKeys.Button.A)) {
+//                bot.slides.runToStorage();
+//            }
 
             bot.slides.periodic();
             //Slides Preset Positions (GP2):

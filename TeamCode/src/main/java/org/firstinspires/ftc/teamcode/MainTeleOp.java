@@ -84,7 +84,28 @@ public class MainTeleOp extends LinearOpMode {
                 bot.linkage.retract();
             }
 
-            //slides preset goes here:
+            //slides code goes here:
+            //slides manual control:
+            bot.slides.runSlides(-gp2.getRightY());
+
+            //slides preset positions:
+            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
+                bot.slides.runToTopBucket();
+            }
+            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+                bot.slides.runToLowBucket();
+            }
+            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
+                bot.slides.runToTopRung();
+            }
+            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+                bot.slides.runToLowRung();
+            }
+            if (gp2.wasJustPressed(GamepadKeys.Button.A)) {
+                bot.slides.runToStorage();
+            }
+
+            bot.slides.periodic();
 
             //run actions:
             List<Action> newActions = new ArrayList<>();
