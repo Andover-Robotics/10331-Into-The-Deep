@@ -25,6 +25,11 @@ public class IntakeArmTest extends LinearOpMode {
         bot.arm.setPitch(0);
         bot.arm.closeClaw();
 
+        //intermediate arm pos (pitch): 0.65
+        //rotation pos: 0.65
+        //intake arm pos: 0.85
+        //transfer arm pos: 0.25
+
         while(opModeIsActive() && !isStopRequested()) {
             gp2.readButtons();
             telemetry.addData("Current Position Intake Claw: ", bot.arm.clawOpenClose.getPosition());
@@ -33,37 +38,43 @@ public class IntakeArmTest extends LinearOpMode {
             telemetry.addData("Current Position Wrist Rotation Servo: ", bot.arm.wristRotationServo.getPosition());
             telemetry.update();
             //tune rotation:
-            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
-                //rotatePos = openPos+0.05 < 1 ? openPos+0.05 : openPos;
-                rotatePos = openPos+0.05;
-                bot.arm.rotateWrist(rotatePos);
-            }
-            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
-                //rotatePos =  openPos-0.05 > 0 ? openPos-0.05 : openPos;
-                rotatePos =  openPos-0.05;
-                bot.arm.rotateWrist(rotatePos);
-            }
+//            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+//                //rotatePos = openPos+0.05 < 1 ? openPos+0.05 : openPos;
+//               // rotatePos = openPos+0.05;
+//                bot.arm.rotateWrist(0.65);
+//            }
+//            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
+//                //rotatePos =  openPos-0.05 > 0 ? openPos-0.05 : openPos;
+//              //  rotatePos =  openPos-0.05;
+//               // bot.arm.rotateWrist(0);
+//            }
 
             //tune open/close:
-
             if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
-                openPos = openPos+0.1 < 1 ? openPos+0.1 : openPos;
-                bot.arm.setClawPos(openPos);
+//                openPos = openPos+0.1 < 1 ? openPos+0.1 : openPos;
+//                bot.arm.setClawPos(openPos);
+                bot.arm.transferPos();
             }
             if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
-                openPos = openPos - 0.1 > 0 ? openPos-0.1 : openPos;
-                bot.arm.setClawPos(openPos);
+//                openPos = openPos - 0.1 > 0 ? openPos-0.1 : openPos;
+//                bot.arm.setClawPos(openPos);
+                bot.arm.intermediatePos();
             }
 
             //tune wrist:
             if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
-                pitchPos = pitchPos+0.05 < 1 ? pitchPos+0.05 : pitchPos;
-                bot.arm.setPitch(pitchPos);
+//                pitchPos = pitchPos+0.05 < 1 ? pitchPos+0.05 : pitchPos;
+//                bot.arm.setPitch(pitchPos);
+                bot.arm.intakePos();
             }
+
             if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
-                pitchPos = pitchPos - 0.05 > 0 ? pitchPos-0.05 : pitchPos;
-                bot.arm.setPitch(pitchPos);
+                bot.arm.closeClaw();
             }
+//            if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
+//                pitchPos = pitchPos - 0.05 > 0 ? pitchPos-0.05 : pitchPos;
+//                bot.arm.setPitch(pitchPos);
+//            }
         }
     }
 }

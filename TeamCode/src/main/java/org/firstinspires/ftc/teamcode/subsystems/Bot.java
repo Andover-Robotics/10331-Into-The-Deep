@@ -30,6 +30,13 @@ public class Bot {
     private final DcMotorEx FL, FR, BL, BR;
     public boolean fieldCentricRunMode = false;
 
+    public enum BotState {
+        INTAKE,
+        TRANSFER,
+        OUTTAKE
+    }
+    public BotState state;
+
     public static Bot getInstance(OpMode opMode) {
         if (instance == null) {
             return instance = new Bot(opMode);
@@ -111,12 +118,10 @@ public class Bot {
 //        slides.runToStorage();
 //        slides.resetEncoder();
 //        slides.resetProfiler();
-      //  wrist.reset();
-        claw.open();
-//        bucket.stopIntake();
-//        bucket.flipIn();
+        claw.close();
+        wrist.reset();
+        arm.reset();
         linkage.retract();
-
     }
 
     private void resetEncoder() {
@@ -136,6 +141,74 @@ public class Bot {
     }
     public Action slidesPeriodic() {
         return new slidesPeriodic();
+    }
+
+    //TELEOP ACTIONS:
+    public SequentialAction clawToTransfer() {
+        return new SequentialAction(
+                new SleepAction(0.1),
+                new InstantAction(() -> wrist.intermediate()),
+                new SleepAction(0.2),
+                new InstantAction(() -> claw.open()),
+                new SleepAction(0.2),
+                new InstantAction(() -> wrist.transfer()),
+                new SleepAction(0.2),
+                new InstantAction(() -> claw.close()),
+                new SleepAction(0.2)
+        );
+    }
+
+    public SequentialAction bucketOuttake(int lvl) {
+        switch(lvl) {
+            case 1:
+                return new SequentialAction(
+                        new SleepAction(0.1),
+                        new InstantAction(() -> wrist.bucketOuttake()),
+                        new SleepAction(0.1),
+                        new InstantAction(() -> slides.runToLowBucket()),
+                        new SleepAction(0.1),
+                        new InstantAction(() -> claw.open())
+                );
+            case 2:
+                return new SequentialAction(
+                        new SleepAction(0.1),
+                        new InstantAction(() -> wrist.bucketOuttake()),
+                        new SleepAction(0.1),
+                        new InstantAction(() -> slides.runToTopBucket()),
+                        new SleepAction(0.1),
+                        new InstantAction(() -> claw.open())
+                );
+            default:
+                return null;
+        }
+    }
+
+    public SequentialAction specOuttake() {
+        return new SequentialAction(
+                new SleepAction(0.1),
+                new InstantAction(() -> wrist.specOuttake()),
+                new SleepAction(0.1),
+                new InstantAction(() -> slides.runToTopRung())
+        );
+        //let the driver choose the positioning and then bring down the slides to storage position for slides clipping
+    }
+
+    public SequentialAction armToTransfer() {
+        return new SequentialAction(
+                new InstantAction(() -> arm.closeClaw()),
+                new SleepAction(0.1),
+                new InstantAction(() -> arm.transferPos()),
+                new SleepAction(0.1),
+                new InstantAction(() -> linkage.retract())
+        );
+    }
+
+    public SequentialAction intakeAction() {
+        return new SequentialAction(
+                new InstantAction(() -> linkage.extend()),
+                new SleepAction(0.1),
+                new InstantAction(()-> arm.intakePos())
+        );
     }
 
     //Bucket Outtake (Auto): move wrist, slides up, claw open; reset all back to storage. specify 1 for low, 2 for high

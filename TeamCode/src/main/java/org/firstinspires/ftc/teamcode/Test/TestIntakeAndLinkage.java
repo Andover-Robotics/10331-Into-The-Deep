@@ -34,8 +34,8 @@ public class TestIntakeAndLinkage extends LinearOpMode {
 
         //initial positions:
         bot.linkage.extend();
+        bot.claw.close();
         bot.wrist.intermediate();
-        bot.claw.open();
         bot.arm.rotateWrist(0);
         bot.arm.setPitch(0);
         bot.arm.closeClaw();
@@ -65,10 +65,14 @@ public class TestIntakeAndLinkage extends LinearOpMode {
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
               //  bot.bucket.reverseIntake();
                 runningActions.add(confirmIntake());
+              //  runningActions.add(clawOuttakeAction());
             }
 
-            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
-                runningActions.add(clawOuttakeAction());
+//            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+//                runningActions.add(clawOuttakeAction());
+//            }
+            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+                runningActions.add(clawToTransfer());
             }
 
             //run actions:
@@ -96,7 +100,18 @@ public class TestIntakeAndLinkage extends LinearOpMode {
                 new SleepAction(0.2),
                 new InstantAction(() -> bot.claw.close()),
                 new SleepAction(0.2),
+                new InstantAction(() -> bot.arm.openClaw()),
+                new SleepAction(0.2),
                 new InstantAction(() -> bot.wrist.bucketOuttake())
+        );
+    }
+
+    public SequentialAction clawToTransfer() {
+        return new SequentialAction(
+                new InstantAction(() -> bot.claw.open()),
+                new SleepAction(0.1),
+                new InstantAction(() -> bot.claw.close()),
+                new SleepAction(0.2)
         );
     }
 
@@ -111,10 +126,22 @@ public class TestIntakeAndLinkage extends LinearOpMode {
     public SequentialAction confirmIntake() {
         return new SequentialAction(
                 new InstantAction(() -> bot.arm.closeClaw()),
-                new SleepAction(0.1),
+                new SleepAction(0.8),
                 new InstantAction(() -> bot.arm.transferPos()),
                 new SleepAction(0.1),
-                new InstantAction(() -> bot.linkage.retract())
+                new InstantAction(() -> bot.linkage.retract()),
+                new SleepAction(0.1),
+                new InstantAction(() -> bot.wrist.intermediate()),
+                new SleepAction(0.2),
+                new InstantAction(() -> bot.claw.open()),
+                new SleepAction(0.2),
+                new InstantAction(() -> bot.wrist.transfer()),
+                new SleepAction(0.2),
+                new InstantAction(() -> bot.claw.close()),
+                new SleepAction(0.2),
+                new InstantAction(() -> bot.arm.openClaw()),
+                new SleepAction(0.2),
+                new InstantAction(() -> bot.wrist.bucketOuttake())
         );
     }
 
