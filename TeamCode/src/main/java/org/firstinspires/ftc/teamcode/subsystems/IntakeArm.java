@@ -10,7 +10,7 @@ public class IntakeArm {
     private double clawOpenPos = 0.5;
     private double intermediatePitch = 0.4;
     private double intakeRotation = 0.65;
-    private double transferArmPos = 0.4;
+    private double transferArmPos = 0.45;
 
     public IntakeArm(OpMode opMode) {
         wristRotationServo = opMode.hardwareMap.servo.get("intake_wrist");
