@@ -45,7 +45,7 @@ public class Slides {
     //high basket -> 43 inches (3820)
     //low basket -> 25.75 inches  (1850)
 
-    public static int storage = 0, topBucket = -3600, lowBucket = -1850, lowRung = -50, highRung= -2000;
+    public static int storage = 0, topBucket = -3600, lowBucket = -1000, lowRung = -50, highRung= -2000;
 
     public static int test=-1200;
     public Slides(OpMode opmode) {
@@ -89,7 +89,7 @@ public class Slides {
 
     public void runSlides(double power) {
         runToManual(power);
-        periodic();
+      //  periodic();
     }
 
 

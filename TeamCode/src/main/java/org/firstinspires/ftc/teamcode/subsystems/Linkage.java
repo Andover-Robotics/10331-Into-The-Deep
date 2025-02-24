@@ -12,9 +12,12 @@ public class Linkage {
     public final Servo linkage2;
 
     public static final double max_1 = 0.42;
-    public static final double min_1 = 0.09;
+    public static final double min_1 = 0.11;
+    //original: 0.09
+
     public static final double max_2 = 0.39;
-    public static final double min_2 = 0.14;
+    public static final double min_2 = 0.16;
+    //original: 0.14
 
 
 

@@ -12,7 +12,7 @@ public class IntakeArmTest extends LinearOpMode {
     Bot bot;
     private GamepadEx gp2;
     double pitchPos = 0;
-    double rotatePos = 0;
+    double rotatePos = 0.5;
     double openPos = 0;
 
     @Override
@@ -21,7 +21,7 @@ public class IntakeArmTest extends LinearOpMode {
         gp2 = new GamepadEx(gamepad2);
 
         waitForStart();
-        bot.arm.rotateWrist(0);
+        bot.arm.rotateWrist(0.5);
         bot.arm.setPitch(0);
         bot.arm.closeClaw();
 
@@ -38,16 +38,16 @@ public class IntakeArmTest extends LinearOpMode {
             telemetry.addData("Current Position Wrist Rotation Servo: ", bot.arm.wristRotationServo.getPosition());
             telemetry.update();
             //tune rotation:
-//            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
-//                //rotatePos = openPos+0.05 < 1 ? openPos+0.05 : openPos;
-//               // rotatePos = openPos+0.05;
-//                bot.arm.rotateWrist(0.65);
-//            }
-//            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
-//                //rotatePos =  openPos-0.05 > 0 ? openPos-0.05 : openPos;
-//              //  rotatePos =  openPos-0.05;
-//               // bot.arm.rotateWrist(0);
-//            }
+            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+                //rotatePos = openPos+0.05 < 1 ? openPos+0.05 : openPos;
+               // rotatePos = openPos+0.05;
+                bot.arm.rotateWrist(0.75);
+            }
+            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
+                //rotatePos =  openPos-0.05 > 0 ? openPos-0.05 : openPos;
+//                rotatePos =  openPos-0.05;
+                bot.arm.rotateWrist(0.5);
+            }
 
             //tune open/close:
             if(gp2.wasJustPressed(GamepadKeys.Button.A)) {

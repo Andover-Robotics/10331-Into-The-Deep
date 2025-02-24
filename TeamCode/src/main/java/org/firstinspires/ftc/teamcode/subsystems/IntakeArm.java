@@ -8,9 +8,9 @@ public class IntakeArm {
     public Servo wrist_l;
     public Servo wrist_r;
     private double clawOpenPos = 0.5;
-    private double intermediatePitch = 0.65;
+    private double intermediatePitch = 0.4;
     private double intakeRotation = 0.65;
-    private double transferArmPos = 0.25;
+    private double transferArmPos = 0.4;
 
     public IntakeArm(OpMode opMode) {
         wristRotationServo = opMode.hardwareMap.servo.get("intake_wrist");
@@ -41,18 +41,18 @@ public class IntakeArm {
         clawOpenClose.setPosition(0);
     }
     public void intakePos() {
-        setPitch(0.85);
-        rotateWrist(0.65);
+        setPitch(0.84);
+        rotateWrist(0.5);
         openClaw();
     }
 
     public void transferPos() {
-        rotateWrist(0);
+        rotateWrist(0.5);
         setPitch(transferArmPos);
     }
     public void intermediatePos() {
         setPitch(intermediatePitch);
-        rotateWrist(intakeRotation);
+        rotateWrist(0.5);
         openClaw();
     }
 
