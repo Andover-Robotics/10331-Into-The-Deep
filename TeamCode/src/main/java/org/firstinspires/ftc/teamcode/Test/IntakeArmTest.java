@@ -21,6 +21,7 @@ public class IntakeArmTest extends LinearOpMode {
         gp2 = new GamepadEx(gamepad2);
 
         waitForStart();
+        bot.wrist.transfer();
         bot.arm.rotateWrist(0.5);
         bot.arm.setPitch(0);
         bot.arm.closeClaw();
@@ -41,12 +42,14 @@ public class IntakeArmTest extends LinearOpMode {
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
                 //rotatePos = openPos+0.05 < 1 ? openPos+0.05 : openPos;
                // rotatePos = openPos+0.05;
-                bot.arm.rotateWrist(0.75);
+                //bot.arm.rotateWrist(0.75);
+                bot.claw.open();
             }
             if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
                 //rotatePos =  openPos-0.05 > 0 ? openPos-0.05 : openPos;
 //                rotatePos =  openPos-0.05;
-                bot.arm.rotateWrist(0.5);
+               //    bot.arm.rotateWrist(0.5);\
+                bot.claw.close();
             }
 
             //tune open/close:
@@ -63,18 +66,18 @@ public class IntakeArmTest extends LinearOpMode {
 
             //tune wrist:
             if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
-//                pitchPos = pitchPos+0.05 < 1 ? pitchPos+0.05 : pitchPos;
-//                bot.arm.setPitch(pitchPos);
-                bot.arm.intakePos();
+                pitchPos = pitchPos+0.05 < 1 ? pitchPos+0.05 : pitchPos;
+                bot.arm.setPitch(pitchPos);
+               // bot.arm.intakePos();
             }
-
-            if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
-                bot.arm.closeClaw();
-            }
+//
 //            if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
-//                pitchPos = pitchPos - 0.05 > 0 ? pitchPos-0.05 : pitchPos;
-//                bot.arm.setPitch(pitchPos);
+//                bot.arm.closeClaw();
 //            }
+            if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
+                pitchPos = pitchPos - 0.05 > 0 ? pitchPos-0.05 : pitchPos;
+                bot.arm.setPitch(pitchPos);
+            }
         }
     }
 }

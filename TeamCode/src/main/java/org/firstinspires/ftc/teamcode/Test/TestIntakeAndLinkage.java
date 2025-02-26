@@ -98,7 +98,7 @@ public class TestIntakeAndLinkage extends LinearOpMode {
                 new InstantAction(() -> bot.claw.open()),
                 new SleepAction(0.5),
                 new InstantAction(() -> bot.wrist.transfer()),
-                new SleepAction(0.2),
+                new SleepAction(0.9),
                 new InstantAction(() -> bot.claw.close()),
                 new SleepAction(0.5),
                 new InstantAction(() -> bot.arm.openClaw()),
