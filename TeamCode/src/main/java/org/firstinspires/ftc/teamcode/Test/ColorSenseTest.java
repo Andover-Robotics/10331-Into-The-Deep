@@ -74,15 +74,17 @@ public class ColorSenseTest extends LinearOpMode {
         while(distance<3.3){
           distance= distanceSensor.getDistance(DistanceUnit.CM);
           runColorSensor();
+            telemetry.update();
+
+            if((!allianceBlue && color.equals("red")) || allianceBlue && color.equals("blue")){
+                //close claw
+                bot.arm.closeClaw();
+                return;
+            }
         }
 
 
-        telemetry.update();
 
-        if((!allianceBlue && color.equals("red")) || allianceBlue && color.equals("blue")){
-            //close claw
-            bot.arm.closeClaw();
-        }
     }
 
 
