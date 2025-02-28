@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TeleOp
-public class TestIntakeAndLinkage extends LinearOpMode {
+public class MainTeleOpBuildBlast extends LinearOpMode {
     Bot bot;
     private GamepadEx gp2;
     private GamepadEx gp1;
@@ -41,40 +42,68 @@ public class TestIntakeAndLinkage extends LinearOpMode {
         bot.arm.closeClaw();
 
         while (opModeIsActive() && !isStopRequested()) {
+            gp1.readButtons();
             gp2.readButtons();
             //testing individual functions:
-            if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
-                bot.arm.intakePos();
-            } else if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
-                bot.arm.transferPos();
-            }
+//            if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
+//                bot.arm.intakePos();
+//            } else if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
+//                bot.arm.transferPos();
+//            }
+//
+//            if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
+//                bot.linkage.retract();
+//            }
+//            if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
+//                bot.linkage.extend();
+//            }
+            //drive:
+
+            drive();
+
+
+            //intake to outtake actions:
 
             if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
-                bot.linkage.retract();
-            }
-            if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
-                bot.linkage.extend();
-            }
-
-            //testing full actions:
-
-            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
                runningActions.add(intakeAction());
             }
 
-            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
+            if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
               //  bot.bucket.reverseIntake();
                 runningActions.add(confirmIntake());
               //  runningActions.add(clawOuttakeAction());
             }
 
-            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+            if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
                 runningActions.add(clawOuttakeAction());
             }
 
-            if(gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+            if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
                 runningActions.add(clawToTransfer());
             }
+
+            //slides preset positions:
+            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
+                bot.slides.runToTopBucket();
+            }
+            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+                bot.slides.runToLowBucket();
+            }
+            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
+                bot.slides.runToTopRung();
+            }
+            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+                bot.slides.runToLowRung();
+            }
+            if (gp2.wasJustPressed(GamepadKeys.Button.A)) {
+                bot.slides.runToStorage();
+            }
+
+            //slides manual control:
+            bot.slides.runSlides(-gp2.getRightY());
+
+            //slides periodic:
+            bot.slides.periodic();
 
             //run actions:
             List<Action> newActions = new ArrayList<>();
@@ -134,6 +163,23 @@ public class TestIntakeAndLinkage extends LinearOpMode {
                 new SleepAction(0.1),
                 new InstantAction(() -> bot.wrist.intermediate()),
                 new SleepAction(0.2)
+        );
+    }
+
+    private void drive() {
+        gp1.readButtons();
+        bot.prepMotors();
+        driveSpeed = 1;
+        driveSpeed *= 1 - 0.9 * gp1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
+        driveSpeed = Math.max(0, driveSpeed);
+
+        Vector2d driveVector = new Vector2d(gp1.getLeftX(), -gp1.getLeftY()),
+                turnVector = new Vector2d(
+                        gp1.getRightX(), 0);
+
+        bot.driveRobotCentric(driveVector.getX() * driveSpeed,
+                driveVector.getY() * driveSpeed,
+                turnVector.getX() * driveSpeed / 1.7
         );
     }
 
