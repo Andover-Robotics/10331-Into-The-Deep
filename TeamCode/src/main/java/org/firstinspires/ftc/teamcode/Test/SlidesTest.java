@@ -20,7 +20,7 @@ public class SlidesTest extends LinearOpMode {
 
         waitForStart();
 
-        bot.slides.periodic();
+      //  bot.slides.periodic();
 
         //Slides joystick control
         while (opModeIsActive() && !isStopRequested()) {
@@ -35,9 +35,9 @@ public class SlidesTest extends LinearOpMode {
 //            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
 //                bot.slides.runToTopBucket();
 //            }
-//            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
-//                bot.slides.runToLowBucket();
-//            }
+            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+                bot.slides.runToLowBucket();
+            }
 //            if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
 //                bot.slides.runToTopRung();
 //            }
