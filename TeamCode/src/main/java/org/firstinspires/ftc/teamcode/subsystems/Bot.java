@@ -11,6 +11,8 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -27,7 +29,7 @@ public class Bot {
     public Claw claw;
     public Wrist wrist;
     public Linkage linkage;
-    private final DcMotorEx FL, FR, BL, BR;
+    private final MotorEx FL, FR, BL, BR;
     public boolean fieldCentricRunMode = false;
 
     public enum BotState {
@@ -60,10 +62,10 @@ public class Bot {
             fieldCentricRunMode = false;
         }
 
-        FL = opMode.hardwareMap.get(DcMotorEx.class, "fl");
-        FR = opMode.hardwareMap.get(DcMotorEx.class, "fr");
-        BL = opMode.hardwareMap.get(DcMotorEx.class, "bl");
-        BR = opMode.hardwareMap.get(DcMotorEx.class, "br");
+        FL = opMode.hardwareMap.get(MotorEx.class, "fl");
+        FR = opMode.hardwareMap.get(MotorEx.class, "fr");
+        BL = opMode.hardwareMap.get(MotorEx.class, "bl");
+        BR = opMode.hardwareMap.get(MotorEx.class, "br");
 
         prepMotors();
         this.slides = new Slides(opMode);
@@ -76,18 +78,18 @@ public class Bot {
 
 
     public void prepMotors(){
-        FR.setDirection(DcMotorSimple.Direction.REVERSE);
-        BR.setDirection(DcMotorSimple.Direction.REVERSE);
-        FL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        FR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        BL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        BR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        FR.setInverted(true);
+        BR.setInverted(true);
+        FL.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        FR.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        BL.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        BR.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
 
-        FL.setMode(RUN_USING_ENCODER);
-        FR.setMode(RUN_USING_ENCODER);
-        BL.setMode(RUN_USING_ENCODER);
-        BR.setMode(RUN_USING_ENCODER);
-        //note: need to plug in encoders for this to work
+        FL.setRunMode(Motor.RunMode.RawPower);
+        FR.setRunMode(Motor.RunMode.RawPower);
+        BL.setRunMode(Motor.RunMode.RawPower);
+        BR.setRunMode(Motor.RunMode.RawPower);
+        //trust?
     }
 
     public void driveRobotCentric(double strafeSpeed, double forwardBackSpeed, double turnSpeed) {
@@ -106,14 +108,14 @@ public class Bot {
                 speeds[i] /= maxSpeed;
             }
         }
-        FL.setPower(speeds[0]);
-        FR.setPower(speeds[1]);
-        BL.setPower(speeds[2]);
-        BR.setPower(speeds[3]);
+        FL.set(speeds[0]);
+        FR.set(speeds[1]);
+        BL.set(speeds[2]);
+        BR.set(speeds[3]);
     }
 
     public void resetEverything(){
-        resetEncoder();
+       // resetEncoder();
       //  prepMotors();
 //        slides.runToStorage();
 //        slides.resetEncoder();
@@ -124,12 +126,12 @@ public class Bot {
         linkage.retract();
     }
 
-    private void resetEncoder() {
-        FL.setMode(STOP_AND_RESET_ENCODER);
-        FR.setMode(STOP_AND_RESET_ENCODER);
-        BR.setMode(STOP_AND_RESET_ENCODER);
-        BL.setMode(STOP_AND_RESET_ENCODER);
-    }
+//    private void resetEncoder() {
+//        FL.setMode(STOP_AND_RESET_ENCODER);
+//        FR.setMode(STOP_AND_RESET_ENCODER);
+//        BR.setMode(STOP_AND_RESET_ENCODER);
+//        BL.setMode(STOP_AND_RESET_ENCODER);
+//    }
 
     //ACTIONS
     public class slidesPeriodic implements Action {

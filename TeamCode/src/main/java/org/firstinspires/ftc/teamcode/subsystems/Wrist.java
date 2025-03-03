@@ -11,7 +11,10 @@ public class Wrist {
     public Servo wrist_r;
     private double intermediate_transfer_pos = 0.3;
     private double spec_outtake_pos = 0.72;
-    private double initial_outtake_pos = 0.67;
+
+    private double bucketPos = 0.67;
+    private double initial_outtake_pos = 0.55;
+    //@SHRIYA, @ANIKA, @FELICIA (WHOEVERS THERE): TUNE THIS
     private double transfer_pos = 0.075;
     //orignal 0.065
 
@@ -39,7 +42,11 @@ public class Wrist {
         setPitch(transfer_pos);
     }
 
+
     public void bucketOuttake() {
+        setPitch(bucketPos);
+    }
+    public void slidesIntermediate() {
         setPitch(initial_outtake_pos);
     }
 

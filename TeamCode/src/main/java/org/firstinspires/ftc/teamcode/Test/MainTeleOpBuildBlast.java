@@ -86,7 +86,7 @@ public class MainTeleOpBuildBlast extends LinearOpMode {
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
-                runningActions.add(clawToTransfer());
+                runningActions.add(finalOuttake());
             }
 
             //slides preset positions:
@@ -136,16 +136,19 @@ public class MainTeleOpBuildBlast extends LinearOpMode {
                 new SleepAction(0.5),
                 new InstantAction(() -> bot.arm.openClaw()),
                 new SleepAction(0.2),
-                new InstantAction(() -> bot.wrist.bucketOuttake())
+                new InstantAction(() -> bot.wrist.slidesIntermediate())
         );
     }
 
-    public SequentialAction clawToTransfer() {
+    public SequentialAction finalOuttake() {
         return new SequentialAction(
+                new InstantAction(() -> bot.wrist.bucketOuttake()),
+                new SleepAction(0.1),
                 new InstantAction(() -> bot.claw.open()),
                 new SleepAction(0.1),
                 new InstantAction(() -> bot.claw.close()),
-                new SleepAction(0.2)
+                new SleepAction(0.2),
+                new InstantAction(() -> bot.wrist.slidesIntermediate())
         );
     }
 
