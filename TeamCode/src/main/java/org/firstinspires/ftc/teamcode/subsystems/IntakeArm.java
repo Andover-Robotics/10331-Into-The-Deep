@@ -57,7 +57,7 @@ public class IntakeArm {
     }
 
     public void reset() {
-        rotateWrist(0);
+        rotateWrist(0.5);
         setPitch(0);
         closeClaw();
     }

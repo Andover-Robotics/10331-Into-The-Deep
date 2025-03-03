@@ -34,11 +34,13 @@ public class MainTeleOpBuildBlast extends LinearOpMode {
         waitForStart();
 
         //initial positions:
+        bot.claw.close();
+        bot.arm.reset();
         bot.wrist.specOuttake();
         bot.linkage.retract();
-        bot.claw.close();
-        bot.wrist.intermediate();
-        bot.arm.rotateWrist(0);
+        bot.wrist.transfer();
+
+
         bot.arm.setPitch(0);
         bot.arm.closeClaw();
 
