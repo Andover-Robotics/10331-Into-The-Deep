@@ -26,7 +26,7 @@ public class MainTeleOpBuildBlast extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         bot = Bot.getInstance(this);
         gp2 = new GamepadEx(gamepad2);
-       // gp1 = new GamepadEx(gamepad1);
+        gp1 = new GamepadEx(gamepad1);
         TelemetryPacket packet = new TelemetryPacket();
 
         double pos=0;
@@ -34,7 +34,8 @@ public class MainTeleOpBuildBlast extends LinearOpMode {
         waitForStart();
 
         //initial positions:
-        bot.linkage.extend();
+        bot.wrist.specOuttake();
+        bot.linkage.retract();
         bot.claw.close();
         bot.wrist.intermediate();
         bot.arm.rotateWrist(0);
@@ -44,6 +45,10 @@ public class MainTeleOpBuildBlast extends LinearOpMode {
         while (opModeIsActive() && !isStopRequested()) {
             gp1.readButtons();
             gp2.readButtons();
+
+            //slides periodic:
+            bot.slides.periodic();
+
             //testing individual functions:
 //            if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
 //                bot.arm.intakePos();
@@ -95,15 +100,12 @@ public class MainTeleOpBuildBlast extends LinearOpMode {
             if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
                 bot.slides.runToLowRung();
             }
-            if (gp2.wasJustPressed(GamepadKeys.Button.A)) {
+            if (gp2.wasJustPressed(GamepadKeys.Button.START)) {
                 bot.slides.runToStorage();
             }
 
             //slides manual control:
             bot.slides.runSlides(-gp2.getRightY());
-
-            //slides periodic:
-            bot.slides.periodic();
 
             //run actions:
             List<Action> newActions = new ArrayList<>();

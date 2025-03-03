@@ -14,12 +14,12 @@ public class Linkage {
     public static final double max_1 = 0.42;
     public static final double min_1 = 0.145;
     //original: 0.09
-    //new orig: 0.11
+    //new orig: 0.145
 
     public static final double max_2 = 0.39;
     public static final double min_2 = 0.195;
     //original: 0.14
-    //new orig: 0.16
+    //new orig: 0.195
 
 
 

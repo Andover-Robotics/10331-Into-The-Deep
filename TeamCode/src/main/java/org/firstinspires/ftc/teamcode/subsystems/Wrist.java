@@ -12,7 +12,7 @@ public class Wrist {
     private double intermediate_transfer_pos = 0.3;
     private double spec_outtake_pos = 0.72;
     private double initial_outtake_pos = 0.67;
-    private double transfer_pos = 0.055;
+    private double transfer_pos = 0.075;
     //orignal 0.065
 
     public Wrist(OpMode opMode) {

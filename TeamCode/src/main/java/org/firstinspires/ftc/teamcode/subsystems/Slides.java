@@ -163,7 +163,7 @@ public class Slides {
 
         } else {
             if (profiler.isDone()) {
-                profiler = new MotionProfiler(30000, 20000);
+                profiler = new MotionProfiler(20000, 10000);
             }
 
             if (manualPower != 0) {
