@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TeleOp
-public class MainTeleOpBuildBlast extends LinearOpMode {
+public class MainTeleOp extends LinearOpMode {
     Bot bot;
     private GamepadEx gp2;
     private GamepadEx gp1;
