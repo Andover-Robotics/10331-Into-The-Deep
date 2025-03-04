@@ -22,6 +22,7 @@ public class MainTeleOp extends LinearOpMode {
     private double driveSpeed = 1;
     private FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
+
     @Override
     public void runOpMode() throws InterruptedException {
         bot = Bot.getInstance(this);
@@ -29,18 +30,13 @@ public class MainTeleOp extends LinearOpMode {
         gp1 = new GamepadEx(gamepad1);
         TelemetryPacket packet = new TelemetryPacket();
 
-        double pos=0;
-
         waitForStart();
 
-        //initial positions:
+        //initial positions (ensure these are correct):
         bot.claw.close();
         bot.arm.reset();
-        bot.wrist.specOuttake();
+        bot.wrist.intermediate();
         bot.linkage.retract();
-        bot.wrist.transfer();
-
-
         bot.arm.setPitch(0);
         bot.arm.closeClaw();
 
@@ -64,26 +60,25 @@ public class MainTeleOp extends LinearOpMode {
 //            if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
 //                bot.linkage.extend();
 //            }
-            //drive:
 
+            //drive:
             drive();
 
 
-            //intake to outtake actions:
+            //intake to outtake actions (X->Y->B->A)
 
             if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
                runningActions.add(intakeAction());
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
-              //  bot.bucket.reverseIntake();
                 runningActions.add(confirmIntake());
-              //  runningActions.add(clawOuttakeAction());
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
                 runningActions.add(clawOuttakeAction());
             }
+            //y->b can be made into 1 action with tuning
 
             if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
                 runningActions.add(finalOuttake());
@@ -104,6 +99,17 @@ public class MainTeleOp extends LinearOpMode {
             }
             if (gp2.wasJustPressed(GamepadKeys.Button.START)) {
                 bot.slides.runToStorage();
+            }
+
+            if(gp2.wasJustPressed(GamepadKeys.Button.BACK)) {
+                runningActions.add(resetLinkage());
+            }
+
+            if(gp1.wasJustPressed(GamepadKeys.Button.A)) {
+                bot.claw.open();
+            }
+            if(gp1.wasJustPressed(GamepadKeys.Button.B)) {
+                bot.claw.close();
             }
 
             //slides manual control:
@@ -173,6 +179,15 @@ public class MainTeleOp extends LinearOpMode {
         );
     }
 
+    public SequentialAction resetLinkage() {
+        return new SequentialAction(
+                new InstantAction(() -> bot.linkage.extend()),
+                new SleepAction(0.1),
+                new InstantAction(() -> bot.linkage.retract()),
+                new SleepAction(0.2)
+        );
+    }
+
     private void drive() {
         gp1.readButtons();
         bot.prepMotors();
@@ -190,22 +205,6 @@ public class MainTeleOp extends LinearOpMode {
         );
     }
 
-//    private void drive() {
-//        gp1.readButtons();
-//        bot.prepMotors();
-//        driveSpeed = 1;
-//        driveSpeed *= 1 - 0.9 * gp1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
-//        driveSpeed = Math.max(0, driveSpeed);
-//
-//        Vector2d driveVector = new Vector2d(gp1.getLeftX(), -gp1.getLeftY()),
-//                turnVector = new Vector2d(
-//                        gp1.getRightX(), 0);
-//
-//        bot.driveRobotCentric(driveVector.getX() * driveSpeed,
-//                driveVector.getY() * driveSpeed,
-//                turnVector.getX() * driveSpeed / 1.7
-//        );
-//    }
 
     //intake actions to pick up sample:
             /*

@@ -62,10 +62,10 @@ public class Bot {
             fieldCentricRunMode = false;
         }
 
-        FL = opMode.hardwareMap.get(MotorEx.class, "fl");
-        FR = opMode.hardwareMap.get(MotorEx.class, "fr");
-        BL = opMode.hardwareMap.get(MotorEx.class, "bl");
-        BR = opMode.hardwareMap.get(MotorEx.class, "br");
+        FL = new MotorEx(opMode.hardwareMap, "fl", Motor.GoBILDA.RPM_435);
+        FR = new MotorEx(opMode.hardwareMap, "fr", Motor.GoBILDA.RPM_435);
+        BL = new MotorEx(opMode.hardwareMap, "bl", Motor.GoBILDA.RPM_435);
+        BR = new MotorEx(opMode.hardwareMap, "br", Motor.GoBILDA.RPM_435);
 
         prepMotors();
         this.slides = new Slides(opMode);

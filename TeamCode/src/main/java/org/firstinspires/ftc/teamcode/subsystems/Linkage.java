@@ -12,11 +12,13 @@ public class Linkage {
     public final Servo linkage2;
 
     public static final double max_1 = 0.42;
+    public static final double abs_min_1 = 0.09;
     public static final double min_1 = 0.145;
     //original: 0.09
     //new orig: 0.145
 
     public static final double max_2 = 0.39;
+    public static final double abs_min_2 = 0.14;
     public static final double min_2 = 0.195;
     //original: 0.14
     //new orig: 0.195
@@ -45,6 +47,10 @@ public class Linkage {
     public void retract(){
         linkage1.setPosition(min_1);
         linkage2.setPosition(min_2);
+    }
+    public void absolute_retract() {
+        linkage1.setPosition(abs_min_1);
+        linkage2.setPosition(abs_min_2);
     }
 
 

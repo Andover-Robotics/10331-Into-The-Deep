@@ -31,7 +31,6 @@ public class ColorSenseTest extends LinearOpMode {
     private String color="nothing";
     double hue=0, saturation=0, value=0;
     boolean allianceBlue=false;
-
     double distance =3.3;
     private ColorSensor colorSensor;
     private DistanceSensor distanceSensor;
@@ -50,9 +49,6 @@ public class ColorSenseTest extends LinearOpMode {
         while (opModeIsActive() && !isStopRequested()) {
             gp1.readButtons();
 
-           // runColorSensor();
-            intakeSense(true);
-
             if(gp1.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)){
                 allianceBlue=true;
             }
@@ -60,6 +56,8 @@ public class ColorSenseTest extends LinearOpMode {
                 allianceBlue=false;
             }
 
+            // runColorSensor();
+            intakeSense(allianceBlue);
         }
     }
 
