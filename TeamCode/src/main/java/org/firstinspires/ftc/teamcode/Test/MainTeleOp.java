@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Test;
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Bot;
 import java.util.ArrayList;
 import java.util.List;
 
+@Config
 @TeleOp
 public class MainTeleOp extends LinearOpMode {
     Bot bot;
@@ -22,6 +24,7 @@ public class MainTeleOp extends LinearOpMode {
     private double driveSpeed = 1;
     private FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
+    public double rotatePos = 0.525;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -37,8 +40,7 @@ public class MainTeleOp extends LinearOpMode {
         bot.arm.reset();
         bot.wrist.intermediate();
         bot.linkage.retract();
-        bot.arm.setPitch(0);
-        bot.arm.closeClaw();
+        bot.arm.transferPos();
 
         while (opModeIsActive() && !isStopRequested()) {
             gp1.readButtons();
@@ -114,6 +116,18 @@ public class MainTeleOp extends LinearOpMode {
 
             //slides manual control:
             bot.slides.runSlides(-gp2.getRightY());
+
+            //bot intake wrist control:
+            if(gp1.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON)) {
+                rotatePos = rotatePos+0.05 < 1 ? rotatePos+0.05 : rotatePos;
+                bot.arm.rotateWrist(rotatePos);
+            }
+
+            if(gp1.wasJustPressed(GamepadKeys.Button.LEFT_STICK_BUTTON)) {
+                rotatePos = rotatePos-0.05 > 0 ? rotatePos-0.05 : rotatePos;
+                bot.arm.rotateWrist(rotatePos);
+            }
+
 
             //run actions:
             List<Action> newActions = new ArrayList<>();

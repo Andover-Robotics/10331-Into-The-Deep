@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.subsystems.Bot;
 
@@ -12,8 +13,13 @@ public class IntakeArmTest extends LinearOpMode {
     Bot bot;
     private GamepadEx gp2;
     double pitchPos = 0;
-    double rotatePos = 0.5;
+    double rotatePos = 0;
     double openPos = 0;
+    double inc = 0;
+    ElapsedTime timer = new ElapsedTime();
+    double updateInterval = 0.1;
+
+    boolean toggleIntake = true;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -22,9 +28,8 @@ public class IntakeArmTest extends LinearOpMode {
 
         waitForStart();
         bot.wrist.transfer();
-        bot.arm.rotateWrist(0.5);
-        bot.arm.setPitch(0);
-        bot.arm.closeClaw();
+        bot.linkage.retract();
+        bot.arm.transferPos();
 
         //intermediate arm pos (pitch): 0.65
         //rotation pos: 0.65
@@ -53,15 +58,32 @@ public class IntakeArmTest extends LinearOpMode {
             }
 
             //tune open/close:
-            if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
-//                openPos = openPos+0.1 < 1 ? openPos+0.1 : openPos;
-//                bot.arm.setClawPos(openPos);
-                bot.arm.transferPos();
+//            if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
+////                openPos = openPos+0.1 < 1 ? openPos+0.1 : openPos;
+////                bot.arm.setClawPos(openPos);
+//                rotatePos =  rotatePos+0.05 < 1 ? rotatePos+0.05 : rotatePos;
+//                bot.arm.rotateWrist(rotatePos);
+//            }
+//            if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
+////                openPos = openPos - 0.1 > 0 ? openPos-0.1 : openPos;
+////                bot.arm.setClawPos(openPos);
+//                rotatePos =  rotatePos-0.05 > 0 ? rotatePos-0.05 : rotatePos;
+//                bot.arm.rotateWrist(rotatePos);
+//            }
+
+            rotatePos = gp2.getLeftX();
+            if (rotatePos != 0) {
+                double temp = gp2.getLeftX();
+                if(Math.abs(temp) > Math.abs(rotatePos)) {
+                    rotatePos = temp;
+                }
+                bot.arm.rotateWrist(rotatePos);
             }
-            if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
-//                openPos = openPos - 0.1 > 0 ? openPos-0.1 : openPos;
-//                bot.arm.setClawPos(openPos);
-                bot.arm.intermediatePos();
+
+
+
+            if(gp2.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER)) {
+                toggleIntake = !toggleIntake;
             }
 
             //tune wrist:

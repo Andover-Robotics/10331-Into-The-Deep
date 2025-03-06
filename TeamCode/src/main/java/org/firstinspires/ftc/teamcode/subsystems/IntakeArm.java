@@ -41,13 +41,13 @@ public class IntakeArm {
         clawOpenClose.setPosition(0);
     }
     public void intakePos() {
-        setPitch(0.84);
-        rotateWrist(0.5);
+        setPitch(0.9);
+        rotateWrist(0.525);
         openClaw();
     }
 
     public void transferPos() {
-        rotateWrist(0.5);
+        rotateWrist(0.525);
         setPitch(transferArmPos);
     }
     public void intermediatePos() {
@@ -57,9 +57,7 @@ public class IntakeArm {
     }
 
     public void reset() {
-        rotateWrist(0.5);
-        setPitch(0);
-        closeClaw();
+        transferPos();
     }
 
 }
