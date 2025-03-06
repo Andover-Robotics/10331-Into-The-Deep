@@ -5,7 +5,6 @@ import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 
 import androidx.annotation.NonNull;
-
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
@@ -17,7 +16,6 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
 
 public class Bot {
     public OpMode opMode;
@@ -68,14 +66,13 @@ public class Bot {
         BR = new MotorEx(opMode.hardwareMap, "br", Motor.GoBILDA.RPM_435);
 
         prepMotors();
+
         this.slides = new Slides(opMode);
         this.claw= new Claw(opMode);
-       // this.bucket = new Bucket(opMode);
         this.arm = new IntakeArm(opMode);
         this.linkage = new Linkage(opMode);
         this.wrist= new Wrist(opMode);
     }
-
 
     public void prepMotors(){
         FR.setInverted(true);
@@ -89,7 +86,6 @@ public class Bot {
         FR.setRunMode(Motor.RunMode.RawPower);
         BL.setRunMode(Motor.RunMode.RawPower);
         BR.setRunMode(Motor.RunMode.RawPower);
-        //trust?
     }
 
     public void driveRobotCentric(double strafeSpeed, double forwardBackSpeed, double turnSpeed) {
@@ -115,15 +111,11 @@ public class Bot {
     }
 
     public void resetEverything(){
-       // resetEncoder();
-      //  prepMotors();
-//        slides.runToStorage();
-//        slides.resetEncoder();
-//        slides.resetProfiler();
         claw.close();
         wrist.reset();
         arm.reset();
         linkage.retract();
+       // slides.runToStorage(); - uncomment when slides storage pos works
     }
 
 //    private void resetEncoder() {

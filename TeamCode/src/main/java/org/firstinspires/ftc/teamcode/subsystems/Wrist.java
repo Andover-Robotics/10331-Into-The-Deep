@@ -56,7 +56,7 @@ public class Wrist {
     }
 
     public void reset() {
-        setPitch(0);
+        slidesIntermediate();
     }
 }
 

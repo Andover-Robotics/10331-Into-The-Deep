@@ -36,10 +36,11 @@ public class MainTeleOp extends LinearOpMode {
         waitForStart();
 
         //initial positions (ensure these are correct):
-        bot.claw.close();
-        bot.wrist.intermediate();
-        bot.linkage.retract();
-        bot.arm.transferPos();
+//        bot.claw.close();
+//        bot.wrist.intermediate();
+//        bot.linkage.retract();
+//        bot.arm.transferPos();
+        bot.resetEverything();
 
         while (opModeIsActive() && !isStopRequested()) {
             gp1.readButtons();
@@ -190,7 +191,6 @@ public class MainTeleOp extends LinearOpMode {
         );
     }
 
-
     private void drive() {
         gp1.readButtons();
         bot.prepMotors();
@@ -207,25 +207,4 @@ public class MainTeleOp extends LinearOpMode {
                 turnVector.getX() * driveSpeed / 1.7
         );
     }
-
-
-    //intake actions to pick up sample:
-            /*
-        intake action:
-        - extend linkage
-        - intake arm to pos parallel with the field while rotating arm 180 degrees
-        - open intake claw
-
-        intake action pt 2:
-        - close intake claw
-        - go to transfer position
-        - retract linkage
-
-        claw (transfer - outtake) action:
-        - open claw
-        - claw go to transfer pos
-        - close claw
-        - claw go to outtake pos
-         */
-
 }
