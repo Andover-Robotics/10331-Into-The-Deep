@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
@@ -8,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
-
+@Config
 public class Slides {
 
     public final MotorEx rightMotor;
@@ -22,7 +23,7 @@ public class Slides {
     //high basket -> 43 inches (3820)
     //low basket -> 25.75 inches  (1850)
 
-    public static double p = 0.016, i = 0 , d = 0, f = 0, staticF = 0.25;
+    public static double p = 0.0, i = 0 , d = 0, f = 0, staticF = 0.25;
     private final double tolerance = 20, powerUp = 0.1, powerDown = 0.05, manualDivide = 1, powerMin = 0.1;
     private double target = 0 ;
     public double power;

@@ -37,7 +37,6 @@ public class MainTeleOp extends LinearOpMode {
 
         //initial positions (ensure these are correct):
         bot.claw.close();
-        bot.arm.reset();
         bot.wrist.intermediate();
         bot.linkage.retract();
         bot.arm.transferPos();
@@ -49,26 +48,10 @@ public class MainTeleOp extends LinearOpMode {
             //slides periodic:
             bot.slides.periodic();
 
-            //testing individual functions:
-//            if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
-//                bot.arm.intakePos();
-//            } else if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
-//                bot.arm.transferPos();
-//            }
-//
-//            if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
-//                bot.linkage.retract();
-//            }
-//            if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
-//                bot.linkage.extend();
-//            }
-
             //drive:
             drive();
 
-
-            //intake to outtake actions (X->Y->B->A)
-
+            //INTAKE TO OUTTAKE ACTIONS (X->Y->B->A)
             if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
                runningActions.add(intakeAction());
             }
@@ -80,11 +63,27 @@ public class MainTeleOp extends LinearOpMode {
             if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
                 runningActions.add(clawOuttakeAction());
             }
-            //y->b can be made into 1 action with tuning
 
             if(gp2.wasJustPressed(GamepadKeys.Button.A)) {
                 runningActions.add(finalOuttake());
             }
+
+            // EXTRA CONTROLS FOR INTAKE CUSTOMIZATION:
+            //bot intake wrist control:
+            if(gp1.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON)) {
+                rotatePos = rotatePos+0.05 < 1 ? rotatePos+0.05 : rotatePos;
+                bot.arm.rotateWrist(rotatePos);
+            }
+
+            if(gp1.wasJustPressed(GamepadKeys.Button.LEFT_STICK_BUTTON)) {
+                rotatePos = rotatePos-0.05 > 0 ? rotatePos-0.05 : rotatePos;
+                bot.arm.rotateWrist(rotatePos);
+            }
+
+            if(gp2.wasJustPressed(GamepadKeys.Button.BACK)) {
+                runningActions.add(retryIntake());
+            }
+
 
             //slides preset positions:
             if (gp2.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
@@ -103,30 +102,8 @@ public class MainTeleOp extends LinearOpMode {
                 bot.slides.runToStorage();
             }
 
-            if(gp2.wasJustPressed(GamepadKeys.Button.BACK)) {
-                runningActions.add(resetLinkage());
-            }
-
-            if(gp1.wasJustPressed(GamepadKeys.Button.A)) {
-                bot.claw.open();
-            }
-            if(gp1.wasJustPressed(GamepadKeys.Button.B)) {
-                bot.claw.close();
-            }
-
             //slides manual control:
             bot.slides.runSlides(-gp2.getRightY());
-
-            //bot intake wrist control:
-            if(gp1.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON)) {
-                rotatePos = rotatePos+0.05 < 1 ? rotatePos+0.05 : rotatePos;
-                bot.arm.rotateWrist(rotatePos);
-            }
-
-            if(gp1.wasJustPressed(GamepadKeys.Button.LEFT_STICK_BUTTON)) {
-                rotatePos = rotatePos-0.05 > 0 ? rotatePos-0.05 : rotatePos;
-                bot.arm.rotateWrist(rotatePos);
-            }
 
 
             //run actions:
@@ -201,6 +178,18 @@ public class MainTeleOp extends LinearOpMode {
                 new SleepAction(0.2)
         );
     }
+
+    public SequentialAction retryIntake() {
+        return new SequentialAction(
+                new InstantAction(() -> bot.linkage.retract()),
+                new SleepAction(0.1),
+                new InstantAction(() -> bot.arm.intakePos()),
+                new SleepAction(0.4),
+                //INCREASE SLEEP ACTION TIME IF LAUNCHING OCCURS
+                new InstantAction(() -> bot.arm.openClaw())
+        );
+    }
+
 
     private void drive() {
         gp1.readButtons();
