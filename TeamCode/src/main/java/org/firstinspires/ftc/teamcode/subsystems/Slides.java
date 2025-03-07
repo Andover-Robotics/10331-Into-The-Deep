@@ -155,7 +155,6 @@ public class Slides {
                 double power = staticF * controller.calculate(rightMotor.getCurrentPosition());
                 leftMotor.set(power);
                 rightMotor.set(power);
-
             }
         }
     }
