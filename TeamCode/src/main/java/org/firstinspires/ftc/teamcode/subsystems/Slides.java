@@ -14,7 +14,7 @@ public class Slides {
     public final MotorEx leftMotor;
     public PIDFController controller;
     private MotionProfiler profiler = new MotionProfiler(30000, 20000);
-    public static double p = 0.015, i = 0, d = 0, f = 0, staticF = 0.25;
+    public static double p = 0.025, i = 0, d = 0, f = 0, staticF = 0.25;
     private final double tolerance = 20, powerUp = 0.1, powerDown = 0.05, manualDivide = 1, powerMin = 0.1;
     private double manualPower = 0;
 
@@ -25,7 +25,7 @@ public class Slides {
     //low basket -> 25.75 inches  (1850)
 
     private final OpMode opMode;
-    private double target = 0;
+    public double target = 0;
     private boolean goingDown = false;
     private double profile_init_time = 0;
 
@@ -76,7 +76,7 @@ public class Slides {
 
         if (manualPower == 0) {
             resetProfiler();
-            profiler.init_new_profile(leftMotor.getCurrentPosition(), pos);
+            profiler.init_new_profile(getPosition(), pos);
             profile_init_time = opMode.time;
         }
         goingDown = pos > target;
@@ -137,9 +137,9 @@ public class Slides {
         double dt = opMode.time - profile_init_time;
         if (!profiler.isOver()) {
             controller.setSetPoint(profiler.motion_profile_pos(dt));
-            double power = powerUp * controller.calculate(rightMotor.getCurrentPosition());
+            double power = powerUp * controller.calculate(getPosition());
             if (goingDown) {
-                power = powerDown * controller.calculate(rightMotor.getCurrentPosition());
+                power = powerDown * controller.calculate(getPosition());
             }
             leftMotor.set(power);
             rightMotor.set(power);
@@ -148,11 +148,11 @@ public class Slides {
                 profiler = new MotionProfiler(30000, 20000);
             }
             if (manualPower != 0) {
-                controller.setSetPoint(leftMotor.getCurrentPosition());
+                controller.setSetPoint(getPosition());
                 leftMotor.set(manualPower / manualDivide);
                 rightMotor.set(manualPower / manualDivide);
             } else {
-                double power = staticF * controller.calculate(rightMotor.getCurrentPosition());
+                double power = staticF * controller.calculate(getPosition());
                 leftMotor.set(power);
                 rightMotor.set(power);
             }
@@ -171,8 +171,8 @@ public class Slides {
     public double getCurrent() {
         return leftMotor.motorEx.getCurrent(CurrentUnit.MILLIAMPS) + rightMotor.motorEx.getCurrent(CurrentUnit.MILLIAMPS);
     }
-    public int getCurrentPosition() {
-        return leftMotor.getCurrentPosition();
+    public int getPosition() {
+        return -rightMotor.getCurrentPosition();
     }
 
     public slidesPosition getState(){

@@ -115,6 +115,8 @@ public class Bot {
         wrist.reset();
         arm.reset();
         linkage.retract();
+        slides.resetEncoder();
+        slides.resetProfiler();
        // slides.runToStorage(); - uncomment when slides storage pos works
     }
 

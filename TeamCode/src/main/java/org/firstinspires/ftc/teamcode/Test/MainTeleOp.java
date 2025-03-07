@@ -46,8 +46,6 @@ public class MainTeleOp extends LinearOpMode {
             gp1.readButtons();
             gp2.readButtons();
 
-            //slides periodic:
-            bot.slides.periodic();
 
             //drive:
             drive();
@@ -133,6 +131,9 @@ public class MainTeleOp extends LinearOpMode {
             telemetry.update();
             packet.addLine("is this working???");
             dash.sendTelemetryPacket(packet);
+
+            //slides periodic:
+            bot.slides.periodic();
         }
     }
 
