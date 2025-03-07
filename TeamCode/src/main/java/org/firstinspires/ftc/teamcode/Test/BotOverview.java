@@ -69,13 +69,6 @@ public class BotOverview extends LinearOpMode {
     }
     public SequentialAction clawOuttakeAction() {
         return new SequentialAction(
-                new SleepAction(0.1),
-                new InstantAction(() -> bot.wrist.intermediate()),
-                new SleepAction(0.2),
-                new InstantAction(() -> bot.claw.open()),
-                new SleepAction(0.5),
-                new InstantAction(() -> bot.wrist.transfer()),
-                new SleepAction(0.9),
                 new InstantAction(() -> bot.claw.close()),
                 new SleepAction(0.5),
                 new InstantAction(() -> bot.arm.openClaw()),
@@ -124,7 +117,10 @@ public class BotOverview extends LinearOpMode {
                 new InstantAction(() -> bot.linkage.retract()),
                 new SleepAction(0.1),
                 new InstantAction(() -> bot.wrist.intermediate()),
-                new SleepAction(0.2)
+                new SleepAction(0.2),
+                new InstantAction(() -> bot.claw.open()),
+                new SleepAction(0.5),
+                new InstantAction(() -> bot.wrist.transfer())
         );
     }
 }

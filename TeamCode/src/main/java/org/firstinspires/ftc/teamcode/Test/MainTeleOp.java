@@ -35,18 +35,11 @@ public class MainTeleOp extends LinearOpMode {
         TelemetryPacket packet = new TelemetryPacket();
 
         waitForStart();
-
-        //initial positions (ensure these are correct):
-//        bot.claw.close();
-//        bot.wrist.intermediate();
-//        bot.linkage.retract();
-//        bot.arm.transferPos();
         bot.resetEverything();
 
         while (opModeIsActive() && !isStopRequested()) {
             gp1.readButtons();
             gp2.readButtons();
-
 
             //drive:
             drive();
@@ -58,6 +51,7 @@ public class MainTeleOp extends LinearOpMode {
 
             if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
                 runningActions.add(confirmIntake());
+                //note 2 self: if needed, adjust pitch of the outtake arm here
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
@@ -125,7 +119,6 @@ public class MainTeleOp extends LinearOpMode {
             //slides manual control:
             bot.slides.runSlides(-gp2.getRightY());
 
-
             //run actions:
             List<Action> newActions = new ArrayList<>();
             for (Action action : runningActions) {
@@ -138,7 +131,7 @@ public class MainTeleOp extends LinearOpMode {
             telemetry.addData("slides setpoint: ", bot.slides.target);
             telemetry.addData("error ", bot.slides.controller.getPositionError());
             telemetry.update();
-            packet.addLine("is this working???");
+//            packet.addLine("is this working???");
             dash.sendTelemetryPacket(packet);
 
             //slides periodic:
@@ -148,13 +141,6 @@ public class MainTeleOp extends LinearOpMode {
 
     public SequentialAction clawOuttakeAction() {
         return new SequentialAction(
-                new SleepAction(0.1),
-                new InstantAction(() -> bot.wrist.intermediate()),
-                new SleepAction(0.2),
-                new InstantAction(() -> bot.claw.open()),
-                new SleepAction(0.5),
-                new InstantAction(() -> bot.wrist.transfer()),
-                new SleepAction(0.9),
                 new InstantAction(() -> bot.claw.close()),
                 new SleepAction(0.5),
                 new InstantAction(() -> bot.arm.openClaw()),
@@ -192,7 +178,10 @@ public class MainTeleOp extends LinearOpMode {
                 new InstantAction(() -> bot.linkage.retract()),
                 new SleepAction(0.1),
                 new InstantAction(() -> bot.wrist.intermediate()),
-                new SleepAction(0.2)
+                new SleepAction(0.2),
+                new InstantAction(() -> bot.claw.open()),
+                new SleepAction(0.5),
+                new InstantAction(() -> bot.wrist.transfer())
         );
     }
 
