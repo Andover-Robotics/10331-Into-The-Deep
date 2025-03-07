@@ -24,6 +24,7 @@ public class MainTeleOp extends LinearOpMode {
     private FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
     public double rotatePos = 0.525;
+    public double pos = 0.5;
     public double addPosLinkage = 0;
 
     @Override
@@ -82,13 +83,21 @@ public class MainTeleOp extends LinearOpMode {
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.LEFT_STICK_BUTTON)) {
-                addPosLinkage += 0.01;
-                bot.linkage.adjustRetract(addPosLinkage);
+                pos = pos >= 0.05 ? pos-0.05 : 0;
+                bot.wrist.setPitch(pos);
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON)) {
-                addPosLinkage -= 0.01;
-                bot.linkage.adjustRetract(addPosLinkage);
+                pos = pos <= 0.95 ? pos+0.05 : 1;
+                bot.wrist.setPitch(pos);
+            }
+
+            if(gp1.wasJustPressed(GamepadKeys.Button.A)) {
+                bot.claw.open();
+            }
+
+            if(gp1.wasJustPressed(GamepadKeys.Button.B)) {
+                bot.claw.close();
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.BACK)) {

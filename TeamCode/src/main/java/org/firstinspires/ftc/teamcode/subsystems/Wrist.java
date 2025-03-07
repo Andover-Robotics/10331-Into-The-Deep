@@ -14,9 +14,8 @@ public class Wrist {
     private double spec_outtake_pos = 0.72;
 
     private double bucketPos = 0.67;
-    private double initial_outtake_pos = 0.5;
-    //@SHRIYA, @ANIKA, @FELICIA (WHOEVERS THERE): TUNE THIS
-    private double transfer_pos = 0.08;
+    private double initial_outtake_pos = 0.6;
+    private double transfer_pos = 0.0;
     //orignal 0.065
 
     public Wrist(OpMode opMode) {
