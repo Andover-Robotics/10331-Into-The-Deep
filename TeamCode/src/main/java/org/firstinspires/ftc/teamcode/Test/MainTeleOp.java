@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.subsystems.Bot;
 import java.util.ArrayList;
 import java.util.List;
 
-@Config
 @TeleOp
 public class MainTeleOp extends LinearOpMode {
     Bot bot;
@@ -25,6 +24,7 @@ public class MainTeleOp extends LinearOpMode {
     private FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
     public double rotatePos = 0.525;
+    public double addPosLinkage = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -71,14 +71,26 @@ public class MainTeleOp extends LinearOpMode {
 
             // EXTRA CONTROLS FOR INTAKE CUSTOMIZATION:
             //bot intake wrist control:
-            if(gp1.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON)) {
+            if(gp2.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER)) {
                 rotatePos = rotatePos+0.05 < 1 ? rotatePos+0.05 : rotatePos;
                 bot.arm.rotateWrist(rotatePos);
+                telemetry.addData("pressed right stick button", "");
             }
 
-            if(gp1.wasJustPressed(GamepadKeys.Button.LEFT_STICK_BUTTON)) {
+            if(gp2.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)) {
                 rotatePos = rotatePos-0.05 > 0 ? rotatePos-0.05 : rotatePos;
                 bot.arm.rotateWrist(rotatePos);
+                telemetry.addData("pressed left stick button", "");
+            }
+
+            if(gp2.wasJustPressed(GamepadKeys.Button.LEFT_STICK_BUTTON)) {
+                addPosLinkage += 0.01;
+                bot.linkage.adjustRetract(addPosLinkage);
+            }
+
+            if(gp2.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON)) {
+                addPosLinkage -= 0.01;
+                bot.linkage.adjustRetract(addPosLinkage);
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.BACK)) {
@@ -116,7 +128,10 @@ public class MainTeleOp extends LinearOpMode {
                 }
             }
             runningActions = newActions;
-
+            telemetry.addData("slides setpoint: ", bot.slides.target);
+            telemetry.addData("error ", bot.slides.controller.getPositionError());
+            telemetry.update();
+            packet.addLine("is this working???");
             dash.sendTelemetryPacket(packet);
         }
     }

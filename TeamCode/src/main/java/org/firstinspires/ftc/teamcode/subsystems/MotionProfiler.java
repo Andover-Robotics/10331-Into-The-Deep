@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-//note: go through this later and check all the math :(
-
-public class  MotionProfiler {
+public class MotionProfiler {
 
     public MotionProfiler(double max_velocity, double max_acceleration){
         this.max_acceleration = max_acceleration;
@@ -15,7 +13,7 @@ public class  MotionProfiler {
     private double start_pos, final_pos, distance, acceleration_dt, halfway_distance, acceleration_distance, new_max_velocity, deacceleration_dt, cruise_distance, cruise_dt, deacceleration_time, entire_dt;
 
     //MUST BE USED BEFORE RUNNING A NEW PATH
-    public void init(double start_pos, double final_pos){
+    public void init_new_profile(double start_pos, double final_pos){
         this.start_pos = start_pos;
         this.final_pos = final_pos;
         isOver = false;
@@ -58,7 +56,7 @@ public class  MotionProfiler {
     }
 
 
-    public double profile_pos(double current_dt) {
+    public double motion_profile_pos(double current_dt) {
 //        Return the current reference position based on the given motion profile times, maximum acceleration, velocity, and current time.
 
         if (current_dt > entire_dt) {
