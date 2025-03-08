@@ -20,7 +20,7 @@ public class MainTeleOp extends LinearOpMode {
     Bot bot;
     private GamepadEx gp2;
     private GamepadEx gp1;
-    private double driveSpeed = 1;
+    private double driveSpeed = 0.5;
     private FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
     public double rotatePos = 0.525;
@@ -43,6 +43,11 @@ public class MainTeleOp extends LinearOpMode {
 
             //drive:
             drive();
+
+
+            if(gp2.wasJustPressed(GamepadKeys.Button.LEFT_STICK_BUTTON)) {
+                runningActions.add(intakeBack());
+            }
 
             //INTAKE TO OUTTAKE ACTIONS (X->Y->B->A)
             if(gp2.wasJustPressed(GamepadKeys.Button.X)) {
@@ -76,23 +81,21 @@ public class MainTeleOp extends LinearOpMode {
                 telemetry.addData("pressed left stick button", "");
             }
 
-            if(gp2.wasJustPressed(GamepadKeys.Button.LEFT_STICK_BUTTON)) {
-                pos = pos >= 0.05 ? pos-0.05 : 0;
-                bot.wrist.setPitch(pos);
-            }
+//            if(gp2.wasJustPressed(GamepadKeys.Button.LEFT_STICK_BUTTON)) {
+//                pos = pos >= 0.05 ? pos-0.05 : 0;
+//                bot.wrist.setPitch(pos);
+//            }
+//
+//            if(gp2.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON)) {
+//                pos = pos <= 0.95 ? pos+0.05 : 1;
+//                bot.wrist.setPitch(pos);
+//            }
 
-            if(gp2.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON)) {
-                pos = pos <= 0.95 ? pos+0.05 : 1;
-                bot.wrist.setPitch(pos);
-            }
 
-            if(gp1.wasJustPressed(GamepadKeys.Button.A)) {
-                bot.claw.open();
-            }
 
-            if(gp1.wasJustPressed(GamepadKeys.Button.B)) {
-                bot.claw.close();
-            }
+//            if(gp1.wasJustPressed(GamepadKeys.Button.Y)) {
+//                runningActions.add(closeClaw());
+//            }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.BACK)) {
                 runningActions.add(retryIntake());
@@ -154,15 +157,15 @@ public class MainTeleOp extends LinearOpMode {
                 new InstantAction(() -> bot.wrist.bucketOuttake()),
                 new SleepAction(0.1),
                 new InstantAction(() -> bot.claw.open()),
-                new SleepAction(0.1),
-                new InstantAction(() -> bot.claw.close()),
-                new SleepAction(0.2),
-                new InstantAction(() -> bot.wrist.slidesIntermediate())
+                new SleepAction(0.3)
         );
     }
 
     public SequentialAction intakeAction() {
         return new SequentialAction(
+                new InstantAction(() -> bot.claw.close()),
+                new SleepAction(0.2),
+                new InstantAction(() -> bot.wrist.slidesIntermediate()),
                 new InstantAction(() -> bot.linkage.extend()),
                 new SleepAction(0.1),
                 new InstantAction(()->bot.arm.intakePos())
@@ -182,6 +185,17 @@ public class MainTeleOp extends LinearOpMode {
                 new InstantAction(() -> bot.claw.open()),
                 new SleepAction(0.5),
                 new InstantAction(() -> bot.wrist.transfer())
+        );
+    }
+
+    public SequentialAction intakeBack() {
+        return new SequentialAction(
+                new InstantAction(() -> bot.arm.closeClaw()),
+                new SleepAction(0.8),
+                new InstantAction(() -> bot.arm.transferPos()),
+                new SleepAction(0.1),
+                new InstantAction(() -> bot.linkage.retract()),
+                new SleepAction(0.1)
         );
     }
 
@@ -205,12 +219,31 @@ public class MainTeleOp extends LinearOpMode {
         );
     }
 
+    public SequentialAction openClawSpec() {
+        return new SequentialAction(
+                new SleepAction(0.1),
+                new InstantAction(() -> bot.wrist.bucketOuttake()),
+                new SleepAction(0.1),
+                new InstantAction(() -> bot.claw.move(0.1)),
+                new SleepAction(0.5)
+
+        );
+    }
+
+    public SequentialAction closeClaw() {
+        return new SequentialAction(
+                new SleepAction(0.1),
+                new InstantAction(() -> bot.claw.close()),
+                new SleepAction(0.2)
+        );
+    }
+
     private void drive() {
         gp1.readButtons();
         bot.prepMotors();
         driveSpeed = 1;
         driveSpeed *= 1 - 0.9 * gp1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
-        driveSpeed = Math.max(0, driveSpeed);
+        driveSpeed = Math.max(0, driveSpeed) * 0.5;
 
         Vector2d driveVector = new Vector2d(gp1.getLeftX(), -gp1.getLeftY()),
                 turnVector = new Vector2d(

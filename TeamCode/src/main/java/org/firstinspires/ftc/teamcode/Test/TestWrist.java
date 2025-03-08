@@ -50,7 +50,9 @@ public class TestWrist extends LinearOpMode {
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
-                bot.wrist.specOuttake();
+                bot.linkage.retract();
+                bot.arm.transferPos();
+                bot.wrist.transfer();
             }
         }
     }
