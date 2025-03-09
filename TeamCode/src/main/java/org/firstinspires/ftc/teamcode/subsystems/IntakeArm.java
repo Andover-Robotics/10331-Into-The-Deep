@@ -42,7 +42,7 @@ public class IntakeArm {
     }
     public void intakePos() {
         setPitch(0.87);
-        rotateWrist(0.525);
+        rotateWrist(0.575);
         openClaw();
     }
 

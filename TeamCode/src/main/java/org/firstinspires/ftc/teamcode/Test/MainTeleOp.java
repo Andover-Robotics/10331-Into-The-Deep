@@ -137,14 +137,14 @@ public class MainTeleOp extends LinearOpMode {
                 runningActions.add(retryIntake());
                 bot.state = Bot.BotState.INTAKE;
             }
-
-            if((bot.state == Bot.BotState.INTAKE && allianceBlue) && (color.equalsIgnoreCase("blue") || color.equalsIgnoreCase("yellow"))) {
-                bot.arm.closeClaw();
-            }
-
-            if((bot.state == Bot.BotState.INTAKE && !allianceBlue) && (color.equalsIgnoreCase("red") || color.equalsIgnoreCase("yellow"))) {
-                bot.arm.closeClaw();
-            }
+//
+//            if((bot.state == Bot.BotState.INTAKE && allianceBlue) && (color.equalsIgnoreCase("blue") || color.equalsIgnoreCase("yellow"))) {
+//                bot.arm.closeClaw();
+//            }
+//
+//            if((bot.state == Bot.BotState.INTAKE && !allianceBlue) && (color.equalsIgnoreCase("red") || color.equalsIgnoreCase("yellow"))) {
+//                bot.arm.closeClaw();
+//            }
 
             if(gp1.wasJustPressed(GamepadKeys.Button.A)) {
                 distance= distanceSensor.getDistance(DistanceUnit.CM);
@@ -173,6 +173,16 @@ public class MainTeleOp extends LinearOpMode {
                 }
                 bot.stopRobot();
             }
+            if(gp1.wasJustPressed(GamepadKeys.Button.X)) {
+                bot.wrist.wrist_l.setPosition(bot.wrist.wrist_l.getPosition()+0.05);
+                bot.wrist.wrist_r.setPosition(bot.wrist.wrist_r.getPosition()+0.05);
+            }
+
+            if(gp1.wasJustPressed(GamepadKeys.Button.Y)) {
+                bot.wrist.wrist_l.setPosition(bot.wrist.wrist_l.getPosition()-0.05);
+                bot.wrist.wrist_r.setPosition(bot.wrist.wrist_r.getPosition()-0.05);
+            }
+
 
 
             //slides preset positions:
@@ -316,7 +326,7 @@ public class MainTeleOp extends LinearOpMode {
         bot.prepMotors();
         driveSpeed = 1;
         driveSpeed *= 1 - 0.9 * gp1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
-        driveSpeed = Math.max(0, driveSpeed) * 0.75;
+        driveSpeed = Math.max(0, driveSpeed) * 0.6;
 
         Vector2d driveVector = new Vector2d(gp1.getLeftX(), -gp1.getLeftY()),
                 turnVector = new Vector2d(
