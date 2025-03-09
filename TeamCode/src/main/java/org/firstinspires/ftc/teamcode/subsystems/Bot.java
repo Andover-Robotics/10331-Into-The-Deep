@@ -261,10 +261,10 @@ public class Bot {
 
     public void goBack(ElapsedTime time){
         while(time.seconds()<0.01){
-            FL.set(0.1);
-            BL.set(0.1);
-            FR.set(0.1);
-            BR.set(0.1);
+            FL.set(0.25);
+            BL.set(0.25);
+            FR.set(0.25);
+            BR.set(0.25);
         }
     }
     public void stopRobot(){

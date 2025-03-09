@@ -89,12 +89,13 @@ public class MainTeleOp extends LinearOpMode {
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.Y)) {
-                bot.state= Bot.BotState.TRANSFER;
+                bot.state = Bot.BotState.TRANSFER;
                 runningActions.add(confirmIntake());
                 //note 2 self: if needed, adjust pitch of the outtake arm here
             }
 
             if(gp2.wasJustPressed(GamepadKeys.Button.B)) {
+                bot.state = Bot.BotState.OUTTAKE;
                 runningActions.add(clawOuttakeAction());
             }
 
@@ -137,17 +138,31 @@ public class MainTeleOp extends LinearOpMode {
                 bot.state = Bot.BotState.INTAKE;
             }
 
-            if(allianceBlue && bot.state == Bot.BotState.INTAKE && color.equalsIgnoreCase("blue") || color.equalsIgnoreCase("yellow")) {
+            if((bot.state == Bot.BotState.INTAKE && allianceBlue) && (color.equalsIgnoreCase("blue") || color.equalsIgnoreCase("yellow"))) {
                 bot.arm.closeClaw();
             }
 
-            if(!allianceBlue && bot.state == Bot.BotState.INTAKE && color.equalsIgnoreCase("red") || color.equalsIgnoreCase("yellow") && bot.state == Bot.BotState.INTAKE) {
+            if((bot.state == Bot.BotState.INTAKE && !allianceBlue) && (color.equalsIgnoreCase("red") || color.equalsIgnoreCase("yellow"))) {
                 bot.arm.closeClaw();
             }
 
             if(gp1.wasJustPressed(GamepadKeys.Button.A)) {
                 distance= distanceSensor.getDistance(DistanceUnit.CM);
                 while(distance>6.5){
+                    time.reset();
+                    time.startTime();
+                    bot.goBack(time);
+                    distance= distanceSensor.getDistance(DistanceUnit.CM);
+                    telemetry.addData("distance: ", distance);
+                    telemetry.update();
+                    dash.sendTelemetryPacket(packet);
+                }
+                bot.stopRobot();
+            }
+
+            if(gp1.wasJustPressed(GamepadKeys.Button.B)) {
+                distance= distanceSensor.getDistance(DistanceUnit.CM);
+                while(distance>6){
                     time.reset();
                     time.startTime();
                     bot.goBack(time);
@@ -301,7 +316,7 @@ public class MainTeleOp extends LinearOpMode {
         bot.prepMotors();
         driveSpeed = 1;
         driveSpeed *= 1 - 0.9 * gp1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
-        driveSpeed = Math.max(0, driveSpeed) * 0.5;
+        driveSpeed = Math.max(0, driveSpeed) * 0.75;
 
         Vector2d driveVector = new Vector2d(gp1.getLeftX(), -gp1.getLeftY()),
                 turnVector = new Vector2d(
