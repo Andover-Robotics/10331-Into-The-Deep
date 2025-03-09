@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
@@ -16,6 +17,8 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Bot {
     public OpMode opMode;
@@ -27,6 +30,7 @@ public class Bot {
     public Claw claw;
     public Wrist wrist;
     public Linkage linkage;
+
     private final MotorEx FL, FR, BL, BR;
     public boolean fieldCentricRunMode = false;
 
@@ -244,4 +248,38 @@ public class Bot {
                 return null;
         }
     }
+
+    public ParallelAction goBack(){
+        return new ParallelAction(
+                new SleepAction(0.3),
+                new InstantAction(() -> FL.set(-0.1)),
+                new InstantAction(() -> BL.set(-0.1)),
+                new InstantAction(() -> FR.set(-0.1)),
+                new InstantAction(() -> BR.set(-0.1))
+        );
+    }
+
+    public void goBack(ElapsedTime time){
+        while(time.seconds()<0.01){
+            FL.set(0.1);
+            BL.set(0.1);
+            FR.set(0.1);
+            BR.set(0.1);
+        }
+    }
+    public void stopRobot(){
+            FL.set(0);
+            BL.set(0);
+            FR.set(0);
+            BR.set(0);
+    }
+
+    public void distanceSensorGoBack(){
+
+
+
+    }
+
+
+
 }
